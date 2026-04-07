@@ -11,23 +11,26 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
-    {
+public function up()
+{
+    if (!Schema::hasColumn('products', 'price_sale')) {
         Schema::table('products', function (Blueprint $table) {
-            $table->decimal('price_sale', 8, 2)->default(0)->nullable()->after('price');
-            $table->decimal('price_sale_ctn', 8, 2)->default(0)->nullable()->after('price_sale');
+            $table->decimal('price_sale', 8, 2)->nullable()->default('0')->after('price');
         });
     }
+}
 
     /**
      * Reverse the migrations.
      *
      * @return void
      */
-    public function down()
-    {
+public function down()
+{
+    if (Schema::hasColumn('products', 'price_sale')) {
         Schema::table('products', function (Blueprint $table) {
-            $table->dropColumn(['price_sale', 'price_sale_ctn']);
+            $table->dropColumn('price_sale');
         });
     }
+}
 };

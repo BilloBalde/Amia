@@ -6,24 +6,30 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
-    
-         Schema::table('users', function (Blueprint $table) {
-             $table->foreign('store_id')->references('id')->on('stores')->onDelete('set null');
-        });
+        // 1. Ajouter la colonne store_id si elle n'existe pas
+        if (!Schema::hasColumn('users', 'store_id')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->unsignedBigInteger('store_id')->nullable()->after('role_id');
+            });
+        }
+
+        // 2. Ajouter la clé étrangère (si la colonne existe et que la table stores existe)
+        if (Schema::hasColumn('users', 'store_id') && Schema::hasTable('stores')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->foreign('store_id')->references('id')->on('stores')->onDelete('set null');
+            });
+        }
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign(['store_id']);
-        });
+        if (Schema::hasColumn('users', 'store_id')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->dropForeign(['store_id']);
+                $table->dropColumn('store_id');
+            });
+        }
     }
 };
