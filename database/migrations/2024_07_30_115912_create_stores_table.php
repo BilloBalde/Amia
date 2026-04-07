@@ -1,0 +1,37 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('stores', function (Blueprint $table) {
+            $table->id();
+            $table->string("store_name")->unique();
+            $table->foreignId('place_id')->constrained('places')->restrictOnDelete();
+            $table->foreignId('user_id')->constrained('users')->restrictOnDelete();
+            $table->string('store_picture');
+            $table->tinyInteger('status');
+            $table->text('description');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('stores');
+    }
+};

@@ -1,0 +1,406 @@
+/* ============================================
+   CSS CENTRALISÉ POUR TOUTES LES PAGES VISITOR
+   ============================================ */
+
+/* Variables CSS Globales */
+:root {
+    --primary-color: #2c3e50;
+    --primary-light: #34495e;
+    --secondary-color: #3498db;
+    --accent-color: #27ae60;
+    --success-color: #2ecc71;
+    --danger-color: #e74c3c;
+    --dark-color: #2c3e50;
+    --light-color: #ecf0f1;
+    --white: #ffffff;
+    --gray-100: #f8f9fa;
+    --gray-200: #e9ecef;
+    --gray-300: #dee2e6;
+    --gray-600: #6c757d;
+    --gray-800: #495057;
+    --shadow-light: 0 4px 15px rgba(0,0,0,0.08);
+    --shadow-medium: 0 8px 25px rgba(0,0,0,0.12);
+    --shadow-hover: 0 12px 35px rgba(0,0,0,0.15);
+    --border-radius: 12px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reset et Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    line-height: 1.6;
+    color: var(--dark-color);
+}
+
+/* Animations Communes */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    33% {
+        transform: translate(30px, -30px) rotate(120deg);
+    }
+    66% {
+        transform: translate(-20px, 20px) rotate(240deg);
+    }
+}
+
+/* Classes Utilitaires */
+.animate-fade-in {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.animate-slide-up {
+    animation: slideInDown 0.5s ease;
+}
+
+.section-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Hero Sections Communes */
+.hero-section,
+.contact-hero,
+.about-hero {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+    color: var(--white);
+    padding: 5rem 2rem 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before,
+.contact-hero::before,
+.about-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+}
+
+.hero-content,
+.contact-hero-content,
+.about-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.hero-title,
+.contact-hero h1,
+.about-hero h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.hero-subtitle,
+.contact-hero p,
+.about-hero p {
+    font-size: 1.2rem;
+    opacity: 0.95;
+    margin-bottom: 0;
+}
+
+/* Breadcrumbs */
+.breadcrumbs {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.breadcrumbs ol {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.breadcrumbs li {
+    color: rgba(255,255,255,0.8);
+    font-size: 0.9rem;
+}
+
+.breadcrumbs li a {
+    color: rgba(255,255,255,0.9);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.breadcrumbs li a:hover {
+    color: var(--white);
+}
+
+.breadcrumbs li.current {
+    color: var(--white);
+    font-weight: 600;
+}
+
+.breadcrumbs li:not(:last-child)::after {
+    content: '/';
+    margin-left: 0.5rem;
+    color: rgba(255,255,255,0.6);
+}
+
+/* Section Titles */
+.section-title {
+    text-align: center;
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--dark-color);
+    margin-bottom: 1rem;
+}
+
+.section-subtitle {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--gray-600);
+    margin-bottom: 4rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Form Elements Communs */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--dark-color);
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.form-control,
+.form-input {
+    width: 100%;
+    padding: 1rem 1.2rem;
+    border: 2px solid var(--gray-200);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: var(--transition);
+    background: var(--gray-100);
+    font-family: inherit;
+}
+
+.form-control:focus,
+.form-input:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    background: var(--white);
+    box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.1);
+    transform: translateY(-1px);
+}
+
+.form-control::placeholder,
+.form-input::placeholder {
+    color: var(--gray-600);
+    opacity: 0.7;
+}
+
+textarea.form-control,
+textarea.form-input {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.error-message,
+.form-error {
+    color: var(--danger-color);
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    display: block;
+}
+
+/* Buttons Communs */
+.btn-submit,
+.btn-login {
+    width: 100%;
+    padding: 1.2rem 2rem;
+    border: none;
+    border-radius: var(--border-radius);
+    background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+    color: var(--white);
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--shadow-medium);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-submit:hover,
+.btn-login:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+}
+
+.btn-submit:disabled,
+.btn-login:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Alert Messages */
+.alert {
+    padding: 1.2rem 1.5rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 2rem;
+    border: none;
+    position: relative;
+    animation: slideInDown 0.5s ease;
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+    border-left: 4px solid var(--success-color);
+}
+
+.alert-danger {
+    background: #f8d7da;
+    color: #721c24;
+    border-left: 4px solid var(--danger-color);
+}
+
+.alert-info {
+    background: #d1ecf1;
+    color: #0c5460;
+    border-left: 4px solid var(--secondary-color);
+}
+
+/* Cards Communes */
+.card,
+.info-card,
+.value-card,
+.feature-item {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    box-shadow: var(--shadow-light);
+    border: 1px solid var(--gray-200);
+    transition: var(--transition);
+}
+
+.card:hover,
+.info-card:hover,
+.value-card:hover,
+.feature-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-medium);
+}
+
+/* Responsive Commun */
+@media (max-width: 768px) {
+    .hero-title,
+    .contact-hero h1,
+    .about-hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-subtitle,
+    .contact-hero p,
+    .about-hero p {
+        font-size: 1rem;
+    }
+
+    .section-container {
+        padding: 0 1rem;
+    }
+
+    .section-title {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-section,
+    .contact-hero,
+    .about-hero {
+        padding: 4rem 1rem 2rem;
+    }
+
+    .hero-title,
+    .contact-hero h1,
+    .about-hero h1 {
+        font-size: 2rem;
+    }
+}

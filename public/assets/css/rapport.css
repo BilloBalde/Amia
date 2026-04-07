@@ -1,0 +1,492 @@
+/* public/css/rapport-pdf.css */
+
+@page {
+    margin: 25mm 35mm;
+    size: A4;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', 'Helvetica', sans-serif;
+    font-size: 10px;
+    color: #1c2e5c;
+    line-height: 1.4;
+    background: #ffffff;
+    padding: 5mm;
+    padding-bottom: 80px;
+}
+
+/* Header 3 columns */
+.invoice-head-3col {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    margin-bottom: 18px;
+    border-bottom: 2px solid #1976d2;
+    padding-bottom: 12px;
+}
+
+.invoice-head-left,
+.invoice-head-center,
+.invoice-head-right {
+    display: table-cell;
+    vertical-align: top;
+    padding: 0 8px;
+}
+
+.invoice-head-left {
+    width: 35%;
+}
+
+.invoice-head-center {
+    width: 30%;
+    text-align: center;
+}
+
+.invoice-head-right {
+    width: 35%;
+    text-align: right;
+}
+
+/* Logo */
+.invoice-head-logo {
+    width: 120px;
+    height: 100px;
+    object-fit: contain;
+    flex-shrink: 0;
+    border-radius: 6px;
+}
+
+.invoice-head-brand {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    min-height: 130px;
+    padding: 5px 0;
+}
+
+.invoice-head-brandtext {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 1;
+}
+
+.invoice-head-company {
+    font-weight: 900;
+    color: #1c2e5c;
+    font-size: 19px;
+    text-transform: uppercase;
+    letter-spacing: 0.9px;
+    line-height: 1.2;
+    margin-bottom: 3px;
+}
+
+.invoice-head-sub {
+    font-size: 10px;
+    color: #5b667a;
+    line-height: 1.4;
+}
+
+/* Style dynamique pour le titre selon la période */
+.invoice-head-title {
+    font-weight: 900;
+    font-size: 20px;
+    letter-spacing: 1px;
+    color: #1976d2;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+    line-height: 1.1;
+}
+
+/* Couleurs différentes selon la période */
+.invoice-head-title.daily,
+.invoice-head-title.quotidien {
+    color: #2196F3;
+}
+
+.invoice-head-title.weekly,
+.invoice-head-title.hebdomadaire {
+    color: #4CAF50;
+}
+
+.invoice-head-title.monthly,
+.invoice-head-title.mensuel {
+    color: #FF9800;
+}
+
+.invoice-head-title.annual,
+.invoice-head-title.annuel {
+    color: #F44336;
+}
+
+.invoice-head-period {
+    font-size: 10px;
+    font-weight: 700;
+    color: #5c7db8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 3px;
+}
+
+.invoice-head-original {
+    font-size: 10px;
+    font-weight: 700;
+    color: #5c7db8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 5px;
+}
+
+.invoice-head-clientname {
+    font-weight: 800;
+    color: #1c2e5c;
+    font-size: 13px;
+    margin-bottom: 3px;
+    line-height: 1.2;
+}
+
+.invoice-head-clientline {
+    font-size: 10px;
+    color: #5b667a;
+    line-height: 1.3;
+}
+
+/* Reste du CSS */
+.invoice-number-section {
+    background: linear-gradient(135deg, #f7fbff 0%, #e3f2fd 100%);
+    padding: 12px 10px;
+    border: 1px solid #1976d2;
+    border-left: 3px solid #1976d2;
+    border-radius: 4px;
+    margin-bottom: 18px;
+}
+
+.invoice-number-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.invoice-number-label {
+    font-weight: 700;
+    color: #5c7db8;
+    margin-right: 5px;
+    font-size: 10px;
+}
+
+.invoice-number-value {
+    font-weight: 800;
+    color: #1c2e5c;
+    font-size: 11px;
+}
+
+/* Summary cards */
+.summary-grid {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    margin-bottom: 22px;
+    border-spacing: 8px;
+}
+
+.summary-row {
+    display: table-row;
+}
+
+.summary-card {
+    display: table-cell;
+    padding: 14px 8px;
+    border: 1px solid #e0e0e0;
+    text-align: center;
+    vertical-align: middle;
+    background: #ffffff;
+    border-radius: 4px;
+}
+
+.summary-card:first-child {
+    border-left-color: #4caf50;
+    background: linear-gradient(135deg, #f1f8f4 0%, #ffffff 100%);
+}
+
+.summary-card:nth-child(2) {
+    border-left-color: #2196f3;
+    background: linear-gradient(135deg, #e3f2fd 0%, #ffffff 100%);
+}
+
+.summary-card:nth-child(3) {
+    border-left-color: #f44336;
+    background: linear-gradient(135deg, #ffebee 0%, #ffffff 100%);
+}
+
+.summary-card:nth-child(4) {
+    border-left-color: #ff9800;
+    background: linear-gradient(135deg, #fff3e0 0%, #ffffff 100%);
+}
+
+.summary-card:nth-child(5) {
+    border-left-color: #9c27b0;
+    background: linear-gradient(135deg, #f3e5f5 0%, #ffffff 100%);
+}
+
+.summary-card:nth-child(6) {
+    border-left-color: #00bcd4;
+    background: linear-gradient(135deg, #e0f7fa 0%, #ffffff 100%);
+}
+
+.summary-card h3 {
+    font-size: 11px;
+    color: #1c2e5c;
+    margin-bottom: 4px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.summary-card .value {
+    font-size: 15px;
+    font-weight: 800;
+    color: #1c2e5c;
+    line-height: 1.2;
+    margin-bottom: 3px;
+}
+
+.summary-card .sub-label {
+    font-size: 9px;
+    color: #5b667a;
+    margin-top: 2px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+/* Section title */
+.section-title {
+    font-weight: 900;
+    color: #1976d2;
+    font-size: 14px;
+    margin-bottom: 12px;
+    margin-top: 18px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #1976d2;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-bottom: 20px;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+}
+
+thead {
+    display: table-header-group;
+}
+
+tbody {
+    display: table-row-group;
+}
+
+table th {
+    background: #1976d2 !important;
+    background-color: #1976d2 !important;
+    color: #ffffff !important;
+    font-weight: 800;
+    padding: 10px 6px;
+    text-align: left;
+    font-size: 11px;
+    border: 1px solid #1565c0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: table-cell;
+}
+
+table th.text-right {
+    text-align: right;
+}
+
+table td {
+    padding: 10px 6px;
+    border: 1px solid #e0e0e0;
+    font-size: 10px;
+    color: #1c2e5c;
+    display: table-cell;
+}
+
+table td.text-right {
+    text-align: right;
+    font-weight: 600;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.total-row {
+    background: linear-gradient(135deg, #E7E6E6 0%, #d5d5d5 100%) !important;
+    font-weight: 800;
+}
+
+.total-row td {
+    border-top: 2px solid #1976d2;
+    border-bottom: none;
+    font-size: 11px;
+    padding: 11px 6px;
+    color: #1c2e5c;
+}
+
+/* Amount in words box */
+.amount-words-box {
+    background: linear-gradient(135deg, #f7fbff 0%, #e3f2fd 100%);
+    border: 2px solid #1976d2;
+    border-radius: 4px;
+    padding: 14px 12px;
+    margin: 18px 0;
+}
+
+.amount-words-title {
+    font-weight: 800;
+    color: #1976d2;
+    font-size: 11px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+}
+
+.amount-words-text {
+    font-size: 11px;
+    color: #1c2e5c;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+/* Signature section */
+.signature-section {
+    display: table;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 18px;
+    border-spacing: 12px;
+}
+
+.signature-left,
+.signature-right {
+    display: table-cell;
+    width: 50%;
+    padding: 16px;
+    border: 1px solid #e0e0e0;
+    vertical-align: top;
+    border-radius: 4px;
+    background: #fafafa;
+}
+
+.signature-title {
+    font-weight: 800;
+    color: #1c2e5c;
+    font-size: 11px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.signature-line {
+    border-top: 1px solid #ddd;
+    margin-top: 45px;
+    padding-top: 6px;
+    font-size: 10px;
+    color: #5b667a;
+    text-align: center;
+}
+
+/* Footer */
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding-top: 14px;
+    border-top: 2px solid #1976d2;
+    text-align: center;
+    font-size: 10px;
+    color: #5b667a;
+    background: #f8f9fa;
+    padding: 14px;
+    border-radius: 4px 4px 0 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.footer-contact {
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #1c2e5c;
+}
+
+.footer-thanks {
+    font-weight: 700;
+    color: #1976d2;
+    margin-top: 8px;
+    font-size: 11px;
+    font-style: italic;
+}
+
+.footer-date {
+    margin-top: 8px;
+    font-size: 10px;
+    color: #9e9e9e;
+}
+
+/* Badge de période */
+.period-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
+.period-badge.daily,
+.period-badge.quotidien {
+    background-color: #2196F3;
+    color: white;
+}
+
+.period-badge.weekly,
+.period-badge.hebdomadaire {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.period-badge.monthly,
+.period-badge.mensuel {
+    background-color: #FF9800;
+    color: white;
+}
+
+.period-badge.annual,
+.period-badge.annuel {
+    background-color: #F44336;
+    color: white;
+}
+
+/* Note supplémentaire */
+.montant-chiffres {
+    font-size: 9px;
+    margin-top: 5px;
+    color: #5c7db8;
+    font-style: italic;
+}
