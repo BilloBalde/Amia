@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('token');
             $table->string('profilePic')->nullable();
             $table->string('phone');
-            $table->unsignedBigInteger('store_id')->nullable()->after('role_id');
+            $table->unsignedBigInteger('store_id')->nullable();
                 $table->foreign('store_id')->references('id')->on('stores')->onDelete('set null');
                 $table->timestamps();
             });
