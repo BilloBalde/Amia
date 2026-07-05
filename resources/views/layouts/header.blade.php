@@ -1,11 +1,11 @@
 <div class="header">
 
     <div class="header-left active">
-        <a href="{{ route('home') }}" class="logo" style="display:flex; justify-content:center; width:100%;">
-            <img src="{{ asset('assets/img/logo.png') }}" alt="" style="height: 70px; width: auto; padding: 6px 10px; background: #fff; border-radius: 10px; box-shadow: 0 4px 14px rgba(0,0,0,0.12);">
+        <a href="{{ route('home') }}" class="logo">
+            <img src="{{ asset('companies/'.App\Models\Company::latest()->first()->logo) }}" alt="">
         </a>
-        <a href="{{ route('home') }}" class="logo-small" style="display:none; justify-content:center; width:100%;">
-            <img src="{{ asset('assets/img/logo.png') }}" alt="" style="height: 44px; width: auto; padding: 4px 6px; background: #fff; border-radius: 8px; box-shadow: 0 3px 10px rgba(0,0,0,0.12);">
+        <a href="{{ route('home') }}" class="logo-small">
+            <img src="{{ asset('companies/'.App\Models\Company::latest()->first()->logo) }}" alt="">
         </a>
         <a id="toggle_btn" href="javascript:void(0);"></a>
     </div>
@@ -19,7 +19,7 @@
     </a>
     <ul class="nav user-menu">
         <li class="nav-item has-arrow flag-nav">
-            <a class="nav-link" href="{{ route('pos') }}" style="background-color: rgb(217, 180, 112)">
+            <a class="nav-link" href="{{ route('pos') }}" style="background-color: #c1682f; color: #fff;">
                 <img src="{{ asset('assets/img/icons/sales1.svg') }}" alt="" height="20">POS
             </a>
         </li>
@@ -50,15 +50,12 @@
 
                     </div>
                     <hr class="m-0">
+                    <a class="dropdown-item" href="{{ route('accueil') }}"><i class="me-2" data-feather="home"></i>Voir Site</a>
                     <a class="dropdown-item" href="{{ route('profile') }}"> <i class="me-2" data-feather="user"></i>Mon Profile</a>
                     <hr class="m-0">
-                    <a href="{{ route('storefront') }}" target="_blank" class="dropdown-item"> <i class="me-2" data-feather="shopping-cart"></i>Magasin</a>
-                    <hr class="m-0">
-                    <form method="POST" action="{{ route('logout') }}" style="display:inline;">
+                    <form action="{{ route('logout') }}" method="POST" class="p-0 m-0">
                         @csrf
-                        <button type="submit" class="dropdown-item logout pb-0" style="border:0; background:transparent; width:100%; text-align:left;">
-                            <img src="{{ asset('assets/img/icons/log-out.svg') }}" class="me-2" alt="img">Deconnection
-                        </button>
+                        <button type="submit" class="dropdown-item logout pb-0 w-100 text-start border-0 bg-transparent"><img src="{{ asset('assets/img/icons/log-out.svg') }}" class="me-2" alt="img">Deconnection</button>
                     </form>
                 </div>
             </div>
@@ -85,15 +82,14 @@
                 </script>
                 @endif
             </a>
-            <a class="dropdown-item" href="{{ route('pos') }}" style="background-color: rgb(217, 180, 112)">
+            <a class="dropdown-item" href="{{ route('pos') }}" style="background-color: #c1682f; color: #fff;">
                 <img src="{{ asset('assets/img/icons/sales1.svg') }}" class="me-2" alt="" height="20">POS
             </a>
+            <a class="dropdown-item" href="{{ route('accueil') }}"><i class="me-2" data-feather="home"></i>Voir Site</a>
             <a class="dropdown-item" href="{{ route('profile') }}"> <i class="me-2" data-feather="user"></i>Mon Profile</a>
-            <form method="POST" action="{{ route('logout') }}">
+            <form action="{{ route('logout') }}" method="POST" class="p-0 m-0">
                 @csrf
-                <button type="submit" class="dropdown-item" style="border:0; background:transparent; width:100%; text-align:left;">
-                    <img src="{{ asset('assets/img/icons/log-out.svg') }}" class="me-2" alt="img">Deconnection
-                </button>
+                <button type="submit" class="dropdown-item w-100 text-start border-0 bg-transparent"><img src="{{ asset('assets/img/icons/log-out.svg') }}" class="me-2" alt="img">Deconnection</button>
             </form>
         </div>
     </div>

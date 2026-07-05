@@ -44,6 +44,12 @@ class IndexController extends Controller
                                 ->withSum('paiements as total_versement', 'versement')
                                 ->get()
                                 ->sum('total_versement');
+            $solde_orange_money = Payment::whereHas('facture', function ($q) use ($store_id) {
+                $q->where('store_id', $store_id);
+            })->where('paid_by', 'orange money')->sum('versement');
+            $solde_cash = Payment::whereHas('facture', function ($q) use ($store_id) {
+                $q->where('store_id', $store_id);
+            })->where('paid_by', 'cash')->sum('versement');
             $total_expenses = Expense::all()->sum('amount');
             $total_customers = Customer::all()->count();
             $total_quantities = StoreProduct::where('store_id', $store_id)->sum('quantity');
@@ -89,6 +95,8 @@ class IndexController extends Controller
             $total_sales = Sale::whereDate('created_at', Carbon::today())
                 ->sum('prixTotal');
             $total_sales_paid = Payment::all()->sum('versement');
+            $solde_orange_money = Payment::where('paid_by', 'orange money')->sum('versement');
+            $solde_cash = Payment::where('paid_by', 'cash')->sum('versement');
             $total_expenses = Expense::all()->sum('amount');
             $total_customers = Customer::all()->count();
             $total_quantities = StoreProduct::all()->sum('quantity');
@@ -148,6 +156,6 @@ class IndexController extends Controller
             return $facture->customer_id . '|' . $facture->created_at->format('Y-m-d');
         });
         
-        return view('index', compact('latestPurchases', 'latestSales', 'total_purchases', 'total_sales', 'total_sales_paid', 'total_expenses', 'total_customers', 'total_quantities', 'total_purchase_invoices', 'total_sales_invoices', 'total_credits', 'gains', 'total_gains_all', 'sales', 'purchases', 'months', 'grouped', 'customers'));
+        return view('index', compact('latestPurchases', 'latestSales', 'total_purchases', 'total_sales', 'total_sales_paid', 'solde_orange_money', 'solde_cash', 'total_expenses', 'total_customers', 'total_quantities', 'total_purchase_invoices', 'total_sales_invoices', 'total_credits', 'gains', 'total_gains_all', 'sales', 'purchases', 'months', 'grouped', 'customers'));
     }
 }

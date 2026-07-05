@@ -24,36 +24,73 @@ class User extends Authenticatable
         'status',
         'token',
         'description',
-        'motdepasse'
     ];
 
     protected $hidden = [
         'password',
         'token',
-        // legacy column (should not be exposed even if present in DB)
-        'motdepasse',
     ];
 
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
-    public function getRoleAttribute(){
+    /** Administrateur (back-office complet). */
+    public const ROLE_ADMIN = 1;
 
-        $c = Role::find($this->role_id);
-        return $c->slug;
+    /** Manager / superuser plateforme. */
+    public const ROLE_MANAGER = 2;
+
+    /** Gérant de boutique (tableau de bord magasin). */
+    public const ROLE_STORE_MANAGER = 3;
+
+    /** Client e-commerce (boutique en ligne uniquement). */
+    public const ROLE_CUSTOMER = 4;
+
+    public function isStaff(): bool
+    {
+        return in_array((int) $this->role_id, [self::ROLE_ADMIN, self::ROLE_MANAGER, self::ROLE_STORE_MANAGER], true);
+    }
+
+    public function isCustomer(): bool
+    {
+        return (int) $this->role_id === self::ROLE_CUSTOMER;
+    }
+
+    public function getRoleAttribute(){
+        return $this->roleRelation?->slug ?? '';
+    }
+
+    public function roleRelation(){
+        return $this->belongsTo(Role::class, 'role_id');
     }
 
     public function factures(){
         return $this->hasMany(Facture::class);
     }
 
-    public function expenses(){
-        return $this->hasMany(Expense::class);
+    public function addresses()
+    {
+        return $this->hasMany(DeliveryAddress::class);
     }
 
-    public function isAdmin()
+    public function orders()
     {
-        return in_array($this->role, ['admin', 'superuser']); // adaptez selon vos rôles exacts
+        return $this->hasMany(Order::class);
+    }
+
+    public function company()
+{
+    return $this->belongsTo(Company::class);
+}
+
+    public function store()
+    {
+        return $this->belongsTo(Store::class);
+    }
+
+    public function sales()
+    {
+        return $this->hasMany(Sale::class);
     }
 }

@@ -48,7 +48,7 @@
                                                 <td>{{ $order->created_at }}</td>
                                                 <td class="text-end">
                                                     @if($order->status === 'pending')
-                                                        <form method="POST" action="{{ route('orders.status', $order) }}" style="display:inline-block;">
+                                                        <form method="POST" action="{{ route('customer-orders.status', $order) }}" style="display:inline-block;">
                                                             @csrf
                                                             @method('PUT')
                                                             <input type="hidden" name="status" value="confirmed">
@@ -57,7 +57,7 @@
                                                             </button>
                                                         </form>
                                                     @endif
-                                                    <a href="{{ route('orders.show', $order) }}">
+                                                    <a href="{{ route('customer-orders.show', $order) }}">
                                                         <img src="{{ asset('assets/img/icons/eye1.svg') }}" alt="img">
                                                     </a>
                                                 </td>

@@ -50,7 +50,7 @@
                                             <a href="{{ route('sales.export-pdf') }}" 
                                             data-bs-toggle="tooltip" 
                                             data-bs-placement="top" 
-                                            title="PDF (Toutes les ventes)"
+                                            title="PDF (mois en cours, ou filtres appliqués)"
                                             class="btn btn-sm btn-danger"
                                             style="padding: 5px 10px;">
                                                 <img src="{{ asset('assets/img/icons/pdf.svg') }}" alt="pdf" style="width: 16px; height: 16px;">
@@ -96,6 +96,16 @@
                                                     <input type="date" name="created_at" value="{{ request('created_at') }}" placeholder="date creation" class="form-control">
                                                 </div>
                                             </div>
+                                            <div class="col-lg-3 col-sm-6 col-12">
+                                                <div class="form-group">
+                                                    <select name="user_id" id="user_id" class="form-control">
+                                                        <option value="">Selectionner Employé</option>
+                                                        @foreach ($employees as $employee)
+                                                        <option value="{{ $employee->id }}" {{ request('user_id') == $employee->id ? 'selected' : '' }}>{{ $employee->username ?? $employee->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
                                             <div class="col-lg-3 col-sm-6 col-12 d-flex align-items-center">
                                                 <div class="form-group d-flex">
                                                     <button type="submit" class="btn btn-filters me-2"><img src="assets/img/icons/search-whites.svg" alt="img"></button>
@@ -116,6 +126,7 @@
                                             <th>Prix</th>
                                             <th>Prix Total</th>
                                             <th>Interet</th>
+                                            <th>Vendeur</th>
                                             <th>Created at</th>
                                             <th class="text-end">Action</th>
                                         </tr>
@@ -134,6 +145,7 @@
                                             <td>{{ $data->prix }}</td>
                                             <td>{{ $data->prixTotal }}</td>
                                             <td>{{ $data->interet }}</td>
+                                            <td>{{ $data->user?->username ?? $data->user?->name ?? '-' }}</td>
                                             <td>{{ $data->created_at }}</td>
                                             <td class="text-end">
                                             @if (App\Models\Facture::where('numero_facture', $data->numeroFacture)->first()?->statut == 'non payé')

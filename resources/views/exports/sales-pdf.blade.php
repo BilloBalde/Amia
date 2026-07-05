@@ -216,7 +216,6 @@
         
         @page {
             margin: 20mm;
-            footer: html_footer;
         }
     </style>
 </head>
@@ -379,10 +378,8 @@
     </div>
 
     <!-- Footer -->
-    <htmlpagefooter name="footer" style="display: none">
-        <div style="border-top: 1px solid #eee; padding-top: 5px; font-size: 9px; color: #999; text-align: center;">
-            Rapport généré le {{ now()->format('d/m/Y H:i:s') }} | Page {PAGE_NUM} sur {PAGE_COUNT}
-        </div>
-    </htmlpagefooter>
+    <div class="footer">
+        Rapport généré le {{ now()->format('d/m/Y H:i:s') }}
+    </div>
 </body>
 </html>

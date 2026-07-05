@@ -134,7 +134,7 @@
                                                 <td>{{ $quantity }}</td>
                                                 <td>{{ $dataItem->price }} FG</td>
                                                 <td>{{ $dataItem->price_sale ?? '-' }} FG</td>
-                                                <td>{{ $dataItem->price_sale_ctn ?? '-' }} FG</td>
+                                                <td>{{ $dataItem->price_carton ?? '-' }} FG</td>
                                                 <td>
                                                     <img src="{{ asset('products/' . $dataItem->image) }}" alt="product" style="width: 150px; height: 100px;">
                                                 </td>

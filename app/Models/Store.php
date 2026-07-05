@@ -37,4 +37,13 @@ class Store extends Model
         return $this->belongsToMany(Product::class, 'store_products')->withPivot('quantity');
     }
 
+      public function manager()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }

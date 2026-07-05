@@ -11,6 +11,10 @@ desktop.ini
 # Dépendances PHP (installées via Composer)
 /vendor/
 /node_modules/
+/composer.phar
+
+# Dumps de base de données (données réelles, ne pas versionner)
+*.sql
 
 # Fichiers d'environnement (contenant des secrets)
 .env

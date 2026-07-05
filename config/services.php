@@ -31,4 +31,17 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'orange_money' => [
+        'client_id' => env('ORANGE_MONEY_CLIENT_ID', ''),
+        'client_secret' => env('ORANGE_MONEY_CLIENT_SECRET', ''),
+        'merchant_key' => env('ORANGE_MONEY_MERCHANT_KEY', ''),
+        'base_url' => env('ORANGE_MONEY_BASE_URL', 'https://api.orange.com'),
+        'country' => env('ORANGE_MONEY_COUNTRY', 'GN'),
+        'currency' => env('ORANGE_MONEY_CURRENCY', 'GNF'),
+        'notif_url' => env('ORANGE_MONEY_NOTIF_URL'),
+        'return_url' => env('ORANGE_MONEY_RETURN_URL'),
+        'cancel_url' => env('ORANGE_MONEY_CANCEL_URL'),
+        'use_mock' => env('ORANGE_MONEY_USE_MOCK', false),
+    ],
+
 ];

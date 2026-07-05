@@ -212,6 +212,20 @@ class MovementController extends Controller
 
     public function exportPdf(Request $request)
     {
+        // Garde-fou mémoire : un export non filtré peut porter sur des milliers
+        // de lignes (ventes + achats + dépenses) et Dompdf est gourmand en RAM.
+        ini_set('memory_limit', '1024M');
+        ini_set('max_execution_time', 300);
+
+        // Si aucune période n'est précisée, se limiter au mois en cours par défaut
+        // pour éviter d'exporter tout l'historique en un seul PDF.
+        if (!$request->filled('date_debut') && !$request->filled('date_fin')) {
+            $request->merge([
+                'date_debut' => now()->startOfMonth()->format('Y-m-d'),
+                'date_fin'   => now()->endOfMonth()->format('Y-m-d'),
+            ]);
+        }
+
         $user = auth()->user();
         $isAdmin = $user && in_array($user->role, ['admin', 'superuser']);
 

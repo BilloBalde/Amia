@@ -4,12 +4,6 @@
     @include('layouts.head')
 
     <body>
-        <style>
-          body {
-            background-color: #B0E0E6;
-          }
-        </style>
-
         <div id="global-loader">
             <div class="whirly-loader"> </div>
         </div>

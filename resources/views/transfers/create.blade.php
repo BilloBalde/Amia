@@ -36,7 +36,7 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="from_store_id">Source</label>
-                                <select class="select" name="from_store_id" class="form-control">
+                                <select id="from_store_id" name="from_store_id" class="form-control">
                                     <option value="">Choisir Stock</option>
                                     @foreach($boutiques as $boutique)
                                     <option value="{{ $boutique->id }}">{{ $boutique->store_name }}</option>
@@ -50,7 +50,7 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label for="to_store_id">Destination</label>
-                                <select class="select" name="to_store_id" class="form-control">
+                                <select id="to_store_id" name="to_store_id" class="form-control">
                                     <option value="">Choisir Stock</option>
                                     @foreach($boutiques as $boutique)
                                     <option value="{{ $boutique->id }}">{{ $boutique->store_name }}</option>

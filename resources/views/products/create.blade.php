@@ -100,9 +100,9 @@
                                     </div>
                                     <div class="col-lg-6 col-sm-6 col-12">
                                         <div class="form-group">
-                                            <label for="price_sale_ctn">Prix de Vente(FG)</label>
-                                            <input type="text" id="price_sale_ctn" name="price_sale_ctn" class="form-control" value="{{ old('price_sale_ctn') }}">
-                                            @error('price_sale_ctn')
+                                            <label for="price_carton">Prix de Vente(FG)</label>
+                                            <input type="text" id="price_carton" name="price_carton" class="form-control" value="{{ old('price_carton') }}">
+                                            @error('price_carton')
                                             <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
@@ -112,6 +112,60 @@
                                             <label for="description">Description</label>
                                             <textarea id="description" name="description" class="form-control">{{ old('description') }}</textarea>
                                             @error('description')
+                                            <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <label for="taille">Taille</label>
+                                            <input type="text" id="taille" name="taille" class="form-control" value="{{ old('taille') }}">
+                                            @error('taille')
+                                            <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <label for="hauteur">Hauteur</label>
+                                            <input type="number" step="0.01" id="hauteur" name="hauteur" class="form-control" value="{{ old('hauteur') }}">
+                                            @error('hauteur')
+                                            <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <label for="largeur">Largeur</label>
+                                            <input type="number" step="0.01" id="largeur" name="largeur" class="form-control" value="{{ old('largeur') }}">
+                                            @error('largeur')
+                                            <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <label for="epaisseur">Épaisseur</label>
+                                            <input type="number" step="0.01" id="epaisseur" name="epaisseur" class="form-control" value="{{ old('epaisseur') }}">
+                                            @error('epaisseur')
+                                            <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <label for="poids">Poids</label>
+                                            <input type="number" step="0.01" id="poids" name="poids" class="form-control" value="{{ old('poids') }}">
+                                            @error('poids')
+                                            <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-sm-6 col-12">
+                                        <div class="form-group">
+                                            <label for="nbr_unite">Nbr. Unité</label>
+                                            <input type="number" id="nbr_unite" name="nbr_unite" class="form-control" value="{{ old('nbr_unite') }}">
+                                            @error('nbr_unite')
                                             <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>

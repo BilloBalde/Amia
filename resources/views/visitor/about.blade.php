@@ -1,220 +1,100 @@
-@extends('layouts.visitor.visitor')
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>À propos — SMH</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    @include('partials.theme-head')
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>* { font-family: 'Poppins', sans-serif; }</style>
+</head>
+<body class="bg-gray-50">
 
-@section('content')
-<link rel="stylesheet" href="{{ asset('assets/css/about.css') }}">
+    @include('partials.storefront-nav')
 
-<!-- Hero Section -->
-<div class="about-hero">
-    <div class="about-hero-content">
-        <h1>À Propos de Nous</h1>
-        <p>Découvrez l'histoire et les valeurs qui guident EDAAG TRADING</p>
-        <nav class="breadcrumbs">
-            <ol>
-                <li><a href="{{ route('accueil') }}">Accueil</a></li>
-                <li class="current">À Propos</li>
-            </ol>
-        </nav>
-    </div>
-</div>
-
-<div class="section-container">
-    <!-- Story Section -->
-    <section class="story-section">
-        <div class="story-content">
-            <div class="story-text animate-fade-in">
-                <span class="story-year">Depuis 2022</span>
-                <h2 class="story-title">Notre Histoire</h2>
-                <p class="story-description">
-                    <strong>EDAAG TRADING</strong> est le représentant officiel de <strong>Polimax</strong> en Guinée. 
-                    Depuis notre création en 2022, nous nous sommes engagés à fournir les meilleurs produits 
-                    de qualité supérieure sur le marché guinéen.
-                </p>
-                <p class="story-description">
-                    Notre mission est de rendre accessible à tous les familles guinéennes des produits de quincailleries 
-                    de qualité supérieure à des prix compétitifs, tout en offrant un service client exceptionnel. Nous sommes fiers de notre engagement envers l'excellence et la satisfaction de nos clients, et nous continuons à travailler sans relâche pour être votre partenaire de confiance dans tous vos besoins de produits de quincailleries.
-                </p>
-                <ul class="story-features">
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        <span>Exportateur officiel de Polimax en Guinée</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        <span>Produits de qualité supérieure certifiés</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        <span>Service client exceptionnel et réactif</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-check-circle"></i>
-                        <span>Engagement envers l'excellence depuis 2022</span>
-                    </li>
-                </ul>
-            </div>
-            <div class="story-image animate-fade-in" style="animation-delay: 0.2s;">
-                <img src="{{ asset('images/polimax2.jpg') }}" alt="EDAAG TRADING - Notre Histoire">
-            </div>
-        </div>
-    </section>
-
-    <!-- Stats Section -->
-    <section class="stats-section animate-fade-in" style="animation-delay: 0.3s;">
-        <div class="stats-grid">
-            <div class="stat-item">
-                <span class="stat-number">2022</span>
-                <div class="stat-label">Année de création</div>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">100+</span>
-                <div class="stat-label">Produits disponibles</div>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">5000+</span>
-                <div class="stat-label">Clients satisfaits</div>
-            </div>
-            <div class="stat-item">
-                <span class="stat-number">24/7</span>
-                <div class="stat-label">Support client</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Values Section -->
-    <section class="values-section">
-        <div class="section-header animate-fade-in">
-            <h2 class="section-title">Nos Valeurs</h2>
-            <p class="section-subtitle">
-                Les principes qui guident notre entreprise et façonnent chaque décision que nous prenons
+    <!-- Hero -->
+    <section class="pt-24 pb-16 bg-gradient-to-br from-amber-50 to-orange-100">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h1 class="text-4xl font-black text-gray-900 mb-4">À propos de <span class="text-amber-500">SMH</span></h1>
+            <p class="text-lg text-gray-600 leading-relaxed">
+                Chez SMH, au-delà de la qualité des autres — votre partenaire de confiance pour l'ameublement en Guinée.
             </p>
         </div>
+    </section>
 
-        <div class="values-grid">
-            <div class="value-card animate-fade-in" style="animation-delay: 0.1s;">
-                <div class="value-icon">
-                    <i class="fas fa-award"></i>
+    <!-- Contenu -->
+    <section class="py-16">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-4">Notre mission</h2>
+                    <p class="text-gray-600 leading-relaxed mb-4">
+                        SMH est une entreprise guinéenne spécialisée dans l'ameublement : salons, chambres,
+                        salles à manger, bureaux et pièces sur mesure. Nous mettons à disposition de nos clients
+                        des meubles adaptés à leurs besoins, avec un accompagnement fiable et des standards élevés.
+                    </p>
+                    <p class="text-gray-600 leading-relaxed">
+                        Notre équipe expérimentée vous conseille selon votre espace et votre budget, pour des meubles
+                        qui reflètent votre style et transforment durablement votre intérieur.
+                    </p>
                 </div>
-                <h3 class="value-title">Qualité Supérieure</h3>
-                <p class="value-description">
-                    Nous sélectionnons rigoureusement nos produits selon les plus hauts standards de qualité 
-                    pour garantir votre satisfaction et votre bien-être.
-                </p>
+                <div class="bg-amber-50 rounded-2xl p-8 text-center">
+                    <div class="text-6xl text-amber-400 mb-4"><i class="fas fa-couch"></i></div>
+                    <div class="text-3xl font-black text-gray-900">SMH</div>
+                    <div class="text-amber-600 font-semibold mt-1">Qualité & Service</div>
+                </div>
             </div>
 
-            <div class="value-card animate-fade-in" style="animation-delay: 0.2s;">
-                <div class="value-icon">
-                    <i class="fas fa-handshake"></i>
+            <!-- Valeurs -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+                @foreach([
+                    ['icon' => 'fa-star', 'title' => 'Qualité', 'text' => 'Bois massif, finitions soignées et assemblage solide, pour des meubles conçus pour durer.'],
+                    ['icon' => 'fa-bolt', 'title' => 'Rapidité', 'text' => 'Délais de livraison optimisés partout en Guinée, en 24 à 48h.'],
+                    ['icon' => 'fa-handshake', 'title' => 'Fiabilité', 'text' => 'Un service client à votre écoute du lundi au samedi.'],
+                ] as $val)
+                <div class="bg-white rounded-2xl p-6 shadow-sm text-center">
+                    <div class="w-14 h-14 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas {{ $val['icon'] }} text-amber-500 text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-2">{{ $val['title'] }}</h3>
+                    <p class="text-gray-500 text-sm">{{ $val['text'] }}</p>
                 </div>
-                <h3 class="value-title">Intégrité</h3>
-                <p class="value-description">
-                    Nous menons nos affaires avec transparence, honnêteté et respect. Votre confiance est 
-                    notre plus grande récompense.
-                </p>
+                @endforeach
             </div>
 
-            <div class="value-card animate-fade-in" style="animation-delay: 0.3s;">
-                <div class="value-icon">
-                    <i class="fas fa-users"></i>
+            <!-- Adresses -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+                <div class="bg-white rounded-2xl p-6 shadow-sm">
+                    <div class="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-map-marker-alt text-amber-500"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-1">1<sup>ère</sup> adresse</h3>
+                    <p class="text-gray-500 text-sm">Centre Faloulay, 1<sup>er</sup> étage B30, Madina route Niger</p>
                 </div>
-                <h3 class="value-title">Service Client</h3>
-                <p class="value-description">
-                    Votre satisfaction est notre priorité. Notre équipe dévouée est toujours prête à vous 
-                    accompagner et répondre à vos besoins.
-                </p>
+                <div class="bg-white rounded-2xl p-6 shadow-sm">
+                    <div class="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-map-marker-alt text-amber-500"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-1">2<sup>e</sup> adresse</h3>
+                    <p class="text-gray-500 text-sm">T6, en face de la station Star, en partant pour Sonfonia</p>
+                </div>
             </div>
 
-            <div class="value-card animate-fade-in" style="animation-delay: 0.4s;">
-                <div class="value-icon">
-                    <i class="fas fa-rocket"></i>
-                </div>
-                <h3 class="value-title">Innovation</h3>
-                <p class="value-description">
-                    Nous restons à la pointe de l'innovation pour vous offrir les meilleurs produits et 
-                    services disponibles sur le marché.
-                </p>
-            </div>
-
-            <div class="value-card animate-fade-in" style="animation-delay: 0.5s;">
-                <div class="value-icon">
-                    <i class="fas fa-heart"></i>
-                </div>
-                <h3 class="value-title">Engagement</h3>
-                <p class="value-description">
-                    Nous nous engageons envers nos clients, nos partenaires et notre communauté à maintenir 
-                    les plus hauts standards d'excellence.
-                </p>
-            </div>
-
-            <div class="value-card animate-fade-in" style="animation-delay: 0.6s;">
-                <div class="value-icon">
-                    <i class="fas fa-globe"></i>
-                </div>
-                <h3 class="value-title">Accessibilité</h3>
-                <p class="value-description">
-                    Nous croyons que des produits de qualité doivent être accessibles à tous. C'est pourquoi 
-                    nous proposons des prix compétitifs sans compromettre la qualité.
-                </p>
+            <!-- CTA -->
+            <div class="text-center">
+                <a href="{{ route('contact') }}" class="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-semibold px-8 py-3 rounded-xl transition">
+                    <i class="fas fa-envelope"></i> Nous contacter
+                </a>
+                <a href="{{ route('products.index') }}" class="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold px-8 py-3 rounded-xl transition ml-3">
+                    <i class="fas fa-th-large"></i> Voir le catalogue
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- Mission Section -->
-    <section class="mission-section animate-fade-in" style="animation-delay: 0.7s;">
-        <div class="mission-content">
-            <h2 class="mission-title">Notre Mission</h2>
-            <p class="mission-text">
-                Chez <strong>EDAAG TRADING</strong>, notre mission est de fournir des produits de quincailleries 
-                de qualité supérieure qui enrichissent la vie des familles guinéennes. Nous nous engageons à 
-                être votre partenaire de confiance dans tous vos besoins de quincailleries.
-            </p>
-            <div class="mission-highlight">
-                <p style="font-size: 1.1rem; margin: 0; line-height: 1.8;">
-                    <i class="fas fa-quote-left me-2"></i>
-                    Offrir des produits de qualité supérieure à des prix compétitifs, avec un service client 
-                    exceptionnel, tout en maintenant les plus hauts standards de satisfaction client.
-                    <i class="fas fa-quote-right ms-2"></i>
-                </p>
-            </div>
-        </div>
-    </section>
-</div>
+    @include('partials.storefront-footer')
 
-<script>
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                const headerOffset = 100;
-                const elementPosition = target.offsetTop;
-                const offsetPosition = elementPosition - headerOffset;
-
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-
-    // Intersection Observer for animations
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate-fade-in');
-            }
-        });
-    }, observerOptions);
-
-    // Observe elements for animation
-    document.querySelectorAll('.value-card, .stat-item').forEach(el => {
-        observer.observe(el);
-    });
-</script>
-@endsection
+</body>
+</html>

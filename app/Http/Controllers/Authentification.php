@@ -16,7 +16,14 @@ use Illuminate\Support\Str;
 
 class Authentification extends Controller
 {
-    public function login(){
+    public function login()
+    {
+        if (Auth::check()) {
+            return Auth::user()->isCustomer()
+                ? redirect()->route('shop.home')
+                : redirect()->route('home');
+        }
+
         return view('users.login');
     }
 

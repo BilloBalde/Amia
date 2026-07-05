@@ -174,8 +174,6 @@
             border-collapse: collapse;
             margin-top: 25px;
             font-size: 9pt;
-            border-radius: 8px;
-            overflow: hidden;
         }
 
         .movements-table th {

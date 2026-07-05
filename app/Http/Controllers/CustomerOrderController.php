@@ -255,6 +255,7 @@ class CustomerOrderController extends Controller
                         'prixTotal' => $lineTotal,
                         'interet' => $interet,
                         'store_id' => $storeId,
+                        'user_id' => auth()->id(),
                     ]);
 
                     $totalQuantity += $qty;

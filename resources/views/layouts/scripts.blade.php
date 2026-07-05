@@ -11,6 +11,21 @@
 <script src="{{ asset('assets/plugins/apexchart/chart-data.js') }}"></script>
 <script src="{{ asset('assets/js/script.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.0/jspdf.umd.min.js"></script>
+<script>
+    function showToast(message, type = 'success') {
+        const icons = { success: 'success', error: 'error', warning: 'warning', info: 'info' };
+        Swal.fire({
+            toast: true,
+            position: 'bottom-end',
+            icon: icons[type] ?? 'info',
+            title: message,
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+        });
+    }
+</script>
 <script>
     $(document).ready(function() {
         // Check if DataTable is already initialized
@@ -30,7 +45,7 @@
                     titleAttr: 'Export to Excel'
                 }
             ], */
-            order: [[0, 'desc']],
+            order: [],
             /* initComplete: function() {
                 // Move the DataTable export buttons to the specific container
                 $('.dt-buttons').appendTo('#exportButtonsContainer');

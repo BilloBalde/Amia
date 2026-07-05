@@ -12,6 +12,7 @@ use App\Models\Sale;
 use App\Models\Store;
 use App\Models\Purchase;
 use App\Models\Achat;
+use App\Models\User;
 use App\Services\StockService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -40,8 +41,10 @@ class SaleController extends Controller
         $produits = Product::all();
         if (auth()->user()->role_id == 3) {
             $boutiques = Store::where('user_id', auth()->user()->id)->get();
+            $employees = User::where('store_id', Store::where('user_id', auth()->user()->id)->value('id'))->get();
         } else {
             $boutiques = Store::all();
+            $employees = User::whereNotNull('store_id')->get();
         }
 
         $query = Sale::query();
@@ -58,8 +61,12 @@ class SaleController extends Controller
             $query->where('created_at', $request->input('created_at'));
         }
 
+        if ($request->filled('user_id')) {
+            $query->where('user_id', $request->input('user_id'));
+        }
+
         $dataTable = $query->get();
-        $dataTable->load('product.latestLigneCommande');
+        $dataTable->load('product.latestLigneCommande', 'user');
         $dataTable->each(function ($sale) {
             $product = $sale->product;
             if (!$product) {
@@ -75,7 +82,7 @@ class SaleController extends Controller
 
         // Pass the necessary data to the view, including options for filters
         $customers = Customer::all();
-        return view('sales.index', compact('dataTable', 'produits','customers','boutiques'));
+        return view('sales.index', compact('dataTable', 'produits','customers','boutiques','employees'));
     }
 
     public function storeCustomer(Request $request)
@@ -168,6 +175,11 @@ class SaleController extends Controller
      */
     public function exportPDF(Request $request)
     {
+        // Garde-fou mémoire : ce rapport peut couvrir des milliers de ventes
+        // ("Toutes les ventes") et Dompdf est gourmand en RAM sur les gros tableaux.
+        ini_set('memory_limit', '1024M');
+        ini_set('max_execution_time', 300);
+
         $query = Sale::with('product');
 
         // Apply filters
@@ -181,6 +193,15 @@ class SaleController extends Controller
             $query->whereDate('created_at', $request->created_at);
         }
 
+        // Sans aucun filtre, se limiter au mois en cours : Dompdf ne peut pas
+        // rendre de façon fiable un tableau de plusieurs milliers de ventes
+        // (testé : ~1.5 Go de RAM pour l'historique complet, quelle que soit
+        // la limite mémoire). Pour l'historique complet, utiliser l'export Excel.
+        if (!$request->anyFilled(['numeroFacture', 'product_id', 'created_at'])) {
+            $query->whereDate('created_at', '>=', now()->startOfMonth())
+                  ->whereDate('created_at', '<=', now()->endOfMonth());
+        }
+
         // Role-based filtering
         if (auth()->user()->role_id == 3) {
             $storeId = Store::where('user_id', auth()->user()->id)->value('id');
@@ -188,7 +209,7 @@ class SaleController extends Controller
         }
 
         $sales = $query->orderBy('created_at', 'desc')->get();
-        
+
         // Get products for filter display
         $produits = Product::all();
 
@@ -298,7 +319,8 @@ class SaleController extends Controller
                         'quantity' => $data['quantity'],
                         'prixTotal' => $data['prixTotal'],
                         'interet' => $data['interet'],
-                        'store_id' => $request->store_id
+                        'store_id' => $request->store_id,
+                        'user_id' => auth()->id(),
                     ]
                 );
                 $i++;

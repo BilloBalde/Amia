@@ -4,13 +4,13 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>EDAAG TRADING</title>
+    <title>SMH</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="{{ asset('assets/img/logo.png') }}" rel="icon">
-    <link href="{{ asset('assets/img/logo.png') }}" rel="apple-touch-icon">
+    <link href="{{ asset('images/customers/logo.jpg') }}" rel="icon">
+    <link href="{{ asset('images/customers/logo.jpg') }}" rel="apple-touch-icon">
 
     <!-- Fonts -->
     {{-- <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -27,14 +27,8 @@
 
     <!-- Main CSS File -->
     <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
-    
-    <!-- Visitor Common CSS -->
-    <link href="{{ asset('assets/css/visitor-common.css') }}" rel="stylesheet">
-    
-    <!-- Header CSS -->
-    <link href="{{ asset('assets/css/header.css') }}" rel="stylesheet">
 </head>
-<body class="{{ $pageName ?? '' }}">
+<body class="{{ $pageName }}">
     @include('layouts.visitor.header')
     @yield('content')
     @include('layouts.visitor.footer')

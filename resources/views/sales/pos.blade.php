@@ -88,7 +88,7 @@
                                              data-numeroFacture="{{ $numeroFacture }}"
                                              data-sku="{{ $dataItem->sku }}"
                                              data-id="{{ $dataItem->id }}"
-                                             data-price="{{ $dataItem->price_sale_ctn }}">
+                                             data-price="{{ $dataItem->price_carton }}">
                                             <div class="productset flex-fill">
                                                 <div class="productsetimg">
                                                     <img src="{{ asset('products/' . $dataItem->image) }}" alt="img" style="height: 170px">
@@ -107,7 +107,7 @@
                                                     <h4>{{ $dataItem->sku }}</h4>
                                                     <h4>Prix Achat: {{ $dataItem->price.' FG' ?? 'N/A' }}</h4>
                                                     <h4>Prix Revient: {{ $dataItem->price_sale.' FG' ?? 'N/A' }}</h4>
-                                                    <h4>Prix Vente: {{ $dataItem->price_sale_ctn.' FG' ?? 'N/A' }}</h4>
+                                                    <h4>Prix Vente: {{ $dataItem->price_carton.' FG' ?? 'N/A' }}</h4>
                                                 </div>
                                             </div>
                                         </div>

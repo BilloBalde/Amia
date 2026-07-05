@@ -57,7 +57,7 @@
                                 </table>
                             </div>
 
-                            <form method="POST" action="{{ route('orders.status', $order) }}" class="row g-2 mt-3">
+                            <form method="POST" action="{{ route('customer-orders.status', $order) }}" class="row g-2 mt-3">
                                 @csrf
                                 @method('PUT')
                                 <div class="col-auto">

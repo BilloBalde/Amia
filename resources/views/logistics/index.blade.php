@@ -96,7 +96,7 @@
                                         <tr>
                                             <td>{{ $data->numeroPurchase }}</td>
                                             <td>{{ $data->typeLogistic }}</td>
-                                            <td>{{ $data->store->store_name }}</td>
+                                            <td>{{ $data->store ? $data->store->store_name : 'N/A' }}</td>
                                             <td>{{ $data->quantity }}</td>
                                             <td>{{ $data->depense }}</td>
                                             <td>{{ $data->dateEmis }}</td>

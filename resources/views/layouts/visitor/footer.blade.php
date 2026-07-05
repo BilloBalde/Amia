@@ -1,75 +1,36 @@
-<footer class="bg-dark text-light py-5 mt-5">
-    <div class="container">
-        <div class="row">
-            <!-- Informations entreprise -->
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="d-flex align-items-center mb-3">
-                    <img src="{{ asset('assets/img/logo.png') }}" alt="EDAAG TRADING Logo" class="me-3" style="height: 40px; width: auto;">
-                    <h5 class="mb-0">EDAAG TRADING</h5>
+<footer id="footer" class="footer dark-background">
+    <div class="container footer-top">
+        <div class="row gy-4">
+            <div class="col-lg-4 col-md-4 footer-about">
+                <a href="index.html" class="logo d-flex align-items-center">
+                    <span class="sitename">SMH</span>
+                </a>
+                <div class="footer-contact pt-3">
+                    <p><strong>1<sup>er</sup> adresse:</strong> Centre Faloulay, 1<sup>er</sup> étage B30, Madina route Niger</p>
+                    <p><strong>2<sup>e</sup> adresse:</strong> T6, en face de la station Star, en partant pour Sonfonia</p>
+                    <p class="mt-3"><strong>Téléphone:</strong> <span>+224 626 311 915</span></p>
+                    <p><strong>Email:</strong> <span>saikououmar47@gmail.com</span></p>
                 </div>
-                <p class="mb-3">Votre partenaire commercial de confiance pour tous vos besoins en produits et services.</p>
-                <div class="d-flex">
-                    <a href="#" class="text-light me-3 fs-5"><i class="fab fa-facebook"></i></a>
-                    <a href="#" class="text-light me-3 fs-5"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="text-light me-3 fs-5"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="text-light fs-5"><i class="fab fa-linkedin"></i></a>
+                <div class="social-links d-flex mt-4">
+                    <a href=""><i class="bi bi-twitter-x"></i></a>
+                    <a href=""><i class="bi bi-facebook"></i></a>
+                    <a href=""><i class="bi bi-instagram"></i></a>
                 </div>
             </div>
-
-            <!-- Liens rapides -->
-            <div class="col-lg-2 col-md-6 mb-4">
-                <h6 class="fw-bold mb-3">Liens Rapides</h6>
-                <ul class="list-unstyled">
-                    <li class="mb-2"><a href="{{ route('accueil') }}" class="text-light text-decoration-none">Accueil</a></li>
-                    <li class="mb-2"><a href="{{ route('storefront') }}" class="text-light text-decoration-none">Commander</a></li>
-                    <li class="mb-2"><a href="{{ route('about') }}" class="text-light text-decoration-none">À Propos</a></li>
-                    <li class="mb-2"><a href="{{ route('contact') }}" class="text-light text-decoration-none">Contact</a></li>
+            <div class="col-lg-4 col-md-4 footer-links">
+                <h4>Liens Utiles</h4>
+                <ul>
+                    <li><a href="{{ route('accueil') }}">Acceuil</a></li>
+                    <li><a href="{{ route('about') }}">A Propos</a></li>
+                    <li><a href="#produits">Nos Produits</a></li>
+                    <li><a href="#features">Lieux de Vente</a></li>
                 </ul>
             </div>
-
-            <!-- Services -->
-            <div class="col-lg-2 col-md-6 mb-4">
-                <h6 class="fw-bold mb-3">Nos Services</h6>
-                <ul class="list-unstyled">
-                    <li class="mb-2"><span class="text-light">Vente de produits</span></li>
-                    <li class="mb-2"><span class="text-light">Livraison</span></li>
-                    <li class="mb-2"><span class="text-light">Service client</span></li>
-                    <li class="mb-2"><span class="text-light">Support technique</span></li>
-                </ul>
-            </div>
-
-            <!-- Contact -->
-            <div class="col-lg-4 col-md-6 mb-4">
-                <h6 class="fw-bold mb-3">Contactez-nous</h6>
-                <div class="d-flex align-items-start mb-2">
-                    <i class="fas fa-map-marker-alt me-3 mt-1"></i>
-                    <span>Madina école gare voiture Dabola</span>
-                </div>
-                <div class="d-flex align-items-center mb-2">
-                    <i class="fas fa-phone me-3"></i>
-                    <span>+224 610050512/ 661515196/ 623523654</span>
-                </div>
-                <div class="d-flex align-items-center mb-2">
-                    <i class="fas fa-envelope me-3"></i>
-                    <span>edaagtrading0@gmail.com</span>
-                </div>
-                <div class="d-flex align-items-center">
-                    <i class="fas fa-clock me-3"></i>
-                    <span>Lun-Sam: 8h-18h</span>
-                </div>
-            </div>
-        </div>
-
-        <hr class="my-4">
-
-        <!-- Copyright -->
-        <div class="row align-items-center">
-            <div class="col-md-6">
-                <p class="mb-0">&copy; {{ date('Y') }} EDAAG TRADING. Tous droits réservés. Developpé par <a href="https://www.jineiyatech.com" target="_blank" class="text-light text-decoration-none">JINEIYATECH</a></p>
-            </div>
-            <div class="col-md-6 text-md-end">
-                <a href="#" class="text-light text-decoration-none me-3">Politique de confidentialité</a>
-                <a href="#" class="text-light text-decoration-none">Conditions d'utilisation</a>
+            <div class="col-lg-4 col-md-4 footer-links">
+                <h4>A Propos</h4>
+                <p>
+                Nous sommes SMH, votre partenaire de confiance pour l'ameublement en Guinée : salons, chambres, salles à manger, bureaux et pièces sur mesure. Chez SMH, au-delà de la qualité des autres. Retrouvez-nous à Centre Faloulay et à T6, en face de la station Star, ou joignez-nous au +224 626 311 915 / saikououmar47@gmail.com.
+                </p>
             </div>
         </div>
     </div>

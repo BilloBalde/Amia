@@ -122,6 +122,7 @@ class Devi extends Model
                 'quantity' => $line->quantity,
                 'prixTotal' => $line->total_price,
                 'store_id' => $this->store_id,
+                'user_id' => auth()->id(),
             ]);
 
             // Affect stock

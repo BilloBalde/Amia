@@ -13,46 +13,44 @@
         @php
         $total_purchases = App\Models\Achat::where('store_id', $item->id)->selectRaw('SUM(grand_total) as total')->value('total');
         $total_sales = App\Models\Facture::where('store_id', $item->id)->sum('montant_total');
-        $total_expenses = App\Models\Expense::where('user_id', App\Models\Store::find($item->id)->user_id)->sum('amount');
+        $total_expenses = App\Models\Expense::where('store_id', $item->id)->sum('amount');
         $gains = App\Models\Sale::where('store_id', $item->id)->sum('interet');
         $total_credits_store = App\Models\Facture::where('store_id', $item->id)->sum('reste');
         $total_quantities_store = App\Models\StoreProduct::where('store_id', $item->id)->sum('quantity');
+        $solde_orange_money_store = App\Models\Payment::whereHas('facture', fn($q) => $q->where('store_id', $item->id))->where('paid_by', 'orange money')->sum('versement');
+        $solde_cash_store = App\Models\Payment::whereHas('facture', fn($q) => $q->where('store_id', $item->id))->where('paid_by', 'cash')->sum('versement');
         @endphp
         
         <div class="store-metrics-grid">
             <!-- Total Achat -->
             <div class="metric-card metric-card-1">
-                <div class="dash-widget">
-                    <div class="dash-widgetimg">
-                        <span class="metric-icon bg-success">
-                            <i class="fas fa-shopping-cart"></i>
-                        </span>
+                <div class="dash-count" style="background: linear-gradient(135deg, #92400e, #78350f);">
+                    <div class="dash-counts">
+                        <h4 class="mb-1">{{ numberDelimiter($total_purchases) }} FG</h4>
+                        <h5 class="opacity-75">Total Achat</h5>
                     </div>
-                    <div class="dash-widgetcontent">
-                        <h5 class="mb-1">{{ numberDelimiter($total_purchases) }} FG</h5>
-                        <h6 class="text-muted">Total Achat</h6>
+                    <div class="dash-imgs">
+                        <i class="fas fa-shopping-cart"></i>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Total Ventes -->
             <div class="metric-card metric-card-2">
-                <div class="dash-widget dash1">
-                    <div class="dash-widgetimg">
-                        <span class="metric-icon bg-primary">
-                            <i class="fas fa-chart-line"></i>
-                        </span>
+                <div class="dash-count" style="background: linear-gradient(135deg, #d97706, #b45309);">
+                    <div class="dash-counts">
+                        <h4 class="mb-1">{{ numberDelimiter($total_sales) }} FG</h4>
+                        <h5 class="opacity-75">Total Ventes</h5>
                     </div>
-                    <div class="dash-widgetcontent">
-                        <h5 class="mb-1">{{ numberDelimiter($total_sales) }} FG</h5>
-                        <h6 class="text-muted">Total Ventes</h6>
+                    <div class="dash-imgs">
+                        <i class="fas fa-chart-line"></i>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Dettes -->
             <div class="metric-card metric-card-3">
-                <div class="dash-count das3" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                <div class="dash-count" style="background: linear-gradient(135deg, #c1682f, #9a3412);">
                     <div class="dash-counts">
                         <h4 class="mb-1">{{ numberDelimiter($total_credits_store) }} FG</h4>
                         <h5 class="opacity-75">Dettes (non payé)</h5>
@@ -62,16 +60,42 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Stock -->
             <div class="metric-card metric-card-4">
-                <div class="dash-count das1" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
+                <div class="dash-count" style="background: linear-gradient(135deg, #78716c, #57534e);">
                     <div class="dash-counts">
                         <h4 class="mb-1">{{ $total_quantities_store }}</h4>
                         <h5 class="opacity-75">Quantité en Stock</h5>
                     </div>
                     <div class="dash-imgs">
                         <i class="fas fa-boxes"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Solde Orange Money -->
+            <div class="metric-card metric-card-5">
+                <div class="dash-count" style="background: linear-gradient(135deg, #ff7900, #e56a00);">
+                    <div class="dash-counts">
+                        <h4 class="mb-1">{{ numberDelimiter($solde_orange_money_store) }} FG</h4>
+                        <h5 class="opacity-75">Solde Orange Money</h5>
+                    </div>
+                    <div class="dash-imgs">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Solde Cash -->
+            <div class="metric-card metric-card-6">
+                <div class="dash-count" style="background: linear-gradient(135deg, #059669, #047857);">
+                    <div class="dash-counts">
+                        <h4 class="mb-1">{{ numberDelimiter($solde_cash_store) }} FG</h4>
+                        <h5 class="opacity-75">Solde Cash</h5>
+                    </div>
+                    <div class="dash-imgs">
+                        <i class="fas fa-money-bill-wave"></i>
                     </div>
                 </div>
             </div>
@@ -84,43 +108,65 @@
         <div class="store-metrics-grid">
             <!-- Total Achat -->
             <div class="metric-card metric-card-1">
-                <div class="dash-widget">
-                    <div class="dash-widgetimg">
-                        <span class="metric-icon bg-success">
-                            <i class="fas fa-shopping-cart"></i>
-                        </span>
+                <div class="dash-count" style="background: linear-gradient(135deg, #92400e, #78350f);">
+                    <div class="dash-counts">
+                        <h4 class="mb-1">{{ numberDelimiter($total_purchases) }} FG</h4>
+                        <h5 class="opacity-75">Total Achat</h5>
                     </div>
-                    <div class="dash-widgetcontent">
-                        <h5 class="mb-1">{{ numberDelimiter($total_purchases) }} FG</h5>
-                        <h6 class="text-muted">Total Achat</h6>
+                    <div class="dash-imgs">
+                        <i class="fas fa-shopping-cart"></i>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Total Ventes -->
             <div class="metric-card metric-card-2">
-                <div class="dash-widget dash1">
-                    <div class="dash-widgetimg">
-                        <span class="metric-icon bg-primary">
-                            <i class="fas fa-chart-line"></i>
-                        </span>
+                <div class="dash-count" style="background: linear-gradient(135deg, #d97706, #b45309);">
+                    <div class="dash-counts">
+                        <h4 class="mb-1">{{ numberDelimiter($total_sales) }} FG</h4>
+                        <h5 class="opacity-75">Total Ventes</h5>
                     </div>
-                    <div class="dash-widgetcontent">
-                        <h5 class="mb-1">{{ numberDelimiter($total_sales) }} FG</h5>
-                        <h6 class="text-muted">Total Ventes</h6>
+                    <div class="dash-imgs">
+                        <i class="fas fa-chart-line"></i>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Stock -->
             <div class="metric-card metric-card-4">
-                <div class="dash-count das1" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">
+                <div class="dash-count" style="background: linear-gradient(135deg, #78716c, #57534e);">
                     <div class="dash-counts">
                         <h4 class="mb-1">{{ $total_quantities }}</h4>
                         <h5 class="opacity-75">Quantité en Stock</h5>
                     </div>
                     <div class="dash-imgs">
                         <i class="fas fa-boxes"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Solde Orange Money -->
+            <div class="metric-card metric-card-5">
+                <div class="dash-count" style="background: linear-gradient(135deg, #ff7900, #e56a00);">
+                    <div class="dash-counts">
+                        <h4 class="mb-1">{{ numberDelimiter($solde_orange_money) }} FG</h4>
+                        <h5 class="opacity-75">Solde Orange Money</h5>
+                    </div>
+                    <div class="dash-imgs">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Solde Cash -->
+            <div class="metric-card metric-card-6">
+                <div class="dash-count" style="background: linear-gradient(135deg, #059669, #047857);">
+                    <div class="dash-counts">
+                        <h4 class="mb-1">{{ numberDelimiter($solde_cash) }} FG</h4>
+                        <h5 class="opacity-75">Solde Cash</h5>
+                    </div>
+                    <div class="dash-imgs">
+                        <i class="fas fa-money-bill-wave"></i>
                     </div>
                 </div>
             </div>
@@ -368,8 +414,14 @@
     /* Store Metrics Grid */
     .store-metrics-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-template-columns: repeat(3, 1fr);
         gap: 16px;
+    }
+
+    @media (max-width: 992px) {
+        .store-metrics-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
     }
 
     .metric-card {
@@ -384,22 +436,7 @@
         box-shadow: 0 5px 15px rgba(0,0,0,0.08);
     }
 
-    /* Metric Cards Colors */
-    .metric-card-1 .dash-widget {
-        background: white;
-    }
-
-    .metric-card-2 .dash-widget {
-        background: white;
-    }
-
-    .metric-card-3 .dash-count {
-        background: linear-gradient(135deg, #f59e0b, #d97706);
-        border: none;
-    }
-
-    .metric-card-4 .dash-count {
-        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    .metric-card .dash-count {
         border: none;
     }
 

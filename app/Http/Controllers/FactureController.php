@@ -270,7 +270,8 @@ class FactureController extends Controller
                         'quantity' => $product['quantity'],
                         'prixTotal' => $product['prixTotal'],
                         'interet' => $product['interet'],
-                        'store_id' => $request->store_id
+                        'store_id' => $request->store_id,
+                        'user_id' => auth()->id(),
                     ]
                 );
             }

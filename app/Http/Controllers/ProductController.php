@@ -128,7 +128,13 @@ class ProductController extends Controller
             'price_sale' => 'nullable|numeric',
             'stock_initial' => 'required|integer|min:0',
             'store_id' => 'required|exists:stores,id',
-            'image' => 'image'
+            'image' => 'image',
+            'taille' => 'nullable|string|max:50',
+            'hauteur' => 'nullable|numeric|min:0',
+            'largeur' => 'nullable|numeric|min:0',
+            'epaisseur' => 'nullable|numeric|min:0',
+            'poids' => 'nullable|numeric|min:0',
+            'nbr_unite' => 'nullable|integer|min:0',
         ], [
             'categories.required' => 'veuillez selectionner la categorie',
             'categories.array' => 'Selectionner plusieurs categories',
@@ -164,10 +170,16 @@ class ProductController extends Controller
                 'qtityCtn' => $request->qtityCtn,
                 'price' => $request->price,
                 'price_sale' => $request->price_sale ?? NULL,
-                'price_sale_ctn' => $request->price_sale_ctn ?? NULL,
-                'image' => $productName ?? NULL,
+                'price_carton' => $request->price_sale_ctn ?? NULL,
+                'image' => $productName ?? 'ib profile.jpg',
                 'stock_initial' => $request->stock_initial,
                 'stock_restant' => $request->stock_initial, // Initialisé à la création
+                'taille' => $request->taille,
+                'hauteur' => $request->hauteur,
+                'largeur' => $request->largeur,
+                'epaisseur' => $request->epaisseur,
+                'poids' => $request->poids,
+                'nbr_unite' => $request->nbr_unite,
             ]);
 
             $product->categories()->attach($request->categories);
@@ -195,7 +207,7 @@ class ProductController extends Controller
                 'description' => $product->description,
                 'price' => $product->price,
                 'price_sale' => $product->price_sale,
-                'price_sale_ctn' => $product->price_sale_ctn,
+                'price_sale_ctn' => $product->price_carton,
                 'image' => $product->image,
                 'category_name' => $product->categories->pluck('slug')->implode(', ')
             ]
@@ -249,6 +261,12 @@ class ProductController extends Controller
             'price_sale'   => 'nullable|numeric',
             'image'        => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'store_id' => 'required|exists:stores,id',
+            'taille' => 'nullable|string|max:50',
+            'hauteur' => 'nullable|numeric|min:0',
+            'largeur' => 'nullable|numeric|min:0',
+            'epaisseur' => 'nullable|numeric|min:0',
+            'poids' => 'nullable|numeric|min:0',
+            'nbr_unite' => 'nullable|integer|min:0',
         ]);
 
         try {
