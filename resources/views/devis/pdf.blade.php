@@ -359,11 +359,11 @@
                                     @if($company && $company->logo)
                                         <img src="{{ asset('companies/'.$company->logo) }}" alt="{{ $company->name ?? 'Logo' }}">
                                     @else
-                                        <img src="{{ asset('assets/img/logo.png') }}" alt="Logo">
+                                        <img src="{{ asset('images/customers/logo.jpg') }}" alt="Logo">
                                     @endif
                                     <div class="document-title">
                                         <h1>DEVIS</h1>
-                                        <h3>{{ $company?->name ?? 'EDAAG TRADING' }}</h3>
+                                        <h3>{{ $company?->name ?? 'SMH' }}</h3>
                                     </div>
                                 </div>
                             </div>
@@ -471,14 +471,14 @@
                                 </div>
                                 <div class="signature-box">
                                     <div class="signature-line"></div>
-                                    <strong>Pour {{ $company?->name ?? 'EDAAG TRADING' }}</strong><br>
+                                    <strong>Pour {{ $company?->name ?? 'SMH' }}</strong><br>
                                     <small>{{ $devis->createdBy?->name ?? auth()->user()->name }}</small>
                                 </div>
                             </div>
 
                             <!-- Pied de page -->
                             <div style="margin-top: 30px; text-align: center; font-size: 11px; color: #999 !important; border-top: 1px solid #eee; padding-top: 10px;">
-                                <p>Document généré le {{ \Carbon\Carbon::now()->format('d/m/Y H:i:s') }} - {{ $company?->address ?? '' }} - Tél: {{ $company?->phone ?? '+224 610050512/ 661515196/ 623523654' }} | Email: {{ $company?->email ?? 'edaagtrading0@gmail.com' }}</p>
+                                <p>Document généré le {{ \Carbon\Carbon::now()->format('d/m/Y H:i:s') }} - {{ $company?->address ?? '' }} - Tél: {{ $company?->phone ?? '+224 626 311 915' }} | Email: {{ $company?->email ?? 'saikououmar47@gmail.com' }}</p>
                             </div>
                         </div>
                     </div>

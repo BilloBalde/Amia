@@ -233,18 +233,18 @@
             @if($company && $company->logo)
                 <img src="{{ asset('companies/'.$company->logo) }}" alt="{{ $company->name ?? 'Logo' }}">
             @else
-                <img src="{{ asset('assets/img/logo.png') }}" alt="Logo">
+                <img src="{{ asset('images/customers/logo.jpg') }}" alt="Logo">
             @endif
             <div class="document-title">
                 <h1>RAPPORT DES VENTES</h1>
-                <h3>{{ $company?->name ?? 'EDAAG TRADING' }}</h3>
+                <h3>{{ $company?->name ?? 'SMH' }}</h3>
             </div>
         </div>
     </div>
 
     <!-- Company Info -->
     <div class="company-info">
-        <p>{{ $company?->address ?? '' }} | Tél: {{ $company?->phone ?? '+224 610050512/ 661515196/ 623523654' }} | Email: {{ $company?->email ?? 'edaagtrading0@gmail.com' }}</p>
+        <p>{{ $company?->address ?? '' }} | Tél: {{ $company?->phone ?? '+224 626 311 915' }} | Email: {{ $company?->email ?? 'saikououmar47@gmail.com' }}</p>
     </div>
 
     <!-- Filter Info -->

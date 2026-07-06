@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Liste des paiements - Polimax Guinee</title>
+    <title>Liste des paiements - SMH</title>
     <style>
         /* ===== RESET & BASE ===== */
         * {
@@ -211,7 +211,7 @@
         @page {
             margin: 1.5cm;
             @bottom-center {
-                content: "Polimax Guinee - Document confidentiel";
+                content: "SMH - Document confidentiel";
                 font-size: 8px;
                 color: #8aa4c2;
             }
@@ -221,14 +221,13 @@
 <body>
     <div class="header">
         <div class="company-info">
-            <div class="company-name">EDAAG TRADING</div>
+            <div class="company-name">SMH</div>
             <div class="company-details">
-                BP 1234 Conakry | Tél: +224 123 456 789 | Email: contact@edaagtrading.com<br>
-                RCCM: GC‑2023‑B‑123 | NIF: 1234567890
+                Centre Faloulay 1er étage B30 Madina route Niger, Conakry | Tél: +224 626 311 915 | Email: saikououmar47@gmail.com
             </div>
         </div>
-        
-            <img src="{{ asset('assets/img/logo.png') }}" alt="{{ $company?->name ?? 'Logo' }}" class="invoice-head-logo">
+
+            <img src="{{ asset('images/customers/logo.jpg') }}" alt="SMH" class="invoice-head-logo">
        
     </div>
 
@@ -291,7 +290,7 @@
     </div>
 
     <div class="footer">
-        Document généré par {{ auth()->user()->name ?? 'Système' }} | EDAAG TRADING– Rapport de paiements | Page <span class="pageNumber"></span> / <span class="totalPages"></span>
+        Document généré par {{ auth()->user()->name ?? 'Système' }} | SMH – Rapport de paiements | Page <span class="pageNumber"></span> / <span class="totalPages"></span>
     </div>
 </body>
 </html>

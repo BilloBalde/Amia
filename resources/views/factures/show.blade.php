@@ -2,15 +2,15 @@
 <html lang="en">
 @include('layouts.head')
 <head>
-    <link rel="stylesheet" href="{{ asset('assets/css/invoice-details.css') }}">
-   
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         .page-btn {
             display: flex;
             gap: 10px;
             align-items: center;
         }
-        
+
         .btn {
             display: inline-flex;
             align-items: center;
@@ -23,140 +23,317 @@
             transition: all 0.3s;
             border: none;
         }
-        
+
         .btn i {
             margin-right: 5px;
         }
-        
+
         .btn-added {
-            background-color: #ff9f43;
+            background-color: #c1682f;
             color: white;
         }
-        
+
         .btn-added:hover {
-            background-color: #ff820e;
+            background-color: #a8532a;
         }
-        
+
         .btn-cancel {
             background-color: #6c757d;
             color: white;
         }
-        
+
         .btn-cancel:hover {
             background-color: #5a6268;
         }
-        /* Filigrane facture (logo + texte) */
-        #invoiceContent{
+
+        /* ============================= */
+        /* FACTURE — design SMH           */
+        /* ============================= */
+        #invoiceContent {
             position: relative;
             overflow: hidden;
-            color: #000000 !important; /* Force tout le texte en noir */
+            color: #1c1917 !important;
+            font-family: 'Inter', Arial, sans-serif;
+            background: #ffffff;
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 40px 44px;
+            border-radius: 14px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
         }
-        
-        /* Force tous les éléments texte en noir */
-        #invoiceContent,
-        #invoiceContent *,
-        #invoiceContent h1,
-        #invoiceContent h2,
-        #invoiceContent h3,
-        #invoiceContent h4,
-        #invoiceContent h5,
-        #invoiceContent h6,
-        #invoiceContent p,
-        #invoiceContent span,
-        #invoiceContent div,
-        #invoiceContent strong,
-        #invoiceContent em,
-        #invoiceContent table,
-        #invoiceContent th,
-        #invoiceContent td,
-        #invoiceContent a,
-        #invoiceContent .invoice-head-company,
-        #invoiceContent .invoice-head-title,
-        #invoiceContent .invoice-head-clientname,
-        #invoiceContent .invoice-number-label,
-        #invoiceContent .invoice-number-value,
-        #invoiceContent .client-info-box,
-        #invoiceContent .amount-in-words,
-        #invoiceContent .signature-box,
-        #invoiceContent .company-info {
-            color: #000000 !important;
+
+        #invoiceContent * {
+            color: #1c1917 !important;
         }
-        .signature-box{
-            min-height: 150px !important;
-        }
-        /* Enlever les backgrounds bleus des en-têtes de tableau */
-        .invoice-products-table thead th{
-            background: #f2f4f7 !important;
-            color: #000000 !important; /* Changé de #1c2e5c à noir */
-            border-color: #cccccc !important;
-        }
-        
-        /* S'assurer que les bordures restent visibles */
-        .invoice-table td,
-        .invoice-table th {
-            border-color: #333333 !important;
-        }
-        
-        .invoice-watermark{
+
+        .invoice-watermark {
             position: absolute;
             inset: 0;
             pointer-events: none;
             z-index: 0;
         }
-        .invoice-watermark .watermark-logo{
+
+        .invoice-watermark .watermark-logo {
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%); 
-            width: 280px;
-            max-width: 70%;
+            transform: translate(-50%, -50%);
+            width: 320px;
+            max-width: 60%;
             height: auto;
-            opacity: 0.26;
+            opacity: 0.04;
         }
 
+        .facture-inner {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* En-tête */
+        .facture-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 24px;
+            padding-bottom: 22px;
+            border-bottom: 3px solid #c1682f;
+            margin-bottom: 24px;
+        }
+
+        .facture-brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .facture-brand img {
+            width: 56px;
+            height: 56px;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .facture-brand-name {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: #92400e !important;
+        }
+
+        .facture-brand-sub {
+            font-size: 11.5px;
+            color: #78716c !important;
+            margin-top: 2px;
+            line-height: 1.5;
+        }
+
+        .facture-heading {
+            text-align: right;
+        }
+
+        .facture-heading .label {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #c1682f !important;
+            text-transform: uppercase;
+        }
+
+        .facture-heading .meta {
+            margin-top: 8px;
+            font-size: 12.5px;
+            color: #57534e !important;
+        }
+
+        .facture-heading .meta strong {
+            color: #1c1917 !important;
+        }
+
+        .facture-heading .badge {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 10.5px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            background: #fdf6ec;
+            color: #b45309 !important;
+            border: 1px solid #f0e0c8;
+        }
+
+        /* Cartes d'info */
+        .facture-info-grid {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 26px;
+        }
+
+        .info-card {
+            flex: 1;
+            background: #fdf6ec;
+            border: 1px solid #f0e0c8;
+            border-radius: 12px;
+            padding: 16px 18px;
+        }
+
+        .info-card .info-title {
+            font-size: 10.5px;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            color: #b45309 !important;
+            margin-bottom: 10px;
+        }
+
+        .info-card .info-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12.5px;
+            padding: 3px 0;
+        }
+
+        .info-card .info-row .k {
+            color: #78716c !important;
+        }
+
+        .info-card .info-row .v {
+            font-weight: 600;
+            text-align: right;
+        }
+
+        /* Tableau produits */
+        .invoice-products-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 22px;
+            font-size: 12.5px;
+        }
+
+        .invoice-products-table thead th {
+            background: #92400e !important;
+            color: #ffffff !important;
+            font-weight: 600;
+            text-align: left;
+            padding: 11px 12px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .invoice-products-table thead th:nth-child(3),
+        .invoice-products-table thead th:nth-child(4),
+        .invoice-products-table thead th:nth-child(5) {
+            text-align: right;
+        }
+
+        .invoice-products-table tbody td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #f1e9dd;
+        }
+
+        .invoice-products-table tbody tr:nth-child(even) {
+            background: #fdfaf5;
+        }
+
+        .invoice-products-table td:nth-child(3),
+        .invoice-products-table td:nth-child(4),
+        .invoice-products-table td:nth-child(5) {
+            text-align: right;
+        }
+
+        .invoice-products-table tfoot .invoice-total td {
+            padding: 14px 12px;
+            background: #fdf6ec;
+            border-top: 2px solid #c1682f;
+            font-size: 14px;
+        }
+
+        .invoice-products-table tfoot .invoice-total td:last-child {
+            color: #92400e !important;
+            font-weight: 800;
+        }
+
+        /* Montant en lettres */
+        .amount-in-words {
+            background: #faf9f7;
+            border-left: 4px solid #c1682f;
+            border-radius: 0 10px 10px 0;
+            padding: 14px 18px;
+            font-size: 12.5px;
+            margin-bottom: 30px;
+        }
+
+        .amount-in-words strong {
+            display: block;
+            font-size: 10.5px;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            color: #b45309 !important;
+            margin-bottom: 4px;
+        }
+
+        .amount-in-words em {
+            font-style: italic;
+        }
+
+        /* Signatures */
         .signature-section {
             display: flex;
             justify-content: space-between;
-            margin-top: 40px;
-            gap: 20px;
-            flex-wrap: wrap; /* This allows wrapping on mobile */
+            gap: 24px;
+            margin-top: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
         }
 
         .signature-box {
-            flex: 1 1 200px; /* Flex-grow, flex-shrink, flex-basis */
+            flex: 1 1 200px;
             min-width: 200px;
             text-align: center;
             page-break-inside: avoid !important;
             break-inside: avoid !important;
-            margin-bottom: 20px;
         }
 
         .signature-line {
             width: 100%;
-            margin-bottom: 10px;
+            height: 46px;
+            border-bottom: 1.5px solid #d6ccc0;
+            margin-bottom: 8px;
         }
 
         .signature-box p {
-            margin: 5px 0 0 0;
-            font-size: 12px;
-        }
-        
-        /* Nouveaux styles pour améliorer la gestion des sauts de page */
-        .invoice-products-table,
-        .amount-in-words,
-        .signature-section,
-        .company-info {
-            page-break-inside: avoid;
+            margin: 0;
+            font-size: 11.5px;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+            color: #57534e !important;
         }
 
+        /* Pied de page */
         .company-info {
-            page-break-before: avoid;
-            margin-top: 20px;
+            text-align: center;
+            border-top: 1px solid #f1e9dd;
+            padding-top: 16px;
+            font-size: 11px;
+            color: #78716c !important;
         }
-        
+
+        .company-info h4 {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 14px;
+            color: #92400e !important;
+            margin-bottom: 3px;
+        }
+
+        .company-info p {
+            margin: 2px 0;
+        }
+
         /* Styles pour l'impression */
         @media print {
-            /* Cacher les éléments d'interface */
             #global-loader,
             .header,
             .sidebar,
@@ -164,10 +341,7 @@
             .no-print {
                 display: none !important;
             }
-            
-         
 
-            /* Forcer tous les conteneurs à fond blanc */
             body,
             .main-wrapper,
             .page-wrapper,
@@ -182,25 +356,13 @@
                 border: none !important;
                 width: 100%;
             }
-            
-            .main-wrapper,
-            .page-wrapper,
-            .content,
-            .card,
-            .card-body {
-                padding: 0;
-                margin: 0;
-                background: white;
-                box-shadow: none;
-                border: none;
-                width: 100%;
-            }
-            
+
             #invoiceContent {
                 padding: 15px;
                 margin: 0;
+                border-radius: 0;
             }
-            
+
             .invoice-products-table {
                 width: 100%;
                 border-collapse: collapse;
@@ -253,139 +415,113 @@
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="card" style="background:#f8f5f0;">
                     <div class="card-body">
                         @php
                             $company = \App\Models\Company::latest()->first();
                         @endphp
 
-                        <div class="receipt-invoice-wrapper" id="invoiceContent">
+                        <div id="invoiceContent">
                             <div class="invoice-watermark" aria-hidden="true">
-                                <!-- <img class="watermark-logo" src="{{ asset('assets/img/logo.png') }}" alt=""> -->
+                                <img class="watermark-logo" src="{{ asset('images/customers/logo.jpg') }}" alt="">
                             </div>
 
-                            <div class="invoice-title-wrapper">
-                                <div class="invoice-head-3col">
-                                    <div class="invoice-head-left">
-                                        <div class="invoice-head-brand">
-                                            <img src="{{ asset('assets/img/logo.png') }}" alt="{{ $company?->name ?? 'Logo' }}" class="invoice-head-logo">
-                                            <div class="invoice-head-brandtext">
-                                                <div class="invoice-head-company">{{ $company?->name ?? 'EDAAG TRADING' }}</div>
-                                                @if(!empty($company?->address))
-                                                    <div class="invoice-head-sub">{{ $company->address }}</div>
-                                                @endif
-                                                @if(!empty($company?->phone))
-                                                    <div class="invoice-head-sub">{{ $company->phone }}</div>
-                                                @endif
+                            <div class="facture-inner">
+                                <!-- En-tête -->
+                                <div class="facture-header">
+                                    <div class="facture-brand">
+                                        <img src="{{ asset('images/customers/logo.jpg') }}" alt="{{ $company?->name ?? 'SMH' }}">
+                                        <div>
+                                            <div class="facture-brand-name">{{ $company?->name ?? 'SMH' }}</div>
+                                            <div class="facture-brand-sub">
+                                                @if(!empty($company?->address)) {{ $company->address }}<br>@endif
+                                                Tél: {{ $company?->phone ?? '+224 626 311 915' }}
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="invoice-head-center">
-                                        <div class="invoice-head-title">FACTURE D'ACHAT</div>
-                                        <div class="invoice-head-original">Original</div>
-                                    </div>
-
-                                    <div class="invoice-head-right">
-                                        <div class="invoice-head-clientname">{{ $customer->customerName ?? 'Client' }}</div>
-                                        @if(!empty($customer->tel))
-                                            <div class="invoice-head-clientline">{{ $customer->tel }}</div>
-                                        @endif
-                                        @if(!empty($customer->address))
-                                            <div class="invoice-head-clientline">{{ $customer->address }}</div>
-                                        @endif
+                                    <div class="facture-heading">
+                                        <div class="label">Facture</div>
+                                        <div class="meta">
+                                            <strong>N° {{ $facture }}</strong><br>
+                                            {{ \Carbon\Carbon::parse($laFacture->created_at)->format('d/m/Y à H:i') }}
+                                        </div>
+                                        <div class="badge">{{ $laFacture->statut ?? 'N/A' }}</div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="invoice-number-section">
-                                <div class="invoice-number-row">
-                                    <div>
-                                        <span class="invoice-number-label">Facture N°:</span>
-                                        <span class="invoice-number-value">#{{ $facture }}</span>
+                                <!-- Infos client / vente -->
+                                <div class="facture-info-grid">
+                                    <div class="info-card">
+                                        <div class="info-title">Facturé à</div>
+                                        <div class="info-row"><span class="k">Client</span><span class="v">{{ $customer->customerName ?? 'N/A' }}</span></div>
+                                        <div class="info-row"><span class="k">Téléphone</span><span class="v">{{ $customer->tel ?? 'N/A' }}</span></div>
+                                        <div class="info-row"><span class="k">Adresse</span><span class="v">{{ $customer->address ?? 'N/A' }}</span></div>
                                     </div>
-                                    <div>
-                                        <span class="invoice-number-label">Date:</span>
-                                        <span class="invoice-number-value">{{ \Carbon\Carbon::parse($laFacture->created_at)->format('d/m/Y H:i') }}</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="client-info-box">
-                                <div class="client-info-row">
-                                    <div><strong>Boutique:</strong> {{ $laFacture->store?->description ?? $laFacture->store?->store_name ?? 'N/A' }}</div>
-                                    <div><strong>Gérant:</strong> {{ auth()->user()->name }}</div>
-                                </div>
-                                <div class="client-info-row">
-                                    <div><strong>Client:</strong> {{ $customer->customerName ?? 'N/A' }}</div>
-                                    <div><strong>Téléphone:</strong> {{ $customer->tel ?? 'N/A' }}</div>
-                                </div>
-                                <div class="client-info-row">
-                                    <div><strong>Adresse:</strong> {{ $customer->address ?? 'N/A' }}</div>
-                                    <div>
-                                        <strong>Statut Paiement:</strong>
-                                        {{ $laFacture->statut ?? 'N/A' }}
-                                        &nbsp;|&nbsp;
-                                        <strong>Livraison:</strong>
-                                        {{ $laFacture->livraison == 'livré' ? 'Livré' : 'Non livré' }}
+                                    <div class="info-card">
+                                        <div class="info-title">Détails de la vente</div>
+                                        <div class="info-row"><span class="k">Boutique</span><span class="v">{{ $laFacture->store?->description ?? $laFacture->store?->store_name ?? 'N/A' }}</span></div>
+                                        <div class="info-row"><span class="k">Gérant</span><span class="v">{{ auth()->user()->name }}</span></div>
+                                        <div class="info-row"><span class="k">Livraison</span><span class="v">{{ $laFacture->livraison == 'livré' ? 'Livré' : 'Non livré' }}</span></div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <table class="invoice-table invoice-products-table">
-                                <thead>
-                                    <tr>
-                                        <th>N°</th>
-                                        <th>Produit</th>
-                                        <th>Quantité</th>
-                                        <th>Prix Unitaire</th>
-                                        <th>Montant Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($invoice as $item)
+                                <!-- Tableau produits -->
+                                <table class="invoice-products-table">
+                                    <thead>
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $item->produit }}</td>
-                                            <td>{{ $item->quantity }} PCS</td>
-                                            <td>{{ numberDelimiter($item->prix) }} FG</td>
-                                            <td>{{ numberDelimiter($item->prixTotal) }} FG</td>
+                                            <th style="width:6%">N°</th>
+                                            <th style="width:39%">Produit</th>
+                                            <th style="width:15%">Quantité</th>
+                                            <th style="width:20%">Prix Unitaire</th>
+                                            <th style="width:20%">Montant Total</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                                <tfoot>
-                                    <tr class="invoice-total">
-                                        <td colspan="4"><strong>GRAND TOTAL</strong></td>
-                                        <td><strong>{{ numberDelimiter($laFacture->montant_total) }} FG</strong></td>
-                                    </tr>
-                                </tfoot>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($invoice as $item)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $item->produit }}</td>
+                                                <td>{{ $item->quantity }} PCS</td>
+                                                <td>{{ numberDelimiter($item->prix) }} FG</td>
+                                                <td>{{ numberDelimiter($item->prixTotal) }} FG</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                    <tfoot>
+                                        <tr class="invoice-total">
+                                            <td colspan="4">GRAND TOTAL</td>
+                                            <td>{{ numberDelimiter($laFacture->montant_total) }} FG</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
 
-                            <div class="amount-in-words">
-                                <strong>MONTANT EN LETTRES</strong><br>
-                                <em>
-                                    Arrêtée à la somme de :
-                                    {{ ucfirst(numberToWords($laFacture->montant_total)) }} Francs Guinéens GNF
-                                </em>
-                            </div>
-
-                            <div class="signature-section">
-                                <div class="signature-box">
-                                    <div class="signature-line"></div>
-                                    <p><strong>SIGNATURE DU CLIENT</strong></p>
+                                <!-- Montant en lettres -->
+                                <div class="amount-in-words">
+                                    <strong>Montant en lettres</strong>
+                                    <em>
+                                        Arrêtée à la somme de {{ ucfirst(numberToWords($laFacture->montant_total)) }} Francs Guinéens (GNF)
+                                    </em>
                                 </div>
 
-                                <div class="signature-box">
-                                    <div class="signature-line"></div>
-                                    <p><strong>POUR {{ strtoupper($company?->name ?? 'EDAAG TRADING') }}</strong></p>
+                                <!-- Signatures -->
+                                <div class="signature-section">
+                                    <div class="signature-box">
+                                        <div class="signature-line"></div>
+                                        <p>Signature du client</p>
+                                    </div>
+                                    <div class="signature-box">
+                                        <div class="signature-line"></div>
+                                        <p>Pour {{ strtoupper($company?->name ?? 'SMH') }}</p>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="company-info">
-                                <h4>{{ $company?->name ?? 'EDAAG TRADING' }}</h4>
-                                <p>{{ $company?->address ?? '' }}</p>
-                                <p>Tél: {{ $company?->phone ?? '+224 610050512/ 661515196/ 623523654' }} | Email: {{ $company?->email ?? 'edaagtrading0@gmail.com' }}</p>
-                                <p>Reçu/Facture généré le {{ \Carbon\Carbon::now()->format('d/m/Y H:i') }}</p>
+                                <!-- Pied de page -->
+                                <div class="company-info">
+                                    <h4>{{ $company?->name ?? 'SMH' }}</h4>
+                                    <p>{{ $company?->address ?? '' }}</p>
+                                    <p>Tél: {{ $company?->phone ?? '+224 626 311 915' }} | Email: {{ $company?->email ?? 'saikououmar47@gmail.com' }}</p>
+                                    <p>Facture générée le {{ \Carbon\Carbon::now()->format('d/m/Y H:i') }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -404,13 +540,11 @@
 
             if (!downloadBtn || !element || !printBtn) return;
 
-            // Gestionnaire pour le bouton Imprimer
             printBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 window.print();
             });
 
-            // Gestionnaire pour le bouton PDF
             downloadBtn.addEventListener('click', function(e) {
                 e.preventDefault();
 
@@ -419,9 +553,8 @@
                 btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Génération...';
                 btn.disabled = true;
 
-                // Options de génération PDF
                 const opt = {
-                    margin: [10, 10, 15, 10], // top, right, bottom, left (mm) - plus d'espace en bas
+                    margin: [10, 10, 15, 10],
                     filename: 'Facture_{{ $facture }}.pdf',
                     image: { type: 'jpeg', quality: 0.98 },
                     html2canvas: {
@@ -435,7 +568,7 @@
                         orientation: 'portrait'
                     },
                     pagebreak: {
-                        mode: ['css', 'legacy']  // ← Suppression de 'avoid-all' pour permettre les sauts de page
+                        mode: ['css', 'legacy']
                     }
                 };
 

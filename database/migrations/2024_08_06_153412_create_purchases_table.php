@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('quantity');
             $table->text('description');
             $table->timestamps();
+            $table->double('price_ctn', 10, 2)->nullable();
         });
     }
 

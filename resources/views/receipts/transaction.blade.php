@@ -33,7 +33,7 @@
                             <div class="invoice-title-wrapper">
                                 <div class="invoice-title-row">
                                     <div class="invoice-logo">
-                                        <img src="{{ asset('assets/img/logo.png') }}" alt="{{ $company?->name ?? 'Logo' }}">
+                                        <img src="{{ asset('images/customers/logo.jpg') }}" alt="{{ $company?->name ?? 'Logo' }}">
                                     </div>
                                     <h1 class="invoice-title">REÇU TRANSACTION</h1>
                                 </div>
@@ -113,16 +113,16 @@
 
                                 <div class="signature-box">
                                     <div class="signature-line"></div>
-                                    <p><strong>POUR {{ strtoupper($company?->name ?? 'EDAAG TRADING') }}</strong></p>
+                                    <p><strong>POUR {{ strtoupper($company?->name ?? 'SMH') }}</strong></p>
                                     <p>Le Gérant / Signature autorisée</p>
                                     <p>Nom et signature du responsable</p>
                                 </div>
                             </div>
 
                             <div class="company-info">
-                                <h4>{{ $company?->name ?? 'EDAAG TRADING' }}</h4>
+                                <h4>{{ $company?->name ?? 'SMH' }}</h4>
                                 <p>{{ $company?->address ?? 'Madina Gare Voiture Dabola Boutique N°35 Conakry/Rép. de Guinée' }}</p>
-                                <p>Tél: {{ $company?->phone ?? '+224 610 05 05 12' }} | Email: {{ $company?->email ?? 'edaagtrading@gmail.com' }}</p>
+                                <p>Tél: {{ $company?->phone ?? '+224 626 311 915' }} | Email: {{ $company?->email ?? 'saikououmar47@gmail.com' }}</p>
                                 <p>Merci pour votre confiance et à bientôt !</p>
                                 <p>Reçu généré le {{ \Carbon\Carbon::now()->format('d/m/Y H:i') }}</p>
                             </div>

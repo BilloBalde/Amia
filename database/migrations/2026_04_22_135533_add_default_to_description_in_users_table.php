@@ -1,28 +1,29 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Superseded by 2026_04_21_133615_make_description_nullable_in_users_table,
+     * which matches the live column exactly (TEXT NULL, no default). This
+     * migration previously used Schema::change() without doctrine/dbal
+     * installed (would fatal error) and set a default('') that doesn't
+     * match production (default is NULL there). Kept as a guarded no-op to
+     * preserve migration history.
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('description')->nullable()->default('')->change();
-        });
+        if (!Schema::hasTable('users')) {
+            return;
+        }
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-        });
+        if (!Schema::hasTable('users')) {
+            return;
+        }
     }
 };

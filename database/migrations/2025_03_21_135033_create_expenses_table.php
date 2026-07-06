@@ -17,9 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('reference');
             $table->foreignId('expense_categories_id')->constrained('expense_categories')->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->double('amount');
-            $table->string('status');
+            $table->foreignId('store_id')->constrained('stores')->cascadeOnDelete();
+            $table->decimal('balance', 8, 2)->nullable();
+            $table->decimal('amount', 8, 2)->nullable();
+            $table->enum('exp_mode', ['others', 'ukexpense']);
             $table->text('description');
             $table->timestamps();
         });

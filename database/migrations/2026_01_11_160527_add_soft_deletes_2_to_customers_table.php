@@ -1,32 +1,26 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
     /**
-     * Run the migrations.
-     *
-     * @return void
+     * No-op: deleted_at was already added to customers by
+     * 2026_01_11_155943_add_soft_deletes_to_customers_table just moments
+     * earlier. Kept as a guarded no-op to preserve migration history.
      */
     public function up()
     {
-        Schema::table('factures', function (Blueprint $table) {
-            $table->softDeletes();
-        });
+        if (!Schema::hasTable('customers')) {
+            return;
+        }
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
-        Schema::table('customers', function (Blueprint $table) {
-            //
-        });
+        if (!Schema::hasTable('customers')) {
+            return;
+        }
     }
 };

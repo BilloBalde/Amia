@@ -1,30 +1,29 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Superseded: invoice_number now lives on the orders table from creation
+     * (see 2026_04_18_165500_create_orders_table). store_id was never used
+     * anywhere in the codebase (Order records are never queried or written
+     * with a store_id) and was never applied to the live database, so it's
+     * intentionally left out to keep migrations matching production. Kept
+     * as a guarded no-op to preserve migration history.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::table('orders', function (Blueprint $table) {
-            // invoice_number déjà ajouté par la migration précédente — on n'ajoute que store_id
-            if (!Schema::hasColumn('orders', 'store_id')) {
-                $table->foreignId('store_id')->nullable()->after('user_id');
-            }
-        });
+        if (!Schema::hasTable('orders')) {
+            return;
+        }
     }
 
-    public function down()
+    public function down(): void
     {
-        Schema::table('orders', function (Blueprint $table) {
-            if (Schema::hasColumn('orders', 'store_id')) {
-                $table->dropColumn('store_id');
-            }
-        });
+        if (!Schema::hasTable('orders')) {
+            return;
+        }
     }
 };

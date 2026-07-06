@@ -15,7 +15,7 @@
             font-family: 'DejaVu Sans', 'Helvetica', 'Arial', sans-serif;
             font-size: 10pt;
             line-height: 1.5;
-            color: #1e293b;
+            color: #1c1917;
             background: white;
             padding: 0.8cm;
         }
@@ -26,67 +26,45 @@
         }
 
         /* ===== EN-TÊTE ===== */
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 4px solid #2563eb;
-        }
-
-        .logo {
-            flex: 0 0 80px;
-            max-width: 80px;
-        }
-
         .logo img {
             max-width: 100%;
             height: auto;
             display: block;
         }
 
-        .company-info {
-            flex: 1;
-            text-align: center;
-            padding: 0 15px;
-        }
-
         .company-info h1 {
-            font-size: 18pt;
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 17pt;
             font-weight: 700;
-            color: #0f172a;
+            color: #92400e;
             margin-bottom: 4px;
-            letter-spacing: 0.5px;
         }
 
         .company-info p {
             font-size: 9pt;
-            color: #475569;
+            color: #78716c;
             margin: 2px 0;
         }
 
         .report-info {
-            flex: 0 0 200px;
-            text-align: right;
             font-size: 9pt;
-            background: #f8fafc;
+            background: #fdf6ec;
             padding: 8px 12px;
             border-radius: 6px;
-            border-left: 4px solid #2563eb;
+            border-left: 4px solid #c1682f;
         }
 
         .report-info p {
             margin: 4px 0;
-            color: #1e293b;
+            color: #1c1917;
         }
 
         .report-info strong {
-            color: #2563eb;
+            color: #b45309;
         }
 
         .admin-badge {
-            background: #2563eb;
+            background: #c1682f;
             color: white;
             padding: 2px 8px;
             border-radius: 12px;
@@ -103,25 +81,27 @@
         }
 
         .title-section h2 {
-            font-size: 16pt;
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 15pt;
             font-weight: 700;
-            color: #0f172a;
+            color: #92400e;
             text-transform: uppercase;
             margin-bottom: 6px;
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
         }
 
         .filters {
-            background: #f1f5f9;
+            background: #fdf6ec;
             display: inline-block;
             padding: 6px 18px;
             border-radius: 30px;
             font-size: 9pt;
-            color: #1e293b;
+            color: #1c1917;
+            border: 1px solid #f0e0c8;
         }
 
         .filters strong {
-            color: #2563eb;
+            color: #b45309;
         }
 
         /* ===== CARTES RÉCAPITULATIVES ===== */
@@ -130,43 +110,40 @@
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
         }
 
         .summary-card {
             display: table-cell;
             padding: 14px 8px;
             text-align: center;
-            background: white;
-            border: 1px solid #e2e8f0;
+            background-color: #fdf6ec;
+            border: 1px solid #f0e0c8;
         }
 
         .summary-card .label {
             font-size: 9pt;
             text-transform: uppercase;
             font-weight: 600;
-            color: #64748b;
+            color: #78716c;
             margin-bottom: 6px;
             letter-spacing: 0.5px;
         }
 
         .summary-card .value {
-            font-size: 16pt;
+            font-size: 15pt;
             font-weight: 800;
             line-height: 1.2;
         }
 
-        .summary-card.ventes { border-top: 5px solid #22c55e; }
-        .summary-card.achats { border-top: 5px solid #eab308; }
-        .summary-card.depenses { border-top: 5px solid #ef4444; }
-        .summary-card.solde { border-top: 5px solid #3b82f6; }
+        .summary-card.ventes { border-top: 4px solid #059669; }
+        .summary-card.achats { border-top: 4px solid #b45309; }
+        .summary-card.depenses { border-top: 4px solid #b91c1c; }
+        .summary-card.solde { border-top: 4px solid #92400e; }
 
-        .text-success { color: #16a34a; }
-        .text-danger { color: #dc2626; }
-        .text-warning { color: #ca8a04; }
-        .text-primary { color: #2563eb; }
+        .text-success { color: #059669; }
+        .text-danger { color: #b91c1c; }
+        .text-warning { color: #b45309; }
+        .text-primary { color: #92400e; }
 
         /* ===== TABLEAU DES MOUVEMENTS ===== */
         .movements-table {
@@ -177,7 +154,7 @@
         }
 
         .movements-table th {
-            background: #1e293b;
+            background: #92400e;
             color: white;
             padding: 10px 6px;
             font-weight: 600;
@@ -189,16 +166,12 @@
 
         .movements-table td {
             padding: 8px 6px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #f1e9dd;
             vertical-align: middle;
         }
 
         .movements-table tr:nth-child(even) {
-            background-color: #f8fafc;
-        }
-
-        .movements-table tr:hover {
-            background-color: #f1f5f9;
+            background-color: #fdfaf5;
         }
 
         .badge {
@@ -213,20 +186,21 @@
             min-width: 70px;
         }
 
-        .badge.vente { background: #16a34a; }
-        .badge.achat { background: #ca8a04; }
-        .badge.depense { background: #dc2626; }
-        .badge.autre { background: #64748b; }
+        .badge.vente { background: #059669; }
+        .badge.achat { background: #b45309; }
+        .badge.depense { background: #b91c1c; }
+        .badge.autre { background: #78716c; }
 
         .total-row {
-            background: #f1f5f9 !important;
+            background: #fdf6ec !important;
             font-weight: 700;
-            border-top: 2px solid #2563eb;
+            border-top: 2px solid #c1682f;
         }
 
         .total-row td {
             padding: 10px 6px;
-            background: #e2e8f0;
+            background: #fdf6ec;
+            color: #92400e;
         }
 
         .nowrap {
@@ -241,7 +215,7 @@
             text-align: center;
         }
 
-/* Footer */
+        /* Footer */
         .footer {
             position: fixed;
             bottom: 0;
@@ -249,47 +223,45 @@
             right: 0;
             width: 100%;
             padding-top: 14px;
-            border-top: 2px solid #1976d2;
+            border-top: 2px solid #c1682f;
             text-align: center;
             font-size: 10px;
-            color: #5b667a;
-            background: #f8f9fa;
+            color: #78716c;
+            background: #fdf6ec;
             padding: 14px;
-            border-radius: 4px 4px 0 0;
             margin: 0;
             box-sizing: border-box;
         }
-        
+
         .footer-contact {
             margin-bottom: 6px;
             font-weight: 600;
-            color: #1c2e5c;
+            color: #1c1917;
         }
-        
+
         .footer-thanks {
+            font-family: Georgia, 'Times New Roman', serif;
             font-weight: 700;
-            color: #1976d2;
+            color: #92400e;
             margin-top: 8px;
             font-size: 11px;
             font-style: italic;
         }
-        
+
         .footer-date {
             margin-top: 8px;
             font-size: 10px;
-            color: #9e9e9e;
+            color: #a8a29e;
         }
-        
 
         /* ===== UTILITAIRES ===== */
         .empty-message {
             padding: 30px;
             text-align: center;
-            background: #f8fafc;
-            border-radius: 8px;
-            color: #475569;
+            background: #fdfaf5;
+            color: #78716c;
             font-style: italic;
-            border: 1px dashed #94a3b8;
+            border: 1px dashed #d6ccc0;
         }
     </style>
 </head>
@@ -297,26 +269,25 @@
 {{-- ======================================== --}}
 {{-- EN-TÊTE : LOGO + SOCIÉTÉ + INFOS RAPPORT --}}
 {{-- ======================================== --}}
-<div class="header" style="display: table; width: 100%; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 4px solid #2563eb;">
-    
+<div class="header" style="display: table; width: 100%; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 3px solid #c1682f;">
+
     {{-- Logo --}}
-    <div style="display: table-cell; width: 100px; vertical-align: middle; text-align: left;">
-        @if(file_exists(public_path('assets/img/logo.png')))
-            <img src="{{ public_path('assets/img/logo.png') }}" alt="{{ $company->name ?? 'Logo' }}" style="max-width: 150%; height: auto;">
-        @elseif(file_exists(public_path('assets/img/logo.jpg')))
-            <img src="{{ public_path('assets/img/logo.jpg') }}" alt="{{ $company->name ?? 'Logo' }}" style="max-width: 150%; height: auto;">
+    <div style="display: table-cell; width: 90px; vertical-align: middle; text-align: left;">
+        @if($company->logo ?? false)
+            <img src="{{ public_path('companies/'.$company->logo) }}" alt="{{ $company->name ?? 'Logo' }}" style="max-width: 70px; height: auto; border-radius: 8px;">
+        @elseif(file_exists(public_path('images/customers/logo.jpg')))
+            <img src="{{ public_path('images/customers/logo.jpg') }}" alt="{{ $company->name ?? 'Logo' }}" style="max-width: 70px; height: auto; border-radius: 8px;">
         @else
-            {{-- Placeholder si aucun logo --}}
-            <div style="width: 80px; height: 60px; background: #e2e8f0; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #64748b; font-size: 10px; text-align: center;">Logo</div>
+            <div style="width: 70px; height: 60px; background: #fdf6ec; border-radius: 6px; text-align: center; color: #b45309; font-size: 10px; padding-top: 22px;">Logo</div>
         @endif
     </div>
 
     {{-- Informations société --}}
-    <div style="display: table-cell; vertical-align: middle; text-align: center; padding: 0 15px;">
-        <h1 style="margin: 0; font-size: 18pt; font-weight: 700; color: #0f172a;">{{ $company->name ?? config('app.name') }}</h1>
-        <p style="margin: 2px 0; font-size: 9pt; color: #475569;">{{ $company->address ?? 'Adresse non renseignée' }}</p>
-        <p style="margin: 2px 0; font-size: 9pt; color: #475569;">
-            Tél : {{ $company->phone ?? '+224 610050512/ 661515196/ 623523654' }} | Email : {{ $company->email ?? 'edaagtrading0@gmail.com' }}
+    <div class="company-info" style="display: table-cell; vertical-align: middle; text-align: center; padding: 0 15px;">
+        <h1>{{ $company->name ?? config('app.name') }}</h1>
+        <p>{{ $company->address ?? 'Adresse non renseignée' }}</p>
+        <p>
+            Tél : {{ $company->phone ?? '+224 626 311 915' }} | Email : {{ $company->email ?? 'saikououmar47@gmail.com' }}
             @if($company->rc ?? false)
                 | RC : {{ $company->rc }} | NIF : {{ $company->nif ?? 'GN.TCC.2022.A.03557' }}
             @endif
@@ -324,12 +295,12 @@
     </div>
 
     {{-- Métadonnées du rapport --}}
-    <div style="display: table-cell; width: 200px; vertical-align: middle; text-align: right; background: #f8fafc; padding: 8px 12px; border-radius: 6px; border-left: 4px solid #2563eb; font-size: 9pt;">
-        <p style="margin: 2px 0;"><strong>RAPPORT N°</strong> {{ 'RPT-' . now()->format('Ymd-His') }}</p>
-        <p style="margin: 2px 0;"><strong>Émis le</strong> {{ now()->format('d/m/Y à H:i') }}</p>
-        <p style="margin: 2px 0;"><strong>Par</strong> {{ auth()->user()->name ?? auth()->user()->email ?? 'Système' }}</p>
+    <div class="report-info" style="display: table-cell; width: 190px; vertical-align: middle; text-align: right;">
+        <p><strong>RAPPORT N°</strong> {{ 'RPT-' . now()->format('Ymd-His') }}</p>
+        <p><strong>Émis le</strong> {{ now()->format('d/m/Y à H:i') }}</p>
+        <p><strong>Par</strong> {{ auth()->user()->name ?? auth()->user()->email ?? 'Système' }}</p>
         @if($isAdmin)
-            <span style="background: #2563eb; color: white; padding: 2px 8px; border-radius: 12px; font-size: 8pt; font-weight: 600; display: inline-block; margin-top: 4px;">Administrateur</span>
+            <span class="admin-badge">Administrateur</span>
         @endif
     </div>
 </div>
@@ -487,7 +458,6 @@
             <div class="footer-thanks">Merci pour votre confiance et à bientôt!</div>
             <div class="footer-date">Rapport généré le {{ now()->format('d/m/Y H:i') }}</div>
         </div>
-            
-    </div>
+
 </body>
 </html>

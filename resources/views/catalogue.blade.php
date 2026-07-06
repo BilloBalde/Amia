@@ -523,6 +523,12 @@
             });
         }
 
+        // Lire le paramètre ?search= dans l'URL (recherche depuis le header)
+        const urlSearch = new URLSearchParams(window.location.search).get('search');
+        if (urlSearch) {
+            document.getElementById('search-input').value = urlSearch;
+        }
+
         // Init
         applyFilters();
     </script>

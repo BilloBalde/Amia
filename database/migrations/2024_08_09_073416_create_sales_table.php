@@ -20,9 +20,9 @@ return new class extends Migration
             $table->foreign('product_id')->references('id')->on('products')->onUpdate('cascade')->onDelete('restrict');
             $table->foreignId('store_id')->constrained('stores')->restrictOnDelete();
             $table->integer('quantity');
-            $table->float('prix', 20, 2);
-            $table->float('prixTotal', 20, 2);
-            $table->float('interet', 20, 2);
+            $table->double('prix', 20, 2);
+            $table->double('prixTotal', 20, 2);
+            $table->double('interet', 20, 2);
             $table->timestamps();
         });
     }

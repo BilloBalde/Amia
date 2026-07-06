@@ -24,10 +24,11 @@ return new class extends Migration
             $table->decimal('montant_total', 15,2)->nullable();
             $table->decimal("avance", 15,2);
             $table->decimal("reste", 15,2)->nullable();
-            $table->enum('statut', ['non payé', 'payé'])->default('non payé');
+            $table->enum('statut', ['non payé', 'partiel', 'payé'])->default('non payé');
             $table->enum('livraison', ['non livré', 'livré'])->default('non livré');
             $table->text("notes")->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

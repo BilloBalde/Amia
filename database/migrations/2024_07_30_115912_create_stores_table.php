@@ -19,9 +19,12 @@ return new class extends Migration
             $table->foreignId('place_id')->constrained('places')->restrictOnDelete();
             $table->foreignId('user_id')->constrained('users')->restrictOnDelete();
             $table->string('store_picture');
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(1);
             $table->text('description');
             $table->timestamps();
+            $table->string('address', 255)->nullable();
+            $table->string('phone', 255)->nullable();
+            $table->decimal('balance', 10, 2)->nullable()->default(0);
         });
     }
 

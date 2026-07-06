@@ -1,27 +1,28 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
     /**
-     * Run the migrations.
-     *
-     * @return void
+     * Superseded: invoice_number is now created directly by
+     * 2026_04_18_165500_create_orders_table (orders had no migration at
+     * all before, so its full live schema — including invoice_number —
+     * is now defined there). Kept as a guarded no-op to preserve migration
+     * history.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->string('invoice_number')->nullable()->after('transaction_id');
-        });
+        if (!Schema::hasTable('orders')) {
+            return;
+        }
     }
 
-    public function down()
+    public function down(): void
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->dropColumn('invoice_number');
-        });
+        if (!Schema::hasTable('orders')) {
+            return;
+        }
     }
 };
