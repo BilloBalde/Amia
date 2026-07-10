@@ -40,18 +40,17 @@ class IndexController extends Controller
             $total_sales = Sale::where('store_id', $store_id)
                 ->whereDate('created_at', Carbon::today())
                 ->sum('prixTotal');
-            $total_sales_paid = Facture::where('store_id', $store_id)
-                                ->withSum('paiements as total_versement', 'versement')
-                                ->get()
-                                ->sum('total_versement');
+            $total_sales_paid = Payment::whereHas('facture', function ($q) use ($store_id) {
+                $q->where('store_id', $store_id);
+            })->sum('versement');
             $solde_orange_money = Payment::whereHas('facture', function ($q) use ($store_id) {
                 $q->where('store_id', $store_id);
             })->where('paid_by', 'orange money')->sum('versement');
             $solde_cash = Payment::whereHas('facture', function ($q) use ($store_id) {
                 $q->where('store_id', $store_id);
             })->where('paid_by', 'cash')->sum('versement');
-            $total_expenses = Expense::all()->sum('amount');
-            $total_customers = Customer::all()->count();
+            $total_expenses = Expense::sum('amount');
+            $total_customers = Customer::count();
             $total_quantities = StoreProduct::where('store_id', $store_id)->sum('quantity');
             $total_purchase_invoices = Achat::where('store_id', $store_id)->count();
             $total_sales_invoices = Facture::where('store_id', $store_id)->count();
@@ -94,14 +93,14 @@ class IndexController extends Controller
                                 ->value('total');
             $total_sales = Sale::whereDate('created_at', Carbon::today())
                 ->sum('prixTotal');
-            $total_sales_paid = Payment::all()->sum('versement');
+            $total_sales_paid = Payment::sum('versement');
             $solde_orange_money = Payment::where('paid_by', 'orange money')->sum('versement');
             $solde_cash = Payment::where('paid_by', 'cash')->sum('versement');
-            $total_expenses = Expense::all()->sum('amount');
-            $total_customers = Customer::all()->count();
-            $total_quantities = StoreProduct::all()->sum('quantity');
-            $total_purchase_invoices = Achat::all()->count();
-            $total_sales_invoices = Facture::all()->count();
+            $total_expenses = Expense::sum('amount');
+            $total_customers = Customer::count();
+            $total_quantities = StoreProduct::sum('quantity');
+            $total_purchase_invoices = Achat::count();
+            $total_sales_invoices = Facture::count();
             $latestPurchases = Achat::select('achats.*')
             ->join(DB::raw('(SELECT MAX(id) as id FROM achats) as latest_purchases'), 'achats.id', '=', 'latest_purchases.id')
             ->orderBy('achats.created_at', 'desc')
@@ -122,7 +121,7 @@ class IndexController extends Controller
                 ->groupBy('month')
                 ->pluck('total', 'month')
                 ->toArray();
-            $gains = Sale::all()->sum('interet');
+            $gains = Sale::sum('interet');
             $total_gains_all = $gains;
             // Get data for each month
             $months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];

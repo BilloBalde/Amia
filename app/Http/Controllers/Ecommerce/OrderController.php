@@ -8,11 +8,14 @@ use App\Services\OrderService;
 use App\Services\PaymentService;
 use App\Services\Payment\OrangeMoneyService;
 use App\Notifications\OrderPlacedNotification;
+use App\Notifications\NewOrderForAdminNotification;
 use App\Models\Product;
+use App\Models\User;
 use App\Support\PricingTiers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
 
 class OrderController extends Controller
 {
@@ -67,6 +70,10 @@ class OrderController extends Controller
 
         // Notification de commande passée
         Auth::user()->notify(new OrderPlacedNotification($order));
+
+        // Alerter les administrateurs/managers qu'une commande attend validation
+        $admins = User::whereIn('role_id', [User::ROLE_ADMIN, User::ROLE_MANAGER])->get();
+        Notification::send($admins, new NewOrderForAdminNotification($order));
 
         // Vider le panier ou la session buy_now selon le cas
         $request->boolean('is_buy_now')

@@ -115,6 +115,39 @@ class VisitController extends Controller
             ];
         })->values();
 
+        // Meilleures ventes réelles (somme des quantités vendues, table sales)
+        $bestSellerIds = \App\Models\Sale::select('product_id')
+            ->selectRaw('SUM(quantity) as qty_sold')
+            ->groupBy('product_id')
+            ->orderByDesc('qty_sold')
+            ->limit(10)
+            ->pluck('product_id');
+
+        $bestSellers = Product::with('categories')
+            ->whereIn('id', $bestSellerIds)
+            ->get()
+            ->sortBy(fn ($p) => $bestSellerIds->search($p->id))
+            ->map($mapProduct)
+            ->values();
+
+        // Tendances : meilleures ventes des 30 derniers jours, fallback nouveautés
+        $trendingIds = \App\Models\Sale::select('product_id')
+            ->selectRaw('SUM(quantity) as qty_sold')
+            ->where('created_at', '>=', now()->subDays(30))
+            ->groupBy('product_id')
+            ->orderByDesc('qty_sold')
+            ->limit(10)
+            ->pluck('product_id');
+
+        $trending = $trendingIds->isNotEmpty()
+            ? Product::with('categories')
+                ->whereIn('id', $trendingIds)
+                ->get()
+                ->sortBy(fn ($p) => $trendingIds->search($p->id))
+                ->map($mapProduct)
+                ->values()
+            : Product::with('categories')->latest()->limit(10)->get()->map($mapProduct)->values();
+
         return [
             'categories'      => $categories,
             'totalCategories' => $totalCategories,
@@ -123,6 +156,9 @@ class VisitController extends Controller
             'allProducts'  => Product::with('categories')->latest()->get()->map($mapProduct)->values(),
             'bestProducts' => Product::with('categories')->orderByDesc('rating')->get()->map($mapProduct)->values(),
             'promoProducts'=> Product::with('categories')->whereNotNull('promo_price')->get()->map($mapPromo)->values(),
+            'bestSellers'  => $bestSellers,
+            'topRated'     => Product::with('categories')->orderByDesc('rating')->limit(10)->get()->map($mapProduct)->values(),
+            'trending'     => $trending,
         ];
     }
 

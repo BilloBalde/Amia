@@ -70,7 +70,30 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        return view('users.edit', compact('user'));
+
+        $granter   = Auth::user();
+        $isAdmin   = $granter && (int) $granter->role_id === User::ROLE_ADMIN;
+        $grantable = $isAdmin ? null : $granter?->effectivePermissionIds() ?? collect();
+
+        $permissions = \App\Models\Permission::orderBy('module')->orderBy('id')->get();
+        if (! $isAdmin) {
+            $permissions = $permissions->whereIn('id', $grantable->all());
+        }
+        $permissionModules = $permissions->groupBy('module');
+
+        $roles = \App\Models\Role::whereNotIn('slug', ['admin', 'customer'])->get();
+        $rolePresets = $roles->mapWithKeys(
+            fn ($role) => [$role->id => $role->permissions()->pluck('permissions.id')->all()]
+        );
+        if (! $isAdmin) {
+            $roles = $roles->filter(
+                fn ($role) => collect($rolePresets[$role->id])->diff($grantable)->isEmpty()
+            )->values();
+        }
+
+        $userPermissions = $user->permissions()->pluck('permissions.id')->all();
+
+        return view('users.edit', compact('user', 'roles', 'permissionModules', 'rolePresets', 'userPermissions'));
     }
 
     /**

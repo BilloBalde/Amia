@@ -24,7 +24,13 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
     {{-- Thème "Atelier chaleureux" — typo serif sur les titres --}}
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&display=swap" rel="stylesheet">
+    {{-- Chargée en asynchrone : une police Google lente/inaccessible ne doit jamais
+         bloquer l'exécution des scripts de la page (une feuille de style <link>
+         classique bloque le JS tant qu'elle n'est pas chargée). --}}
+    <link rel="preload" as="style"
+          href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&display=swap"
+          onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&display=swap"></noscript>
     <style>
         h1, h2, h3 { font-family: 'Fraunces', serif; }
     </style>

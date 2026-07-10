@@ -51,6 +51,7 @@
 
                 <!-- Compte / panier -->
                 <div class="flex items-center gap-1">
+                    @include('partials.notification-bell')
                     @auth
                         @if(Auth::user()->isCustomer())
                             <a href="{{ route('orders.index') }}" class="w-9 h-9 flex items-center justify-center rounded-full text-gray-600 hover:bg-amber-50 hover:text-amber-600 transition" title="Mes commandes">

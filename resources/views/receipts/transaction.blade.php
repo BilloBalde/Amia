@@ -121,7 +121,7 @@
 
                             <div class="company-info">
                                 <h4>{{ $company?->name ?? 'SMH' }}</h4>
-                                <p>{{ $company?->address ?? 'Madina Gare Voiture Dabola Boutique N°35 Conakry/Rép. de Guinée' }}</p>
+                                <p>{{ $company?->address ?? 'Centre Faloulay, 1er étage B30, Madina route Niger / T6, en face de la station Star, Sonfonia' }}</p>
                                 <p>Tél: {{ $company?->phone ?? '+224 626 311 915' }} | Email: {{ $company?->email ?? 'saikououmar47@gmail.com' }}</p>
                                 <p>Merci pour votre confiance et à bientôt !</p>
                                 <p>Reçu généré le {{ \Carbon\Carbon::now()->format('d/m/Y H:i') }}</p>

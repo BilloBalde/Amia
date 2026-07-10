@@ -11,19 +11,21 @@ class Sale extends Model
     protected $guarded = ['id'];
 
     public function getProduitAttribute(){
-
-        $c = Product::find($this->product_id);
-        return $c->libelle;
+        return $this->product?->libelle;
     }
 
     public function getProduitImageAttribute(){
-        $p = Product::find($this->product_id);
-        return $p->image;
+        return $this->product?->image;
     }
 
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function facture()
+    {
+        return $this->belongsTo(Facture::class, 'numeroFacture', 'numero_facture');
     }
     
     public function store(){

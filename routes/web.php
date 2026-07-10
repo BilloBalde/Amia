@@ -83,13 +83,14 @@ Route::get('/login-redirect', function () {
 
 // Authentification standard (Polimax)
 Route::get('/login', [Authentification::class, 'login'])->name('login');
-Route::get('/register', [Authentification::class, 'register'])->name('addUser');
-Route::put('/updateUser/{id}', [Authentification::class, 'update'])->name('updateUser');
-Route::get('/edit/{user}', [Authentification::class, 'edit'])->name('editUser');
-Route::delete('/deleteUser/{id}', [Authentification::class, 'destroy'])->name('deleteUser');
+Route::get('/register', [Authentification::class, 'register'])->middleware(['auth', 'permission:users.create'])->name('addUser');
+Route::put('/updateUser/{id}', [Authentification::class, 'update'])->middleware(['auth', 'permission:users.edit'])->name('updateUser');
+Route::get('/edit/{user}', [Authentification::class, 'edit'])->middleware(['auth', 'permission:users.edit'])->name('editUser');
+// Pointé vers UserController@destroy : Authentification n'a jamais eu de méthode destroy (500 garanti avant)
+Route::delete('/deleteUser/{id}', [UserController::class, 'destroy'])->middleware(['auth', 'permission:users.delete'])->name('deleteUser');
 Route::get('/forgotPass', [Authentification::class, 'forgotPass'])->name('forgotPass');
 Route::get('/registration/verification/{token}/{email}', [Authentification::class, 'registration_verify'])->name('verification');
-Route::post('/register', [Authentification::class, 'create'])->name('enregistrer');
+Route::post('/register', [Authentification::class, 'create'])->middleware(['auth', 'permission:users.create'])->name('enregistrer');
 Route::post('/login_submit', [Authentification::class, 'login_submit'])->middleware('throttle:10,1')->name('login_submit');
 Route::post('/passwordRecovery', [Authentification::class, 'passwordRecovery'])->middleware('throttle:5,1')->name('passwordRecovery');
 Route::post('/sendEmail', [Authentification::class, 'sendEmail'])->name('sendEmail');
@@ -200,6 +201,17 @@ Route::post('/payment/webhook', [OrangeMoneyController::class, 'webhook'])
     ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
 
 // =============================================
+// NOTIFICATIONS IN-APP (staff + clients)
+// =============================================
+
+Route::middleware('auth')->group(function () {
+    Route::get('/notifications', [\App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
+    Route::get('/notifications/feed', [\App\Http\Controllers\NotificationController::class, 'feed'])->name('notifications.feed');
+    Route::post('/notifications/{id}/read', [\App\Http\Controllers\NotificationController::class, 'markRead'])->name('notifications.read');
+    Route::post('/notifications/read-all', [\App\Http\Controllers\NotificationController::class, 'markAllRead'])->name('notifications.readAll');
+});
+
+// =============================================
 // 6. ROUTES ADMIN - GESTION E-COMMERCE (FBK Printing)
 // =============================================
 
@@ -208,11 +220,26 @@ Route::middleware(['auth', 'superuser'])->prefix('admin')->group(function () {
     Route::get('/orders/confirmed', [OrderManagementController::class, 'confirmed'])->name('admin.orders.confirmed');
     Route::get('/orders/factures', [OrderManagementController::class, 'factures'])->name('admin.orders.factures');
     Route::get('/orders/{order}', [OrderManagementController::class, 'show'])->name('admin.orders.show');
-    Route::post('/orders/{order}/approve', [OrderManagementController::class, 'approve'])->name('admin.orders.approve');
-    Route::post('/orders/{order}/reject', [OrderManagementController::class, 'reject'])->name('admin.orders.reject');
+    Route::post('/orders/{order}/approve', [OrderManagementController::class, 'approve'])->middleware('permission:orders.validate')->name('admin.orders.approve');
+    Route::post('/orders/{order}/reject', [OrderManagementController::class, 'reject'])->middleware('permission:orders.validate')->name('admin.orders.reject');
     Route::get('/orders/{order}/stock-check', [OrderManagementController::class, 'stockCheck'])->name('admin.orders.stock.check');
     Route::get('/orders/facture/{facture}/items', [OrderManagementController::class, 'getFactureItems'])->name('admin.orders.facture.items');
-    Route::post('/orders/facture/{facture}/deliver', [OrderManagementController::class, 'partialDeliver'])->name('admin.orders.facture.deliver');
+    Route::post('/orders/facture/{facture}/deliver', [OrderManagementController::class, 'partialDeliver'])->middleware('permission:orders.deliver')->name('admin.orders.facture.deliver');
+
+    // Rappels de dettes (digest hebdomadaire + envoi WhatsApp manuel)
+    Route::get('/debt-reminders', [\App\Http\Controllers\Admin\DebtReminderController::class, 'index'])->name('admin.debt-reminders.index');
+    Route::post('/debt-reminders/{customerId}/resolve', [\App\Http\Controllers\Admin\DebtReminderController::class, 'resolve'])->name('admin.debt-reminders.resolve');
+});
+
+// =============================================
+// MODULE DETTES (jamais branché auparavant)
+// =============================================
+
+Route::middleware(['auth', 'superuser'])->group(function () {
+    Route::get('/dettes', [\App\Http\Controllers\DetteController::class, 'index'])->name('dettes.index');
+    Route::get('/dettes/create', [\App\Http\Controllers\DetteController::class, 'create'])->name('dettes.create');
+    Route::post('/dettes', [\App\Http\Controllers\DetteController::class, 'store'])->name('dettes.store');
+    Route::post('/dettes/{dette}/pay', [\App\Http\Controllers\DetteController::class, 'pay'])->name('dettes.pay');
 });
 
 // =============================================

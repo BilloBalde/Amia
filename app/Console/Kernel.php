@@ -15,7 +15,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        // Rappel hebdomadaire des dettes impayées — samedi 18h (Conakry).
+        // Nécessite un cron `php artisan schedule:run` (prod) ou `php artisan schedule:work` (local).
+        $schedule->command('debt:send-reminders')
+            ->weeklyOn(6, '18:00')
+            ->timezone('Africa/Conakry');
     }
 
     /**

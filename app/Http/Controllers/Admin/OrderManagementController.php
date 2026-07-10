@@ -10,6 +10,7 @@ use App\Models\OrderItem;
 use App\Models\Payment;
 use App\Models\Purchase;
 use App\Models\Sale;
+use App\Notifications\OrderStatusNotification;
 use App\Services\StockService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -58,7 +59,7 @@ class OrderManagementController extends Controller
     public function confirmed(Request $request)
     {
         $query = Order::with(['user', 'items.product', 'facture', 'sales'])
-            ->where('status', 'approved')
+            ->whereIn('status', ['approved', 'delivering', 'delivered'])
             ->latest();
 
         if ($request->filled('order_id')) {
@@ -90,6 +91,8 @@ class OrderManagementController extends Controller
         }
 
         $order->update(['status' => 'rejected']);
+
+        $order->user?->notify(new OrderStatusNotification($order, 'rejected'));
 
         if (request()->ajax()) {
             return response()->json(['success' => true]);
@@ -208,6 +211,8 @@ class OrderManagementController extends Controller
 
             DB::commit();
 
+            $order->user?->notify(new OrderStatusNotification($order, 'approved'));
+
             if ($request->ajax() || $request->wantsJson()) {
                 return response()->json(['success' => true]);
             }
@@ -285,8 +290,19 @@ class OrderManagementController extends Controller
 
             if ($totalOrdered > 0 && $totalDelivered >= $totalOrdered) {
                 $facture->update(['livraison' => 'livré']);
+
+                if ($order->status !== 'delivered') {
+                    $order->update(['status' => 'delivered']);
+                    $order->user?->notify(new OrderStatusNotification($order, 'delivered'));
+                }
             } elseif ($totalDelivered > 0) {
                 $facture->update(['livraison' => 'partiellement livré']);
+
+                // Notifier "en cours de livraison" une seule fois (le statut sert de garde)
+                if (! in_array($order->status, ['delivering', 'delivered'])) {
+                    $order->update(['status' => 'delivering']);
+                    $order->user?->notify(new OrderStatusNotification($order, 'delivering'));
+                }
             } else {
                 $facture->update(['livraison' => 'non livré']);
             }

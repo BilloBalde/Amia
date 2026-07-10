@@ -120,8 +120,8 @@
                                             <td>{{ $data->store?->store_name ?? 'N/A' }}</td>
                                             <td>{{ $data->quantity }}</td>
                                             <td>{{ $data->montant_total }}</td>
-                                            <td>{{ $data->sales()->sum('interet') }}</td>
-                                            <td>{{ $data->paiements()->latest()->first()?->total_paye }}</td>
+                                            <td>{{ $data->interet_total ?? 0 }}</td>
+                                            <td>{{ $data->paiements->first()?->total_paye }}</td>
                                             <td>{{ $data->reste }}</td>
                                             <td>
                                                 <span class="badge
@@ -194,6 +194,9 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+                                <div class="mt-3 d-flex justify-content-center">
+                                    {{ $dataTable->links() }}
+                                </div>
                             </div>
                         </div>
                     </div>

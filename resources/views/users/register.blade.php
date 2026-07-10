@@ -32,7 +32,7 @@
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
-                    <input type="hidden" name="role_id" value="3">
+                    @include('users.partials.permission-picker')
                     <div class="col-lg-4 col-sm-6 col-12">
                         <div class="form-group">
                             <label>Mot de Passe</label>

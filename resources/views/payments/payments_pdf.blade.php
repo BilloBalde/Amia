@@ -223,7 +223,8 @@
         <div class="company-info">
             <div class="company-name">SMH</div>
             <div class="company-details">
-                Centre Faloulay 1er étage B30 Madina route Niger, Conakry | Tél: +224 626 311 915 | Email: saikououmar47@gmail.com
+                Centre Faloulay, 1er étage B30, Madina route Niger — T6, en face de la station Star, Sonfonia<br>
+                Tél: +224 626 311 915 | Email: saikououmar47@gmail.com
             </div>
         </div>
 

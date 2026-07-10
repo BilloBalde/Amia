@@ -203,9 +203,38 @@
         @include('layouts.delete')
 
         <script>
+            // Filet de sécurité : s'assure que le loader plein écran disparaît
+            // même si le script global (script.js) échoue à s'exécuter.
+            document.addEventListener('DOMContentLoaded', function () {
+                var loader = document.getElementById('global-loader');
+                if (loader) loader.style.display = 'none';
+            });
+
+            /**
+             * fetch() natif n'a pas de timeout par défaut : si le serveur ne répond
+             * jamais, la promesse reste en attente indéfiniment. On force une limite
+             * via AbortController pour ne jamais bloquer l'interface silencieusement.
+             */
+            function fetchWithTimeout(url, options = {}, timeoutMs = 15000) {
+                const controller = new AbortController();
+                const timer = setTimeout(() => controller.abort(), timeoutMs);
+                return fetch(url, { ...options, signal: controller.signal })
+                    .finally(() => clearTimeout(timer));
+            }
+
             function openDeliveryModal(factureId, invoiceNumber) {
+                // Retour visuel immédiat : sans ça, un clic sur "Livrer" ne montre
+                // strictement rien tant que la requête n'a pas répondu.
+                Swal.fire({
+                    title: 'Chargement…',
+                    html: 'Récupération des articles de la commande.',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    didOpen: () => Swal.showLoading(),
+                });
+
                 // Récupérer les articles de la commande (données depuis le serveur)
-                fetch(`/admin/orders/facture/${factureId}/items`)
+                fetchWithTimeout(`/admin/orders/facture/${factureId}/items`, {}, 15000)
                     .then(response => response.json())
                     .then(items => {
                         let itemsHTML = `
@@ -276,15 +305,22 @@
                             if (result.isConfirmed) {
                                 // Envoyer les données de livraison
                                 const formData = new FormData(document.getElementById('partial-delivery-form'));
-                                
-                                fetch(`/admin/orders/facture/${factureId}/deliver`, {
+
+                                Swal.fire({
+                                    title: 'Enregistrement…',
+                                    allowOutsideClick: false,
+                                    allowEscapeKey: false,
+                                    didOpen: () => Swal.showLoading(),
+                                });
+
+                                fetchWithTimeout(`/admin/orders/facture/${factureId}/deliver`, {
                                     method: 'POST',
                                     headers: {
                                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
                                         'Accept': 'application/json',
                                     },
                                     body: formData
-                                })
+                                }, 30000)
                                 .then(response => response.json())
                                 .then(data => {
                                     if (data.success) {
@@ -301,14 +337,20 @@
                                     }
                                 })
                                 .catch(error => {
-                                    Swal.fire('Erreur', 'Une erreur est survenue', 'error');
+                                    var msg = error.name === 'AbortError'
+                                        ? 'Le serveur met trop de temps à répondre. Vérifiez si la livraison a été enregistrée avant de réessayer.'
+                                        : 'Une erreur est survenue.';
+                                    Swal.fire('Erreur', msg, 'error');
                                     console.error(error);
                                 });
                             }
                         });
                     })
                     .catch(error => {
-                        Swal.fire('Erreur', 'Impossible de charger les articles', 'error');
+                        var msg = error.name === 'AbortError'
+                            ? 'Le serveur met trop de temps à répondre. Réessayez.'
+                            : 'Impossible de charger les articles';
+                        Swal.fire('Erreur', msg, 'error');
                         console.error(error);
                     });
             }

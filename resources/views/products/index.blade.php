@@ -115,7 +115,8 @@
                                                 // Calculate the quantity for the connected user's store or total quantity
                                                 if ($userStoreId) {
                                                     // For users with role_id 3, we get the quantity from the specific store
-                                                    $store = $dataItem->stores()->where('store_id', $userStoreId)->first();
+                                                    // (collection déjà chargée — pas de requête par ligne)
+                                                    $store = $dataItem->stores->firstWhere('id', $userStoreId);
                                                     $quantity = $store ? $store->pivot->quantity : 0; // Access pivot quantity
                                                 } else {
                                                     // For other roles, we sum the quantity across all stores

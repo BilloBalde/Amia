@@ -35,7 +35,7 @@ class Facture extends Model
      */
     public function getCustomerNameAttribute()
     {
-        $client = Customer::find($this->customer_id);
+        $client = $this->customer;
         if ($client) {
             return $client->customerName . '-' . $client->mark;
         }

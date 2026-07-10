@@ -13,7 +13,11 @@ class Dette extends Model
     public function customer(){
         return $this->belongsTo(Customer::class);
     }
-    
+
+    public function store(){
+        return $this->belongsTo(Store::class);
+    }
+
     public function paymentDettes(){
         return $this->hasMany(PaymentDette::class);
     }

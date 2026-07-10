@@ -22,7 +22,12 @@
     };
 </script>
 
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+{{-- Chargée en asynchrone : une police lente/injoignable ne doit jamais bloquer
+     l'exécution des scripts de la page. --}}
+<link rel="preload" as="style"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+      onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"></noscript>
 
 <style>
     h1, h2, h3 { font-family: 'Fraunces', serif; }

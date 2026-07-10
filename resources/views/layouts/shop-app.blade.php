@@ -8,7 +8,13 @@
     <title>@yield('title', 'Espace client') — SMH</title>
     <script src="https://cdn.tailwindcss.com"></script>
     @include('partials.theme-head')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    {{-- Chargée en asynchrone : un CDN externe lent/injoignable ne doit jamais
+         bloquer l'exécution des scripts de la page (une feuille de style <link>
+         classique bloque le JS tant qu'elle n'est pas chargée). --}}
+    <link rel="preload" as="style"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 </head>
 <body class="bg-gray-50 min-h-screen">
     @include('shop.partials.nav')

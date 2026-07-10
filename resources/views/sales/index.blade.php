@@ -148,7 +148,7 @@
                                             <td>{{ $data->user?->username ?? $data->user?->name ?? '-' }}</td>
                                             <td>{{ $data->created_at }}</td>
                                             <td class="text-end">
-                                            @if (App\Models\Facture::where('numero_facture', $data->numeroFacture)->first()?->statut == 'non payé')
+                                            @if ($data->facture?->statut == 'non payé')
                                                 <a class="me-3" href="{{ route('sales.edit', $data->id) }}">
                                                     <img src="assets/img/icons/edit.svg" alt="img">
                                                 </a>
@@ -160,6 +160,9 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+                                <div class="mt-3 d-flex justify-content-center">
+                                    {{ $dataTable->links() }}
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -134,9 +134,8 @@
                                         <tr>
                                             <td>
                                                 @php
-                                                $product = App\Models\Product::with('categories')->find($data->product->id);
                                                 $categoryList = [];
-                                                foreach ($product->categories as $category){
+                                                foreach ($data->product->categories as $category){
                                                     $categoryList[] = $category->slug . ' (' . $category->category_type . ')';
                                                 }
                                                 $categoryListString = implode(', ', $categoryList);
@@ -193,6 +192,9 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+                                <div class="mt-3 d-flex justify-content-center">
+                                    {{ $dataTable->links() }}
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -232,15 +232,19 @@ $(document).on('click', '.btn-reject', function() {
             $.ajax({
                 url: url,
                 method: 'POST',
+                timeout: 20000, // évite un blocage indéfini si le serveur ne répond pas
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function() {
                     window.location.reload();
                 },
-                error: function(xhr) {
+                error: function(xhr, status) {
                     console.log(xhr.responseText);
-                    Swal.fire('Erreur', 'Impossible de rejeter la commande', 'error');
+                    var msg = status === 'timeout'
+                        ? 'Le serveur met trop de temps à répondre. Réessayez.'
+                        : 'Impossible de rejeter la commande';
+                    Swal.fire('Erreur', msg, 'error');
                 }
             });
         }
@@ -291,6 +295,7 @@ $(document).on('click', '.btn-reject', function() {
 
                 $.ajax({
                     url: currentCheckUrl + '?store_id=' + storeId,
+                    timeout: 15000,
                     headers: { 'X-Requested-With': 'XMLHttpRequest' },
                     success: function (data) {
                         $('#stockCheckLoading').hide();
@@ -341,19 +346,36 @@ $(document).on('click', '.btn-reject', function() {
                 $.ajax({
                     url:    currentApproveUrl,
                     method: 'POST',
+                    timeout: 30000, // évite un blocage indéfini de la modale si le serveur traîne
                     data:   { _token: csrfToken, store_id: $('#storeSelect').val() },
                     success: function () {
                         window.location.reload();
                     },
-                    error: function (xhr) {
+                    error: function (xhr, status) {
                         $('#confirmApproveBtn').prop('disabled', false)
                             .html('<i class="fas fa-check mr-1"></i> Confirmer l\'approbation');
-                        var msg = xhr.responseJSON && xhr.responseJSON.message
-                            ? xhr.responseJSON.message
-                            : 'Une erreur est survenue. Veuillez réessayer.';
+                        var msg = status === 'timeout'
+                            ? 'Le serveur met trop de temps à répondre. Vérifiez si la commande a été traitée avant de réessayer.'
+                            : (xhr.responseJSON && xhr.responseJSON.message
+                                ? xhr.responseJSON.message
+                                : 'Une erreur est survenue. Veuillez réessayer.');
                         showToast(msg, 'error');
                     }
                 });
+            });
+
+            // Échappatoire : si la modale reste ouverte plus de 45s (requête bloquée
+            // côté serveur sans jamais répondre, même sans timeout jQuery atteint),
+            // on force sa fermeture pour ne pas immobiliser toute la page.
+            $('#approveModal').on('shown.bs.modal', function () {
+                clearTimeout(window.__approveModalSafety);
+                window.__approveModalSafety = setTimeout(function () {
+                    $('#approveModal').modal('hide');
+                    showToast('La fenêtre a été fermée automatiquement (délai dépassé). Vérifiez la commande avant de réessayer.', 'warning');
+                }, 45000);
+            });
+            $('#approveModal').on('hidden.bs.modal', function () {
+                clearTimeout(window.__approveModalSafety);
             });
         });
         $(window).on('load', function () {

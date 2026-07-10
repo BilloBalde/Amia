@@ -18,6 +18,9 @@
         </span>
     </a>
     <ul class="nav user-menu">
+        <li class="nav-item" style="display:flex;align-items:center;">
+            @include('partials.notification-bell')
+        </li>
         <li class="nav-item has-arrow flag-nav">
             <a class="nav-link" href="{{ route('pos') }}" style="background-color: #c1682f; color: #fff;">
                 <img src="{{ asset('assets/img/icons/sales1.svg') }}" alt="" height="20">POS

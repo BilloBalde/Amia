@@ -46,7 +46,11 @@ class StoreProductController extends Controller
             $query->where('created_at', $request->input('created_at'));
         }
 
-        $dataTable = $query->get();
+        // Eager loading + pagination serveur (évite ~1100 requêtes N+1)
+        $dataTable = $query->with(['product.categories', 'fromStore', 'toStore'])
+            ->latest()
+            ->paginate(50)
+            ->appends($request->query());
 
         // Pass the necessary data to the view, including options for filters
         return view('transfers.index', compact('dataTable', 'produits', 'boutiques'));

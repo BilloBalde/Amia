@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Company;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 
@@ -47,5 +48,10 @@ class AppServiceProvider extends ServiceProvider
         Sale::observe(StockObserver::class);
         Expense::observe(StockObserver::class);
         Achat::observe(StockObserver::class);
+
+        // Directive @permission('sales.view') ... @endpermission
+        Blade::if('permission', function (string $slug) {
+            return auth()->check() && auth()->user()->hasPermission($slug);
+        });
     }
 }

@@ -318,11 +318,11 @@
             </div>
             <h1 class="left-title">
                 Gérez votre<br>
-                activité <em>d'impression</em><br>
+                activité <em>d'ameublement</em><br>
                 en toute simplicité
             </h1>
             <p class="left-desc">
-                Pilotez vos stocks, ventes, productions et commandes de matériaux d'imprimantes depuis un seul espace sécurisé.
+                Pilotez vos stocks, ventes, livraisons et commandes de meubles depuis un seul espace sécurisé.
             </p>
             <div class="left-stats">
                 <div class="stat-box">
@@ -355,6 +355,12 @@
             </div>
 
             {{-- Messages flash --}}
+            @if(session('fall'))
+                <div class="alert-error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    {{ session('fall') }}
+                </div>
+            @endif
             @if(session('error'))
                 <div class="alert-error">
                     <i class="fas fa-exclamation-circle"></i>

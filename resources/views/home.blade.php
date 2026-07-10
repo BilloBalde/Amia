@@ -43,7 +43,7 @@
 
         /* ── Hero ── */
         .hero-section {
-            background: linear-gradient(135deg, #2b1d14 0%, #4a2f1a 35%, #7a3f1f 65%, #c1682f 100%);
+            background: linear-gradient(135deg, #061633 0%, #0c2c58 35%, #123f74 65%, #1e5fa8 100%);
             min-height: 620px;
             position: relative;
             overflow: hidden;
@@ -52,16 +52,18 @@
             content: '';
             position: absolute; top: -80px; right: -80px;
             width: 520px; height: 520px;
-            background: radial-gradient(circle, rgba(193,104,47,0.18) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255,138,26,0.20) 0%, transparent 70%);
             border-radius: 50%;
         }
         .hero-section::after {
             content: '';
             position: absolute; bottom: -100px; left: -100px;
             width: 450px; height: 450px;
-            background: radial-gradient(circle, rgba(168,83,42,0.15) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255,255,255,0.10) 0%, transparent 70%);
             border-radius: 50%;
         }
+        .hero-wave { position: absolute; bottom: -1px; left: 0; width: 100%; line-height: 0; z-index: 5; }
+        .hero-wave svg { display: block; width: 100%; height: 56px; }
         .hero-content { position: relative; z-index: 10; }
 
         /* ── Hero Carousel ── */
@@ -459,14 +461,14 @@
 
                     {{-- Badge --}}
                     <div class="hero-badge mb-5 w-fit">
-                        <span class="w-2 h-2 rounded-full bg-amber-400 inline-block animate-pulse"></span>
+                        <span class="w-2 h-2 rounded-full bg-orange-400 inline-block animate-pulse"></span>
                         Meubles & décoration · Guinée
                     </div>
 
                     {{-- Titre --}}
                     <h1 class="text-5xl md:text-6xl font-extrabold text-white mb-5 leading-tight tracking-tight">
                         Des meubles qui<br>
-                        <span style="background:linear-gradient(90deg,#d9a26c,#f0dcc0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">
+                        <span style="background:linear-gradient(90deg,#ff9a4d,#ffe6cf);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">
                             transforment votre intérieur
                         </span>
                     </h1>
@@ -478,8 +480,8 @@
 
                     {{-- Boutons --}}
                     <div class="flex flex-wrap gap-3 mb-10">
-                        <a href="#produits" class="px-7 py-3 rounded-full font-semibold text-amber-900 transition duration-300 hover:shadow-xl hover:scale-105 inline-flex items-center gap-2"
-                           style="background:linear-gradient(90deg,#d9a26c,#f0dcc0);">
+                        <a href="#produits" class="px-7 py-3 rounded-full font-semibold text-blue-900 transition duration-300 hover:shadow-xl hover:scale-105 inline-flex items-center gap-2"
+                           style="background:linear-gradient(90deg,#ff9a4d,#ffcf94);">
                             <i class="fas fa-sparkles text-sm"></i> Découvrir
                         </a>
                         <a href="{{ route('products.index') }}" class="px-7 py-3 rounded-full font-semibold text-white border border-white/30 hover:bg-white/10 transition duration-300 inline-flex items-center gap-2">
@@ -490,15 +492,15 @@
                     {{-- Stats --}}
                     <div class="flex gap-4 flex-wrap">
                         <div class="hero-stat">
-                            <div class="text-2xl font-bold text-amber-300">{{ $totalProducts }}+</div>
+                            <div class="text-2xl font-bold text-orange-300">{{ $totalProducts }}+</div>
                             <div class="text-xs text-white/70 mt-1">Produits</div>
                         </div>
                         <div class="hero-stat">
-                            <div class="text-2xl font-bold text-amber-300">{{ $totalCategories }}</div>
+                            <div class="text-2xl font-bold text-orange-300">{{ $totalCategories }}</div>
                             <div class="text-xs text-white/70 mt-1">Catégories</div>
                         </div>
                         <div class="hero-stat">
-                            <div class="text-2xl font-bold text-amber-300">Pro</div>
+                            <div class="text-2xl font-bold text-orange-300">Pro</div>
                             <div class="text-xs text-white/70 mt-1">Qualité</div>
                         </div>
                     </div>
@@ -523,7 +525,7 @@
                                          onerror="this.onerror=null;this.parentElement.style.background='linear-gradient(135deg,#c9986a,#c1682f)'">
                                 @else
                                     <div class="w-full h-full flex items-center justify-center"
-                                         style="background:linear-gradient(135deg,#c9986a,#c1682f);">
+                                         style="background:linear-gradient(135deg,#123f74,#1e5fa8);">
                                         <img src="{{ asset('images/customers/logo.jpg') }}" alt="SMH" class="w-32 h-32 object-contain opacity-80">
                                     </div>
                                 @endif
@@ -555,8 +557,8 @@
 
                         {{-- Floating cards --}}
                         <div class="floating-card card-top">
-                            <div class="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-tree text-amber-600 text-xs"></i>
+                            <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-tree text-blue-600 text-xs"></i>
                             </div>
                             <div>
                                 <div class="text-xs font-bold text-gray-800">Bois massif</div>
@@ -564,8 +566,8 @@
                             </div>
                         </div>
                         <div class="floating-card card-bot">
-                            <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-truck text-green-600 text-xs"></i>
+                            <div class="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-truck text-orange-600 text-xs"></i>
                             </div>
                             <div>
                                 <div class="text-xs font-bold text-gray-800">Livraison rapide</div>
@@ -576,6 +578,82 @@
                 </div>
 
             </div>
+        </div>
+
+        {{-- Transition douce vers la section suivante --}}
+        <div class="hero-wave" aria-hidden="true">
+            <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#ffffff" d="M0,32 C240,64 480,0 720,16 C960,32 1200,64 1440,32 L1440,60 L0,60 Z"></path>
+            </svg>
+        </div>
+    </section>
+
+    {{-- ══════════════════════════════════════════
+         CARROUSEL DES CATÉGORIES (défilement auto, boucle infinie)
+    ══════════════════════════════════════════ --}}
+    <section id="categories-carousel" class="py-14 bg-white">
+        <style>
+            .cat-carousel-track {
+                display: flex; gap: 18px; overflow-x: auto; scroll-behavior: auto;
+                -ms-overflow-style: none; scrollbar-width: none; padding: 6px 2px 14px;
+            }
+            .cat-carousel-track::-webkit-scrollbar { display: none; }
+            .cat-slide {
+                flex: 0 0 150px; text-align: center; text-decoration: none; cursor: pointer;
+                transition: transform .2s;
+            }
+            .cat-slide:hover { transform: translateY(-4px); }
+            .cat-slide-img {
+                width: 120px; height: 120px; margin: 0 auto 10px; border-radius: 50%;
+                overflow: hidden; border: 3px solid #f4ece1; background: #faf6ef;
+                display: flex; align-items: center; justify-content: center;
+                transition: border-color .2s, box-shadow .2s;
+            }
+            .cat-slide:hover .cat-slide-img { border-color: #c1682f; box-shadow: 0 8px 20px rgba(193,104,47,.18); }
+            .cat-slide-img img { width: 100%; height: 100%; object-fit: cover; }
+            .cat-slide-img .cat-slide-icon { font-size: 36px; color: #c1682f; }
+            .cat-slide-name {
+                font-size: 13px; font-weight: 700; color: #1f2937;
+                white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            }
+            .cat-slide-count { font-size: 11px; color: #9ca3af; }
+            .cat-progress { display: flex; justify-content: center; gap: 6px; margin-top: 10px; }
+            .cat-progress-dot {
+                width: 22px; height: 4px; border-radius: 999px; background: #f4ece1;
+                overflow: hidden; position: relative;
+            }
+            .cat-progress-dot.active::after {
+                content: ''; position: absolute; inset: 0; background: #c1682f; border-radius: 999px;
+            }
+        </style>
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-end justify-between mb-6">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Parcourez nos <span class="gradient-text">catégories</span></h2>
+                    <p class="text-gray-500 mt-2">Cliquez sur une catégorie pour filtrer le catalogue</p>
+                </div>
+                <a href="{{ route('public.categories') }}" class="hidden sm:inline-flex items-center gap-2 text-amber-600 font-semibold hover:text-amber-700 whitespace-nowrap">
+                    Tout voir <i class="fas fa-arrow-right text-sm"></i>
+                </a>
+            </div>
+
+            <div class="cat-carousel-track" id="cat-carousel-track">
+                @foreach($categories as $cat)
+                <a href="{{ route('products.index') }}?cat={{ urlencode($cat->name) }}" class="cat-slide" data-cat-slide>
+                    <div class="cat-slide-img">
+                        @if($cat->image_url)
+                            <img src="{{ $cat->image_url }}" alt="{{ $cat->name }}" loading="lazy"
+                                 onerror="this.outerHTML='<span class=&quot;cat-slide-icon&quot;><i class=&quot;fas fa-couch&quot;></i></span>'">
+                        @else
+                            <span class="cat-slide-icon"><i class="fas fa-couch"></i></span>
+                        @endif
+                    </div>
+                    <div class="cat-slide-name">{{ $cat->name }}</div>
+                    <div class="cat-slide-count">{{ $cat->products_count }} produit{{ $cat->products_count > 1 ? 's' : '' }}</div>
+                </a>
+                @endforeach
+            </div>
+            <div class="cat-progress" id="cat-progress"></div>
         </div>
     </section>
 
@@ -827,6 +905,9 @@
                             </select>
                         </div>
                         <div class="prod-grid" id="grid-best"></div>
+                        <div id="sentinel-best" style="display:none;text-align:center;padding:18px;color:#c1682f;">
+                            <i class="fas fa-spinner fa-spin"></i> Chargement…
+                        </div>
                     </div>
                 </div>
             </div>
@@ -896,11 +977,98 @@
                             </select>
                         </div>
                         <div class="prod-grid" id="grid-promo"></div>
+                        <div id="sentinel-promo" style="display:none;text-align:center;padding:18px;color:#c1682f;">
+                            <i class="fas fa-spinner fa-spin"></i> Chargement…
+                        </div>
                     </div>
                 </div>
             </div>
 
           
+        </div>
+    </section>
+
+    {{-- ══════════════════════════════════════════
+         SECTIONS : PLUS VENDUS / MIEUX NOTÉS / TENDANCES
+    ══════════════════════════════════════════ --}}
+    <style>
+        .prod-row {
+            display: flex; gap: 18px; overflow-x: auto; padding: 8px 2px 16px;
+            -ms-overflow-style: none; scrollbar-width: thin; scrollbar-color: #e4d3b8 transparent;
+        }
+        .prod-row .prod-card { flex: 0 0 262px; }
+        .section-row-head { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+        .section-row-head .row-icon {
+            width: 44px; height: 44px; border-radius: 12px; background: #f4ece1; color: #a8532a;
+            display: inline-flex; align-items: center; justify-content: center; font-size: 19px;
+        }
+        .section-row-head h2 { font-size: 26px; font-weight: 800; color: #1f2937; }
+        .section-row-head p { font-size: 13px; color: #9ca3af; }
+    </style>
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
+
+            <div>
+                <div class="section-row-head">
+                    <span class="row-icon"><i class="fas fa-fire"></i></span>
+                    <div>
+                        <h2>Les plus vendus</h2>
+                        <p>Classement basé sur nos ventes réelles</p>
+                    </div>
+                </div>
+                <div class="prod-row" id="row-best-sellers"></div>
+            </div>
+
+            <div>
+                <div class="section-row-head">
+                    <span class="row-icon"><i class="fas fa-star"></i></span>
+                    <div>
+                        <h2>Les mieux notés</h2>
+                        <p>Plébiscités par nos clients</p>
+                    </div>
+                </div>
+                <div class="prod-row" id="row-top-rated"></div>
+            </div>
+
+            <div>
+                <div class="section-row-head">
+                    <span class="row-icon"><i class="fas fa-chart-line"></i></span>
+                    <div>
+                        <h2>Tendances du moment</h2>
+                        <p>Les plus demandés ces 30 derniers jours</p>
+                    </div>
+                </div>
+                <div class="prod-row" id="row-trending"></div>
+            </div>
+
+        </div>
+    </section>
+
+    {{-- ══════════════════════════════════════════
+         MODES DE LIVRAISON
+    ══════════════════════════════════════════ --}}
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-3">Modes de <span class="gradient-text">livraison</span></h2>
+                <p class="text-gray-500 max-w-xl mx-auto">Choisissez la formule qui vous convient — nous livrons vos meubles partout en Guinée</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                @foreach([
+                    ['icon' => 'fa-truck',        'title' => 'Livraison à domicile', 'text' => 'Recevez vos meubles chez vous en 24 à 48h à Conakry, montés et prêts à l\'emploi.'],
+                    ['icon' => 'fa-store',        'title' => 'Retrait en magasin',   'text' => 'Commandez en ligne et récupérez gratuitement à Madina (Centre Faloulay) ou à T6 Sonfonia.'],
+                    ['icon' => 'fa-bolt',         'title' => 'Livraison express',    'text' => 'Besoin urgent ? Livraison le jour même à Conakry pour les commandes passées avant midi.'],
+                    ['icon' => 'fa-map',          'title' => 'Livraison en région',  'text' => 'Nous expédions dans toutes les régions de la Guinée via nos transporteurs partenaires.'],
+                ] as $mode)
+                <div class="bg-white rounded-2xl p-7 text-center border border-gray-100 shadow-sm hover:shadow-lg hover:border-amber-200 transition">
+                    <div class="w-14 h-14 mx-auto mb-4 rounded-full flex items-center justify-center" style="background:#f4ece1;color:#a8532a;font-size:22px;">
+                        <i class="fas {{ $mode['icon'] }}"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800 mb-2">{{ $mode['title'] }}</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">{{ $mode['text'] }}</p>
+                </div>
+                @endforeach
+            </div>
         </div>
     </section>
 
@@ -1177,6 +1345,9 @@
              discount (nullable, ex: 25), rating, image (nullable), is_best, is_promo --}}
         const bestProducts  = @json($bestProducts ?? []);
         const promoProducts = @json($promoProducts ?? []);
+        const BEST_SELLERS  = @json($bestSellers ?? []);
+        const TOP_RATED     = @json($topRated ?? []);
+        const TRENDING      = @json($trending ?? []);
 
         /* ── Rendu d'une carte produit ── */
         function renderCard(p) {
@@ -1189,7 +1360,7 @@
                 : '';
             
             const imgHTML = p.image
-                ? `<img src="${p.image}" alt="Image non trouvée: ${p.image}" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null; this.src='https://placehold.co/400x400?text=Introuvable'">`
+                ? `<img src="${p.image}" alt="Image non trouvée: ${p.image}" loading="lazy" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null; this.src='https://placehold.co/400x400?text=Introuvable'">`
                 : `<span class="no-img">🪑</span>`;
             const tierHTML = displayTiersFor(p.price).map(t => `
                 <div class="tier-cell">
@@ -1261,17 +1432,42 @@
             if (sort === 'rating')     data.sort((a,b) => b.rating - a.rating);
             if (sort === 'discount')   data.sort((a,b) => (b.discount??0) - (a.discount??0));
 
-            /* Affichage */
+            /* Affichage progressif (scroll infini par lots de 12) */
             const grid = document.getElementById(`grid-${tab}`);
+            gridState[tab] = { data, rendered: 0 };
             grid.innerHTML = data.length
-                ? data.map(renderCard).join('')
+                ? ''
                 : `<div class="empty-state col-span-full">
                        <i class="fas fa-box-open"></i>
                        Aucun produit trouvé avec ces filtres.
                    </div>`;
+            if (data.length) renderChunk(tab);
+            else document.getElementById(`sentinel-${tab}`).style.display = 'none';
             document.getElementById(`count-${tab}`).textContent =
                 `${data.length} produit${data.length !== 1 ? 's' : ''}`;
         }
+
+        /* ── Scroll infini : rendu par lots via IntersectionObserver ── */
+        const CHUNK_SIZE = 12;
+        const gridState = {};
+
+        function renderChunk(tab) {
+            const st = gridState[tab];
+            if (!st || st.rendered >= st.data.length) return;
+            const slice = st.data.slice(st.rendered, st.rendered + CHUNK_SIZE);
+            document.getElementById(`grid-${tab}`).insertAdjacentHTML('beforeend', slice.map(renderCard).join(''));
+            st.rendered += slice.length;
+            document.getElementById(`sentinel-${tab}`).style.display =
+                st.rendered < st.data.length ? '' : 'none';
+        }
+
+        ['best', 'promo'].forEach(tab => {
+            const sentinel = document.getElementById(`sentinel-${tab}`);
+            if (!sentinel || !('IntersectionObserver' in window)) return;
+            new IntersectionObserver(entries => {
+                if (entries[0].isIntersecting) renderChunk(tab);
+            }, { rootMargin: '300px' }).observe(sentinel);
+        });
 
         function resetFilters(tab) {
             document.querySelectorAll(`.cat-filter-${tab}`).forEach(el => el.checked = false);
@@ -1492,6 +1688,61 @@
             dots.forEach(d => d.addEventListener('click', () => { goTo(+d.dataset.dot); startAuto(); }));
 
             startAuto();
+        })();
+
+        /* ── Rangées : plus vendus / mieux notés / tendances ── */
+        (function () {
+            const rows = [
+                ['row-best-sellers', BEST_SELLERS],
+                ['row-top-rated',    TOP_RATED],
+                ['row-trending',     TRENDING],
+            ];
+            rows.forEach(([id, data]) => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.innerHTML = data.length
+                    ? data.map(renderCard).join('')
+                    : '<p style="color:#9ca3af;padding:12px;">Aucun produit à afficher pour le moment.</p>';
+            });
+        })();
+
+        /* ── Carrousel des catégories : boucle infinie + défilement auto ── */
+        (function () {
+            const track = document.getElementById('cat-carousel-track');
+            if (!track || track.children.length === 0) return;
+
+            // Dupliquer les items pour une boucle sans couture
+            const originalWidth = track.scrollWidth;
+            track.innerHTML += track.innerHTML;
+
+            // Indicateurs de progression (max 8 points)
+            const progress = document.getElementById('cat-progress');
+            const dotCount = Math.min(8, Math.max(2, Math.ceil(track.children.length / 4)));
+            for (let i = 0; i < dotCount; i++) {
+                const d = document.createElement('span');
+                d.className = 'cat-progress-dot' + (i === 0 ? ' active' : '');
+                progress.appendChild(d);
+            }
+            const dots = progress.children;
+
+            let paused = false;
+            track.addEventListener('mouseenter', () => paused = true);
+            track.addEventListener('mouseleave', () => paused = false);
+            track.addEventListener('touchstart', () => paused = true, { passive: true });
+            track.addEventListener('touchend',   () => setTimeout(() => paused = false, 2500), { passive: true });
+
+            setInterval(() => {
+                if (paused) return;
+                track.scrollLeft += 1.2;
+                // Boucle : revenir au début (copie identique, invisible à l'œil)
+                if (track.scrollLeft >= originalWidth) track.scrollLeft -= originalWidth;
+
+                const ratio = track.scrollLeft / originalWidth;
+                const active = Math.floor(ratio * dots.length) % dots.length;
+                for (let i = 0; i < dots.length; i++) {
+                    dots[i].classList.toggle('active', i === active);
+                }
+            }, 16);
         })();
     </script>
 </body>

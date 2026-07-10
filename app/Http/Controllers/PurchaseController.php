@@ -39,7 +39,11 @@ class PurchaseController extends Controller
             $query->where('created_at', $request->input('created_at'));
         }
 
-        $dataTable = $query->get();
+        // Eager loading + pagination serveur
+        $dataTable = $query->with('product.categories')
+            ->latest()
+            ->paginate(50)
+            ->appends($request->query());
 
         // Pass the necessary data to the view, including options for filters
         return view('purchases.index', compact('dataTable', 'produits', 'boutiques'));

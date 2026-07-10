@@ -15,12 +15,15 @@
                     <div class="page-header">
                         <div class="page-title">
                             <h4>Group Permissions</h4>
-                            <h6>Manage Group Permissions</h6>
+                            <h6>Créez des rôles et cochez les actions qu'ils autorisent</h6>
                         </div>
-                        {{-- <div class="page-btn">
-                            <a class="btn btn-added" href="createpermission.html"><img src="assets/img/icons/plus.svg" alt="img" class="me-1">Add Group Permission</a>
-                        </div> --}}
+                        <div class="page-btn">
+                            <a class="btn btn-added" href="{{ route('roles.create') }}" style="background-color:#c1682f;border-color:#c1682f;">
+                                <img src="{{ asset('assets/img/icons/plus.svg') }}" alt="img" class="me-1">Ajouter un rôle
+                            </a>
+                        </div>
                     </div>
+                    @include('layouts.flash')
                     <div class="card">
                         <div class="card-body">
                             <div class="table-top">
@@ -47,20 +50,44 @@
                                 <table class="table  datanew">
                                     <thead>
                                         <tr>
-                                            <th>Role</th>
-                                            <th>description</th>
+                                            <th>Rôle</th>
+                                            <th>Identifiant</th>
+                                            <th>Permissions</th>
+                                            <th>Utilisateurs</th>
                                             <th class="text-end">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($dataTable as $d)
                                         <tr>
+                                            <td><strong>{{ $d->nameRole }}</strong></td>
                                             <td>{{ $d->slug }}</td>
-                                            <td>{{ $d->nameRole }}</td>
+                                            <td>
+                                                @if($d->slug === 'admin')
+                                                    <span class="badge bg-success">Toutes (accès total)</span>
+                                                @elseif($d->slug === 'customer')
+                                                    <span class="badge bg-secondary">Client e-commerce</span>
+                                                @else
+                                                    <span class="badge" style="background:#c1682f;">{{ $d->permissions_count }} action(s)</span>
+                                                @endif
+                                            </td>
+                                            <td>{{ $d->users_count }}</td>
                                             <td class="text-end">
-                                                <a class="me-3 confirm-text" href="javascript:void(0);">
-                                                    <img src="assets/img/icons/delete.svg" alt="img">
+                                                @if($d->slug !== 'admin' && $d->slug !== 'customer')
+                                                <a class="me-3" href="{{ route('roles.edit', $d->id) }}" title="Modifier les permissions">
+                                                    <img src="{{ asset('assets/img/icons/edit.svg') }}" alt="img">
                                                 </a>
+                                                <form method="POST" action="{{ route('roles.destroy', $d->id) }}" class="d-inline"
+                                                      onsubmit="return confirm('Supprimer le rôle {{ $d->nameRole }} ?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="border-0 bg-transparent p-0" title="Supprimer">
+                                                        <img src="{{ asset('assets/img/icons/delete.svg') }}" alt="img">
+                                                    </button>
+                                                </form>
+                                                @else
+                                                <span class="text-muted" title="Rôle système">—</span>
+                                                @endif
                                             </td>
                                         </tr>
                                         @endforeach

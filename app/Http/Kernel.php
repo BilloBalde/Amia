@@ -66,5 +66,6 @@ class Kernel extends HttpKernel
         'auth.check' => \App\Http\Middleware\CheckIfAuthenticated::class,
         'customer' => \App\Http\Middleware\EnsureCustomer::class,
         'superuser' => \App\Http\Middleware\CheckManagerRole::class,
+        'permission' => \App\Http\Middleware\CheckPermission::class,
     ];
 }

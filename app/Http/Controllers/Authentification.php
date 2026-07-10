@@ -29,7 +29,89 @@ class Authentification extends Controller
 
     public function edit($id){
         $user = User::find($id);
-        return view('users.edit', compact('user'));
+        [$roles, $permissionModules, $rolePresets] = $this->permissionFormData();
+        $userPermissions = $user->permissions()->pluck('permissions.id')->all();
+        return view('users.edit', compact('user', 'roles', 'permissionModules', 'rolePresets', 'userPermissions'));
+    }
+
+    /**
+     * Un non-admin ne peut affecter que des rôles dont le preset est
+     * entièrement couvert par ses propres permissions.
+     */
+    private function canAssignRole(\App\Models\Role $role): bool
+    {
+        $granter = Auth::user();
+        if (! $granter || (int) $granter->role_id === User::ROLE_ADMIN) {
+            return true;
+        }
+
+        $rolePerms = $role->permissions()->pluck('permissions.id');
+
+        return $rolePerms->diff($granter->effectivePermissionIds())->isEmpty();
+    }
+
+    /**
+     * Ne stocke des permissions explicites que si elles diffèrent du preset
+     * du rôle — sinon l'utilisateur suit le rôle dynamiquement.
+     *
+     * Anti-escalade : un non-admin ne peut ni accorder ni retirer une
+     * permission qu'il ne possède pas lui-même.
+     */
+    private function syncUserPermissions(User $user, array $submitted): void
+    {
+        $submitted = collect($submitted)->map(fn ($v) => (int) $v)->unique();
+
+        $granter = Auth::user();
+        if ($granter && (int) $granter->role_id !== User::ROLE_ADMIN) {
+            $grantable = $granter->effectivePermissionIds();
+            $existing  = $user->permissions()->pluck('permissions.id');
+
+            // On ne garde des cases cochées que ce que l'accordant possède,
+            // et on préserve les grants hors de sa portée (posés par l'admin).
+            $submitted = $submitted->intersect($grantable)
+                ->merge($existing->diff($grantable))
+                ->unique();
+        }
+
+        $submitted = $submitted->sort()->values();
+        // Role::find (et non la relation) : le role_id peut venir d'être changé sans être encore persisté
+        $preset = \App\Models\Role::find($user->role_id)?->permissions()->pluck('permissions.id')->sort()->values() ?? collect();
+
+        $user->permissions()->sync(
+            $submitted->all() === $preset->all() ? [] : $submitted->all()
+        );
+    }
+
+    /**
+     * Données communes aux formulaires utilisateur : rôles assignables,
+     * permissions groupées par module, presets par rôle (pour le JS).
+     * Un non-admin ne voit que les rôles et permissions qu'il peut accorder.
+     */
+    private function permissionFormData(): array
+    {
+        $granter   = Auth::user();
+        $isAdmin   = $granter && (int) $granter->role_id === User::ROLE_ADMIN;
+        $grantable = $isAdmin ? null : $granter?->effectivePermissionIds() ?? collect();
+
+        $permissions = \App\Models\Permission::orderBy('module')->orderBy('id')->get();
+        if (! $isAdmin) {
+            $permissions = $permissions->whereIn('id', $grantable->all());
+        }
+        $permissionModules = $permissions->groupBy('module');
+
+        $roles = \App\Models\Role::whereNotIn('slug', ['admin', 'customer'])->get();
+        $rolePresets = $roles->mapWithKeys(
+            fn ($role) => [$role->id => $role->permissions()->pluck('permissions.id')->all()]
+        );
+
+        if (! $isAdmin) {
+            // Ne proposer que les rôles entièrement couverts par les permissions de l'accordant
+            $roles = $roles->filter(
+                fn ($role) => collect($rolePresets[$role->id])->diff($grantable)->isEmpty()
+            )->values();
+        }
+
+        return [$roles, $permissionModules, $rolePresets];
     }
 
     public function forgotPass(){
@@ -37,7 +119,8 @@ class Authentification extends Controller
     }
 
     public function register(){
-        return view('users.register');
+        [$roles, $permissionModules, $rolePresets] = $this->permissionFormData();
+        return view('users.register', compact('roles', 'permissionModules', 'rolePresets'));
     }
 
     protected function create(Request $request)
@@ -47,7 +130,10 @@ class Authentification extends Controller
             'username' => 'required|string',
             'password' => 'required|string|min:8|max:15|confirmed',
             'phone' => 'required|string|max:20',
-            'name' => 'required|string|max:255'
+            'name' => 'required|string|max:255',
+            'role_id' => 'required|integer|exists:roles,id',
+            'permissions' => 'nullable|array',
+            'permissions.*' => 'integer|exists:permissions,id',
         ],[
             'email.required' => 'Vous devez remplir le champ email',
             'email.email' => 'Le champ email doit contenir un @ et .',
@@ -65,17 +151,29 @@ class Authentification extends Controller
             'name.string' => 'Le champ name ne prend que des chaines de caracteres',
             'name.max' => 'Le champ name ne doit pas depasser 255 caracteres'
         ]);
+        // Les rôles système admin/customer ne sont pas assignables via ce formulaire
+        $role = \App\Models\Role::find($request->role_id);
+        if (in_array($role?->slug, ['admin', 'customer'], true)) {
+            return back()->withInput()->with('fall', 'Ce rôle ne peut pas être attribué à un employé.');
+        }
+
+        // Anti-escalade : un non-admin ne peut pas affecter un rôle dont le
+        // preset dépasse ses propres permissions.
+        if ($role && ! $this->canAssignRole($role)) {
+            return back()->withInput()->with('fall', 'Ce rôle contient des permissions que vous ne possédez pas — seul un administrateur peut l\'attribuer.');
+        }
+
         if(request()->hasfile('profilePic')){
             $avatarName = time().'.'.request()->profilePic->getClientOriginalExtension();
             request()->profilePic->move(public_path('avatars'), $avatarName);
         }
         $token = Str::random(64);
         try{
-            User::create([
+            $user = User::create([
                 'name' => $request->name,
                 'username' => $request->username,
                 'phone' => $request->phone,
-                'role_id' => 3,
+                'role_id' => (int) $request->role_id,
                 'email' => $request->email,
                 'profilePic' => '1725478994.png',
                 'status' => 'pending',
@@ -84,6 +182,12 @@ class Authentification extends Controller
                 'password' => Hash::make($request->password),
                 'motdepasse' => $request->password
             ]);
+
+            // Si les cases cochées correspondent exactement au preset du rôle,
+            // on ne stocke rien : l'employé suit le rôle dynamiquement (les
+            // modifications futures du rôle s'appliquent automatiquement).
+            // Sinon, on stocke les grants explicites qui priment sur le rôle.
+            $this->syncUserPermissions($user, $request->input('permissions', []));
 
             $verification_link = url('registration/verification/'.$token.'/'.$request->email);
             $subject = 'Confirmation de compte - EDAAG TRADING';
@@ -111,7 +215,18 @@ class Authentification extends Controller
         $user->username = $request->username;
         $user->phone = $request->phone;
         $user->email = $request->email;
-        
+
+        // Rôle et permissions (uniquement si le formulaire les soumet — l'édition de profil simple ne les touche pas)
+        if ($request->filled('role_id') && (int) $user->role_id !== User::ROLE_ADMIN) {
+            $newRole = \App\Models\Role::find($request->role_id);
+            if ($newRole && ! in_array($newRole->slug, ['admin', 'customer'], true) && $this->canAssignRole($newRole)) {
+                $user->role_id = (int) $newRole->id;
+            }
+        }
+        if ($request->boolean('sync_permissions')) {
+            $this->syncUserPermissions($user, $request->input('permissions', []));
+        }
+
         if ($request->password != NULL) {
             $user->password = Hash::make($request->password);
             $passwordChanged = true;

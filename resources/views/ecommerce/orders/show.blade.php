@@ -54,7 +54,9 @@
                                     'pending'    => ['label' => 'En attente',  'class' => 'bg-yellow-100 text-yellow-800'],
                                     'approved'   => ['label' => 'Confirmée',   'class' => 'bg-blue-100 text-blue-800'],
                                     'processing' => ['label' => 'En cours',    'class' => 'bg-indigo-100 text-indigo-800'],
+                                    'delivering' => ['label' => 'En livraison','class' => 'bg-indigo-100 text-indigo-800'],
                                     'completed'  => ['label' => 'Livrée',      'class' => 'bg-green-100 text-green-800'],
+                                    'delivered'  => ['label' => 'Livrée',      'class' => 'bg-green-100 text-green-800'],
                                     'rejected'   => ['label' => 'Refusée',     'class' => 'bg-red-100 text-red-800'],
                                     'cancelled'  => ['label' => 'Annulée',     'class' => 'bg-gray-100 text-gray-800'],
                                 ];
@@ -68,7 +70,9 @@
                                 'pending'    => 15,
                                 'approved'   => 40,
                                 'processing' => 65,
+                                'delivering' => 65,
                                 'completed'  => 100,
+                                'delivered'  => 100,
                                 default      => 0,
                             };
                         @endphp

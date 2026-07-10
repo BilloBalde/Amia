@@ -65,20 +65,12 @@ class SaleController extends Controller
             $query->where('user_id', $request->input('user_id'));
         }
 
-        $dataTable = $query->get();
-        $dataTable->load('product.latestLigneCommande', 'user');
-        $dataTable->each(function ($sale) {
-            $product = $sale->product;
-            if (!$product) {
-                return;
-            }
-            $unitCost = $this->resolveUnitCost($product);
-            $newInteret = ($sale->prix - $unitCost) * $sale->quantity;
-            if (abs((float) $sale->interet - $newInteret) > 0.01) {
-                $sale->interet = $newInteret;
-                $sale->save();
-            }
-        });
+        // Pagination serveur + eager loading : on ne charge plus (ni ne réécrit)
+        // toute la table à chaque affichage — l'intérêt stocké fait foi.
+        $dataTable = $query->with(['product.latestLigneCommande', 'user', 'facture'])
+            ->latest()
+            ->paginate(50)
+            ->appends($request->query());
 
         // Pass the necessary data to the view, including options for filters
         $customers = Customer::all();
@@ -530,16 +522,27 @@ class SaleController extends Controller
         }
     }
 
+    /**
+     * Coût d'achat unitaire : ligne de commande fournisseur la plus récente,
+     * sinon dernier prix d'achat (table purchases), sinon price_sale.
+     * Ne jamais retomber silencieusement sur 0 quand un achat existe —
+     * c'est ce qui gonflait l'intérêt à 100 % du prix de vente.
+     */
     private function resolveUnitCost(Product $product): float
     {
-        /* $latest = $product->latestLigneCommande;
+        $latest = $product->latestLigneCommande;
         if ($latest && $latest->unit_price_purchase !== null) {
             return (float) $latest->unit_price_purchase;
         }
         if ($latest && $latest->quantity > 0 && $latest->total_price_purchase !== null) {
             return (float) ($latest->total_price_purchase / $latest->quantity);
         }
-        $purchasePrice = Purchase::where('product_id', $product->id)->latest()->value('price'); */
-        return $product->price_sale ?? 0.0;
+
+        $purchasePrice = \App\Models\Purchase::where('product_id', $product->id)->latest()->value('price');
+        if ($purchasePrice !== null) {
+            return (float) $purchasePrice;
+        }
+
+        return (float) ($product->price_sale ?? 0.0);
     }
 }

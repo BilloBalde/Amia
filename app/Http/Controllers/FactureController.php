@@ -58,13 +58,17 @@ class FactureController extends Controller
         // Ajout du tri : du plus récent au plus ancien
         $query->orderBy('created_at', 'desc');
 
+        // Eager loading (client, boutique, paiements) + somme des intérêts en SQL
+        $query->with(['customer', 'store', 'paiements' => fn ($q) => $q->latest()])
+            ->withSum('sales as interet_total', 'interet');
+
         // Appliquer la restriction selon le rôle
         if (auth()->user()->role_id == 3) {
             $storeId = Store::where('user_id', auth()->user()->id)->first()->id;
-            $dataTable = $query->where('store_id', $storeId)->get();
-        } else {
-            $dataTable = $query->get();
+            $query->where('store_id', $storeId);
         }
+
+        $dataTable = $query->paginate(50)->appends($request->query());
 
         return view('factures.index', compact('dataTable', 'customers'));
     }
