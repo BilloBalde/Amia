@@ -13,9 +13,24 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                margin: 10px 0;
-                padding: 10px;
-                border: 1px solid #ccc;
+                gap: 10px;
+                margin: 8px 0;
+                padding: 12px;
+                background: #fff;
+                border: 1px solid #f0e4d8;
+                border-radius: 10px;
+                box-shadow: 0 1px 3px rgba(193, 104, 47, 0.06);
+                transition: box-shadow .15s ease, transform .15s ease;
+                animation: rowIn .25s ease;
+            }
+
+            .product-row:hover {
+                box-shadow: 0 4px 10px rgba(193, 104, 47, 0.12);
+            }
+
+            @keyframes rowIn {
+                from { opacity: 0; transform: translateY(-6px); }
+                to   { opacity: 1; transform: translateY(0); }
             }
 
             .product-row .quantity-set,
@@ -24,16 +39,155 @@
                 margin-right: 10px;
             }
 
-            .delete-btn {
-                background-color: red;
-                color: white;
-                padding: 5px 10px;
+            .row-remove-btn {
+                background-color: #fdecea;
+                color: #c1682f;
                 border: none;
+                border-radius: 50%;
+                width: 30px;
+                height: 30px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 cursor: pointer;
+                transition: background-color .15s ease, color .15s ease;
             }
 
-            .delete-btn:hover {
-                background-color: darkred;
+            .row-remove-btn:hover {
+                background-color: #c1682f;
+                color: #fff;
+            }
+
+            /* Stepper +/- pour la quantité */
+            .qty-stepper {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+            }
+
+            .qty-stepper button {
+                width: 28px;
+                height: 28px;
+                border: 1px solid #e3d3c2;
+                background: #fbf3ea;
+                color: #c1682f;
+                border-radius: 6px;
+                font-weight: bold;
+                line-height: 1;
+                cursor: pointer;
+                transition: background-color .15s ease;
+            }
+
+            .qty-stepper button:hover {
+                background-color: #c1682f;
+                color: #fff;
+            }
+
+            .qty-stepper input {
+                width: 50px !important;
+                text-align: center;
+            }
+
+            /* Panier vide */
+            #emptyCartState {
+                text-align: center;
+                padding: 40px 10px;
+                color: #a99b8c;
+            }
+
+            #emptyCartState i {
+                font-size: 42px;
+                color: #e3d3c2;
+                margin-bottom: 10px;
+                display: block;
+            }
+
+            /* Compteur d'articles dans l'entête du panier */
+            #cartCountBadge {
+                background: #c1682f;
+                color: #fff;
+                border-radius: 999px;
+                font-size: 12px;
+                padding: 2px 9px;
+                margin-left: 8px;
+                vertical-align: middle;
+            }
+
+            /* Pulse quand un produit est ajouté au panier */
+            @keyframes addPulse {
+                0%   { box-shadow: 0 0 0 0 rgba(193, 104, 47, 0.55); }
+                100% { box-shadow: 0 0 0 16px rgba(193, 104, 47, 0); }
+            }
+
+            .product-item.just-added .productset {
+                animation: addPulse .5s ease-out;
+            }
+
+            /* Badge de stock */
+            .stock-badge {
+                display: inline-block;
+                font-size: 11px;
+                font-weight: 600;
+                padding: 2px 8px;
+                border-radius: 999px;
+                margin-top: 4px;
+            }
+
+            .stock-badge.stock-ok {
+                background: #e8f6ec;
+                color: #1f9d55;
+            }
+
+            .stock-badge.stock-low {
+                background: #fdecea;
+                color: #d9534f;
+            }
+
+            .price-vente {
+                color: #c1682f;
+                font-weight: 700;
+                font-size: 16px;
+            }
+
+            /* Le thème d'origine de cette page utilisait un violet (#7367f0)
+               jamais retouché lors du passage au terracotta — on l'aligne ici. */
+            .tabs_wrapper ul.tabs li.active,
+            .productset .check-product {
+                background-color: #c1682f !important;
+            }
+
+            .productset.active,
+            .productset:hover {
+                border-color: #c1682f !important;
+            }
+
+            .product-details:hover {
+                background: #c1682f;
+            }
+
+            .product-details.active {
+                background-color: #c1682f !important;
+            }
+
+            .btn-totallabel,
+            .btn-scanner-set {
+                background-color: #c1682f !important;
+                color: #fff !important;
+            }
+
+            .setvalue ul li.total-value h5,
+            .setvalue ul li.total-value h6,
+            .totalitem h4 {
+                color: #c1682f !important;
+            }
+
+            .setvaluecash ul li a:hover {
+                border-color: #c1682f !important;
+                color: #c1682f !important;
+            }
+
+            .owl-product .owl-nav button {
+                color: #c1682f !important;
             }
         </style>
         <div id="global-loader">
@@ -92,7 +246,6 @@
                                             <div class="productset flex-fill">
                                                 <div class="productsetimg">
                                                     <img src="{{ asset('products/' . $dataItem->image) }}" alt="img" style="height: 170px">
-                                                    <h6>Qtity: {{ $quantity }}</h6>
                                                     <div class="check-product">
                                                         <i class="fa fa-check"></i>
                                                     </div>
@@ -105,9 +258,14 @@
                                                     </h6>
                                                     <h5>{{ $dataItem->libelle }}</h5>
                                                     <h4>{{ $dataItem->sku }}</h4>
-                                                    <h4>Prix Achat: {{ $dataItem->price.' FG' ?? 'N/A' }}</h4>
-                                                    <h4>Prix Revient: {{ $dataItem->price_sale.' FG' ?? 'N/A' }}</h4>
-                                                    <h4>Prix Vente: {{ $dataItem->price_carton.' FG' ?? 'N/A' }}</h4>
+                                                    <h4 class="price-vente">{{ number_format($dataItem->price_carton ?? 0, 0, ',', ' ') }} FG</h4>
+                                                    <span class="stock-badge {{ $quantity <= 5 ? 'stock-low' : 'stock-ok' }}">
+                                                        @if($quantity <= 5)
+                                                            <i class="fa fa-exclamation-triangle"></i> Stock faible : {{ $quantity }}
+                                                        @else
+                                                            <i class="fa fa-check-circle"></i> En stock : {{ $quantity }}
+                                                        @endif
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
@@ -121,7 +279,7 @@
                         <div class="col-lg-5 col-md-5 col-sm-12 ">
                             <div class="order-list">
                                 <div class="orderid">
-                                    <h4>Order List</h4>
+                                    <h4>Order List <span id="cartCountBadge" style="display:none;">0</span></h4>
                                     <h5>Invoice id : #{{ $numeroFacture }}</h5>
                                 </div>
                                 <div class="actionproducts">
@@ -138,6 +296,10 @@
                                     <div class="card-body pt-0">
                                         <div class="product-table" id="product-list">
                                             <h5>Products List</h5>
+                                            <div id="emptyCartState">
+                                                <i class="fa fa-shopping-basket"></i>
+                                                Panier vide — cliquez sur un produit pour l'ajouter
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="split-card">
@@ -319,7 +481,7 @@
                 position: absolute;
                 top: 10px;
                 right: 10px;
-                background-color: #007bff;
+                background-color: #c1682f;
                 color: white;
                 width: 20px;
                 height: 20px;
@@ -329,6 +491,12 @@
                 justify-content: center;
                 font-size: 14px;
                 font-weight: bold;
+                animation: checkPop .2s ease;
+            }
+
+            @keyframes checkPop {
+                from { transform: scale(0); }
+                to   { transform: scale(1); }
             }
 
             .product-item.selected .check-product {
@@ -398,6 +566,8 @@
                     }
 
                     item.classList.add('selected');
+                    item.classList.add('just-added');
+                    setTimeout(() => item.classList.remove('just-added'), 500);
 
                     // Create a new row for the product list
                     const newRow = document.createElement('li');
@@ -423,7 +593,11 @@
                                <li class="qty-price-group">
                                    <div class="quantity-set form-group">
                                        <h6>Qty</h6>
-                                       <input type="number" style="width:150px" name="sales[${i}][quantity]" value="1" class="quantity-field form-control">
+                                       <div class="qty-stepper">
+                                           <button type="button" class="qty-decrement">−</button>
+                                           <input type="number" min="1" name="sales[${i}][quantity]" value="1" class="quantity-field form-control">
+                                           <button type="button" class="qty-increment">+</button>
+                                       </div>
                                    </div>
 
                                    <div class="price form-group">
@@ -438,6 +612,11 @@
                                         <input type="text" name="sales[${i}][total_price]" class="form-control row-total-price" readonly>
                                     </div>
                                 </li>
+                                <li>
+                                    <button type="button" class="row-remove-btn" title="Retirer">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </li>
                             </ul>
                         `;
 
@@ -448,6 +627,24 @@
                     const quantityField = newRow.querySelector('.quantity-field');
                     const priceField = newRow.querySelector('.price-field');
                     const priceError = newRow.querySelector('.price-error');
+
+                    // Stepper +/-
+                    newRow.querySelector('.qty-increment').addEventListener('click', function () {
+                        quantityField.value = (parseInt(quantityField.value) || 0) + 1;
+                        updateRowTotal();
+                    });
+                    newRow.querySelector('.qty-decrement').addEventListener('click', function () {
+                        const current = parseInt(quantityField.value) || 1;
+                        quantityField.value = Math.max(1, current - 1);
+                        updateRowTotal();
+                    });
+
+                    // Retirer directement depuis la ligne du panier
+                    newRow.querySelector('.row-remove-btn').addEventListener('click', function () {
+                        newRow.remove();
+                        item.classList.remove('selected');
+                        updateTotalPrice();
+                    });
 
                     quantityField.addEventListener('input', updateRowTotal);
                     priceField.addEventListener('input', function () {
@@ -487,6 +684,21 @@
                         const rowTotal = parseFloat(row.querySelector('.row-total-price').value) || 0;
                         subtotal += rowTotal;
                     });
+
+                    // État panier vide + compteur d'articles
+                    const emptyState = document.getElementById('emptyCartState');
+                    const cartCountBadge = document.getElementById('cartCountBadge');
+                    if (emptyState) {
+                        emptyState.style.display = rows.length === 0 ? 'block' : 'none';
+                    }
+                    if (cartCountBadge) {
+                        if (rows.length > 0) {
+                            cartCountBadge.textContent = rows.length;
+                            cartCountBadge.style.display = 'inline-block';
+                        } else {
+                            cartCountBadge.style.display = 'none';
+                        }
+                    }
 
                     const subtotalElement = document.getElementById('subtotal');
                     const taxElement = document.getElementById('tax');
@@ -575,6 +787,14 @@
               const clearSearchBtn = document.getElementById('clearSearchBtn');
               const tabContents = document.querySelectorAll('.tab_content');
               const tabItems = document.querySelectorAll('.tab-item');
+
+              // Raccourci clavier "/" pour aller directement à la recherche
+              document.addEventListener('keydown', function (e) {
+                  if (e.key === '/' && document.activeElement !== searchInput && document.activeElement.tagName !== 'TEXTAREA' && document.activeElement.tagName !== 'INPUT') {
+                      e.preventDefault();
+                      searchInput.focus();
+                  }
+              });
 
               // Fonction principale de réinitialisation
               function resetToInitialState() {
