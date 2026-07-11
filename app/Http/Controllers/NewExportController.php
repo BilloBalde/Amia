@@ -24,7 +24,7 @@ class NewExportController extends Controller
         try {
             // Charger les produits par lots
             $products = Product::with(['categories', 'stores'])
-                        ->select('id', 'libelle', 'sku', 'price_sale_ctn', 'image', 'updated_at')
+                        ->select('id', 'libelle', 'sku', 'price', 'image', 'updated_at')
                         ->get();
             
             // Préparer les données pour l'export
@@ -42,7 +42,7 @@ class NewExportController extends Controller
                     'SKU' => $product->sku,
                     'Catégories' => $categories,
                     'Quantité' => $quantity,
-                    'Prix' => $product->price_sale_ctn ?? 0,
+                    'Prix' => $product->price ?? 0,
                     'Date' => $product->updated_at ? $product->updated_at->format('d/m/Y') : '',
                 ];
             }
@@ -142,7 +142,7 @@ class NewExportController extends Controller
         try {
             // Charger sans les relations lourdes
             $products = Product::with('categories')
-                        ->select('id', 'libelle', 'sku', 'price_sale_ctn', 'updated_at')
+                        ->select('id', 'libelle', 'sku', 'price', 'updated_at')
                         ->get();
             
             $html = $this->generatePdfHtml($products, false);
@@ -194,7 +194,7 @@ class NewExportController extends Controller
                                 $product->sku,
                                 $categories,
                                 $quantity,
-                                $product->price_sale_ctn ?? 0,
+                                $product->price ?? 0,
                                 $product->updated_at ? $product->updated_at->format('d/m/Y') : '',
                             ]);
                         }
@@ -281,7 +281,7 @@ class NewExportController extends Controller
                         <td>' . htmlspecialchars($product->sku ?? 'N/A') . '</td>
                         <td>' . htmlspecialchars($categories) . '</td>
                         <td>' . $quantity . '</td>
-                        <td>' . number_format($product->price_sale_ctn ?? 0, 0, ',', ' ') . ' F</td>';
+                        <td>' . number_format($product->price ?? 0, 0, ',', ' ') . ' F</td>';
             
             if ($includeImages && $product->image) {
                 $imagePath = public_path('products/' . $product->image);

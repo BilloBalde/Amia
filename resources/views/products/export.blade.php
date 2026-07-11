@@ -40,7 +40,7 @@
                     <td>{{ $dataItem->sku }}</td>
                     <td>{{ $categories }}</td>
                     <td>{{ $quantity }}</td>
-                    <td>{{ number_format($dataItem->price_sale_ctn ?? 0, 0, ',', ' ') }} F</td>
+                    <td>{{ number_format($dataItem->price ?? 0, 0, ',', ' ') }} F</td>
                 </tr>
             @endforeach
         </tbody>
