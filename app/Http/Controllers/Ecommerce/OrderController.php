@@ -50,7 +50,7 @@ class OrderController extends Controller
         foreach ($products as $product) {
             foreach ($cartItems as $item) {
                 if ($item['product_id'] == $product->id) {
-                    $basePrice = $product->promo_price ?? $product->price;
+                    $basePrice = $product->effective_promo_price ?? $product->price;
                     $total += PricingTiers::unitPriceFor($basePrice, $item['quantity']) * $item['quantity'];
                 }
             }

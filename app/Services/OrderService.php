@@ -18,7 +18,7 @@ class OrderService
             // Calculer le total et vérifier le stock (optionnel selon besoin)
             foreach ($items as $item) {
                 $product = Product::findOrFail($item['product_id']);
-                $basePrice = $product->promo_price ?? $product->price;
+                $basePrice = $product->effective_promo_price ?? $product->price;
                 $totalAmount += PricingTiers::unitPriceFor($basePrice, $item['quantity']) * $item['quantity'];
             }
 
@@ -33,7 +33,7 @@ class OrderService
 
             foreach ($items as $item) {
                 $product = Product::find($item['product_id']);
-                $basePrice = $product->promo_price ?? $product->price;
+                $basePrice = $product->effective_promo_price ?? $product->price;
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $item['product_id'],

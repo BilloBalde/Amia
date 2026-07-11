@@ -155,7 +155,12 @@ class VisitController extends Controller
             'stores'          => $stores,
             'allProducts'  => Product::with('categories')->latest()->get()->map($mapProduct)->values(),
             'bestProducts' => Product::with('categories')->orderByDesc('rating')->get()->map($mapProduct)->values(),
-            'promoProducts'=> Product::with('categories')->whereNotNull('promo_price')->get()->map($mapPromo)->values(),
+            'promoProducts'=> Product::with('categories')
+                ->where('is_promo', true)
+                ->whereNotNull('promo_price')
+                ->where(fn ($q) => $q->whereNull('promo_start_date')->orWhereDate('promo_start_date', '<=', now()))
+                ->where(fn ($q) => $q->whereNull('promo_end_date')->orWhereDate('promo_end_date', '>=', now()))
+                ->get()->map($mapPromo)->values(),
             'bestSellers'  => $bestSellers,
             'topRated'     => Product::with('categories')->orderByDesc('rating')->limit(10)->get()->map($mapProduct)->values(),
             'trending'     => $trending,

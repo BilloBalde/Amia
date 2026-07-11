@@ -128,12 +128,10 @@ class ProductController extends Controller
             'stock_initial' => 'required|integer|min:0',
             'store_id' => 'required|exists:stores,id',
             'image' => 'image',
-            'taille' => 'nullable|string|max:50',
-            'hauteur' => 'nullable|numeric|min:0',
-            'largeur' => 'nullable|numeric|min:0',
-            'epaisseur' => 'nullable|numeric|min:0',
-            'poids' => 'nullable|numeric|min:0',
-            'nbr_unite' => 'nullable|integer|min:0',
+            'is_promo' => 'nullable|boolean',
+            'promo_percent' => 'nullable|numeric|min:0|max:100',
+            'promo_start_date' => 'nullable|date',
+            'promo_end_date' => 'nullable|date|after_or_equal:promo_start_date',
         ], [
             'categories.required' => 'veuillez selectionner la categorie',
             'categories.array' => 'Selectionner plusieurs categories',
@@ -150,7 +148,21 @@ class ProductController extends Controller
             'store_id.required' => 'champ Magasin doit être rempli',
             'store_id.exists' => 'Magasin sélectionné invalide',
             'image.image' => 'champ image ne prend que des images',
+            'promo_percent.max' => 'Le pourcentage de promotion ne peut pas dépasser 100.',
+            'promo_end_date.after_or_equal' => 'La date de fin de promo doit être après la date de début.',
         ]);
+    }
+
+    /**
+     * Calcule le prix promo à partir du prix de vente et du pourcentage saisi.
+     */
+    private function computePromoPrice(Request $request, float $price): ?float
+    {
+        if (!$request->boolean('is_promo') || !$request->filled('promo_percent')) {
+            return null;
+        }
+
+        return round($price * (1 - ((float) $request->promo_percent / 100)), 2);
     }
 
     public function store(Request $request)
@@ -170,12 +182,11 @@ class ProductController extends Controller
                 'price_sale' => $request->price_sale ?? NULL,
                 'price_carton' => $request->price_carton ?? NULL,
                 'image' => $productName ?? 'ib profile.jpg',
-                'taille' => $request->taille,
-                'hauteur' => $request->hauteur,
-                'largeur' => $request->largeur,
-                'epaisseur' => $request->epaisseur,
-                'poids' => $request->poids,
-                'nbr_unite' => $request->nbr_unite,
+                'is_promo' => $request->boolean('is_promo'),
+                'promo_percent' => $request->promo_percent ?? null,
+                'promo_price' => $this->computePromoPrice($request, (float) $request->price),
+                'promo_start_date' => $request->promo_start_date ?? null,
+                'promo_end_date' => $request->promo_end_date ?? null,
             ]);
 
             $product->categories()->attach($request->categories);
@@ -256,12 +267,13 @@ class ProductController extends Controller
             'price_sale'   => 'nullable|numeric',
             'image'        => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'store_id' => 'required|exists:stores,id',
-            'taille' => 'nullable|string|max:50',
-            'hauteur' => 'nullable|numeric|min:0',
-            'largeur' => 'nullable|numeric|min:0',
-            'epaisseur' => 'nullable|numeric|min:0',
-            'poids' => 'nullable|numeric|min:0',
-            'nbr_unite' => 'nullable|integer|min:0',
+            'is_promo' => 'nullable|boolean',
+            'promo_percent' => 'nullable|numeric|min:0|max:100',
+            'promo_start_date' => 'nullable|date',
+            'promo_end_date' => 'nullable|date|after_or_equal:promo_start_date',
+        ], [
+            'promo_percent.max' => 'Le pourcentage de promotion ne peut pas dépasser 100.',
+            'promo_end_date.after_or_equal' => 'La date de fin de promo doit être après la date de début.',
         ]);
 
         try {
@@ -271,8 +283,13 @@ class ProductController extends Controller
 
             $product->fill($request->only([
                 'libelle', 'sku', 'description', 'price', 'price_sale', 'price_carton',
-                'taille', 'hauteur', 'largeur', 'epaisseur', 'poids', 'nbr_unite',
             ]));
+
+            $product->is_promo = $request->boolean('is_promo');
+            $product->promo_percent = $request->promo_percent ?? null;
+            $product->promo_price = $this->computePromoPrice($request, (float) $request->price);
+            $product->promo_start_date = $request->promo_start_date ?? null;
+            $product->promo_end_date = $request->promo_end_date ?? null;
 
             $product->save();
 
