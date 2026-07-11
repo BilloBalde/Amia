@@ -2,6 +2,14 @@
 <html lang="fr">
     @include('layouts.head')
     <body>
+        <style>
+            /* La pagination côté serveur (Laravel) fait déjà foi ici — celle
+               générée automatiquement par le plugin DataTable ferait doublon
+               et affiche un total incorrect (limité à la page chargée). */
+            .dataTables_paginate, .dataTables_info {
+                display: none !important;
+            }
+        </style>
         <div id="global-loader"><div class="whirly-loader"></div></div>
         <div class="main-wrapper">
             @include('layouts.header')
