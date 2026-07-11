@@ -204,15 +204,19 @@ class SaleController extends Controller
 
         // Get products for filter display
         $produits = Product::all();
+        $company = \App\Models\Company::latest()->first();
 
-        $pdf = Pdf::loadView('exports.sales-pdf', compact('sales', 'produits'));
-        
+        $pdf = Pdf::loadView('exports.sales-pdf', compact('sales', 'produits', 'company'));
+
         // Configure PDF
         $pdf->setPaper('A4', 'landscape'); // Use landscape for more columns
         $pdf->setOptions([
             'defaultFont' => 'sans-serif',
             'isHtml5ParserEnabled' => true,
-            'isRemoteEnabled' => true,
+            // Le logo est chargé depuis le disque (chemin local, pas asset()) donc pas besoin
+            // de requêtes HTTP sortantes : ça évite un aller-retour qui, sur certains hébergements,
+            // pouvait faire prendre plusieurs dizaines de secondes à cet export.
+            'isRemoteEnabled' => false,
             'chroot' => public_path(),
         ]);
 

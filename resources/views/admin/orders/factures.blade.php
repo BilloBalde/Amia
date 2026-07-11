@@ -122,7 +122,7 @@
                                         @endphp
                                         <tr>
                                             <td>
-                                                <a href="{{ route('factures.show', $facture->id) }}">
+                                                <a href="{{ route('factures.show', $facture->numero_facture) }}">
                                                     {{ $facture->numero_facture }}
                                                 </a>
                                             </td>
@@ -159,7 +159,7 @@
                                             <td>{{ $facture->notes }}</td>
                                             <td>{{ $facture->created_at->format('d/m/Y H:i') }}</td>
                                             <td>
-                                                <a href="{{ route('factures.show', $facture->id) }}" class="me-2">
+                                                <a href="{{ route('factures.show', $facture->numero_facture) }}" class="me-2">
                                                     <img src="{{ asset('assets/img/icons/eye1.svg') }}" class="me-2" alt="img">
                                                 </a>
                                                 @if($facture->livraison !== 'livré')

@@ -123,7 +123,7 @@ class Authentification extends Controller
         return view('users.register', compact('roles', 'permissionModules', 'rolePresets'));
     }
 
-    protected function create(Request $request)
+    public function create(Request $request)
     {
         $request->validate([
             'email' => 'required|email',

@@ -123,7 +123,6 @@ class ProductController extends Controller
             'libelle' => 'required|string|max:225',
             'sku' => 'required|string|max:225',
             'description' => 'required|string',
-            'qtityCtn' => 'required|numeric',
             'price' => 'required|numeric',
             'price_sale' => 'nullable|numeric',
             'stock_initial' => 'required|integer|min:0',
@@ -143,7 +142,6 @@ class ProductController extends Controller
             'sku.required' => 'champ sku doit être rempli',
             'sku.string' => 'champ sku prend au maximum 225 caractères',
             'description.required' => 'champ description doit être rempli avec une chaine de caractere',
-            'qtityCtn.required' => 'champ Quantity par carton doit être rempli avec une valeure numérique',
             'price.required' => 'champ Prix doit être rempli avec une valeure numérique',
             'price_sale.numeric' => 'champ Prix Vente doit être rempli avec une valeure numérique',
             'stock_initial.required' => 'champ Stock initial doit être rempli',
@@ -167,13 +165,11 @@ class ProductController extends Controller
                 'libelle' => $request->libelle,
                 'sku' => $request->sku,
                 'description' => $request->description,
-                'qtityCtn' => $request->qtityCtn,
+                'pcs' => $request->stock_initial, // stock global e-commerce, initialisé au stock du premier magasin
                 'price' => $request->price,
                 'price_sale' => $request->price_sale ?? NULL,
-                'price_carton' => $request->price_sale_ctn ?? NULL,
+                'price_carton' => $request->price_carton ?? NULL,
                 'image' => $productName ?? 'ib profile.jpg',
-                'stock_initial' => $request->stock_initial,
-                'stock_restant' => $request->stock_initial, // Initialisé à la création
                 'taille' => $request->taille,
                 'hauteur' => $request->hauteur,
                 'largeur' => $request->largeur,
@@ -255,7 +251,6 @@ class ProductController extends Controller
             'categories'   => 'required|array',
             'categories.*' => 'exists:categories,id',
             'description'  => 'required|string',
-            'qtityCtn'     => 'required|numeric',
             'price'        => 'required|numeric',
             'stock_restant' => 'required|integer|min:0',
             'price_sale'   => 'nullable|numeric',
@@ -274,7 +269,10 @@ class ProductController extends Controller
             $product = Product::findOrFail($id);
             $storeId = $request->input('store_id');
 
-            $product->fill($request->except('categories', 'image'));
+            $product->fill($request->only([
+                'libelle', 'sku', 'description', 'price', 'price_sale', 'price_carton',
+                'taille', 'hauteur', 'largeur', 'epaisseur', 'poids', 'nbr_unite',
+            ]));
 
             $product->save();
 
@@ -287,10 +285,14 @@ class ProductController extends Controller
             // ✅ SUPPRIMÉ: tenant_id dans sync
             $product->categories()->sync($request->categories);
 
-            $storeProduct = StoreProduct::where('product_id', $id)->where('store_id', $storeId)->first();
+            $storeProduct = StoreProduct::updateOrCreate(
+                ['product_id' => $id, 'store_id' => $storeId],
+                ['quantity' => $request->input('stock_restant')]
+            );
 
-            $storeProduct->quantity = $request->input('stock_restant');
-            $storeProduct->save();
+            // Garde products.pcs (stock global e-commerce) en phase avec la somme des stocks par magasin
+            $product->pcs = $product->stores()->sum('store_products.quantity');
+            $product->save();
 
             return redirect()
                 ->route('produits.index')

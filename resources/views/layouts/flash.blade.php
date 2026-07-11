@@ -9,6 +9,13 @@
 <div class="alert alert-danger">
     {{ session('error') }}
 </div>
+@elseif (Session::has('warning'))
+<div class="alert alert-warning">
+    {{ Session::get('warning') }}
+    @php
+        Session::forget('warning');
+    @endphp
+</div>
 @elseif (Session::has('success'))
 <div class="alert alert-success">
     {{ Session::get('success') }}

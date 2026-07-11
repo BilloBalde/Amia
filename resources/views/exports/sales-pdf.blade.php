@@ -230,10 +230,10 @@
     <!-- Header -->
     <div class="bon-header">
         <div class="document-logo">
-            @if($company && $company->logo)
-                <img src="{{ asset('companies/'.$company->logo) }}" alt="{{ $company->name ?? 'Logo' }}">
+            @if($company && $company->logo && file_exists(public_path('companies/'.$company->logo)))
+                <img src="{{ public_path('companies/'.$company->logo) }}" alt="{{ $company->name ?? 'Logo' }}">
             @else
-                <img src="{{ asset('images/customers/logo.jpg') }}" alt="Logo">
+                <img src="{{ public_path('images/customers/logo.jpg') }}" alt="Logo">
             @endif
             <div class="document-title">
                 <h1>RAPPORT DES VENTES</h1>

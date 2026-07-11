@@ -70,7 +70,6 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <input type="text" id="qtityCtn" name="qtityCtn" class="form-control" value="{{ old('qtityCtn', 1) }}" hidden>
                                        <div class="col-lg-6 col-sm-6 col-12">
                                            <div class="form-group">
                                                <label for="stock_initial">Stock initial</label>

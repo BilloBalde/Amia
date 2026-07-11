@@ -153,7 +153,7 @@
                                                 <div class="d-flex gap-1 flex-wrap">
                                                     @if($order->facture)
                                                         {{-- Voir facture --}}
-                                                        <a href="{{ route('factures.show', $order->facture->id) }}"
+                                                        <a href="{{ route('factures.show', $order->facture->numero_facture) }}"
                                                            class="btn btn-info btn-sm" title="Voir facture">
                                                             <i class="fas fa-file-invoice"></i> Facture
                                                         </a>

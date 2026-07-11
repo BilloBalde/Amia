@@ -239,6 +239,8 @@ Route::middleware(['auth', 'superuser'])->group(function () {
     Route::get('/dettes', [\App\Http\Controllers\DetteController::class, 'index'])->name('dettes.index');
     Route::get('/dettes/create', [\App\Http\Controllers\DetteController::class, 'create'])->name('dettes.create');
     Route::post('/dettes', [\App\Http\Controllers\DetteController::class, 'store'])->name('dettes.store');
+    Route::get('/dettes/{dette}/edit', [\App\Http\Controllers\DetteController::class, 'edit'])->name('dettes.edit');
+    Route::put('/dettes/{dette}', [\App\Http\Controllers\DetteController::class, 'update'])->name('dettes.update');
     Route::post('/dettes/{dette}/pay', [\App\Http\Controllers\DetteController::class, 'pay'])->name('dettes.pay');
 });
 

@@ -126,7 +126,6 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <input type="text" id="qtityCtn" name="qtityCtn" class="form-control" value="{{ old('qtityCtn', $product->qtityCtn) }}" hidden>
                                     <div class="col-lg-4 col-sm-4 col-12">
                                         <div class="form-group">
                                             <label for="price">Prix d'Achat(FG)</label>

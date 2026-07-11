@@ -98,6 +98,54 @@ class DetteController extends Controller
         }
     }
 
+    public function edit(Dette $dette)
+    {
+        $customers = Customer::all();
+        $stores = Store::all();
+
+        return view('dettes.edit', compact('dette', 'customers', 'stores'));
+    }
+
+    public function update(Request $request, Dette $dette)
+    {
+        $request->validate([
+            'reference'         => 'required|unique:dettes,reference,' . $dette->id,
+            'customer_id'       => 'required|exists:customers,id',
+            'store_id'          => 'required|exists:stores,id',
+            'montant_total'     => 'required|numeric|min:0',
+            'montant_paid'      => 'required|numeric|min:0|lte:montant_total',
+            'endettement_date'  => 'required|date',
+            'notes'             => 'nullable|string',
+        ], [
+            'reference.required'     => 'Le numéro de référence est obligatoire.',
+            'reference.unique'       => 'Cette référence existe déjà.',
+            'customer_id.required'   => 'Veuillez sélectionner le client.',
+            'store_id.required'      => 'Veuillez sélectionner la boutique.',
+            'montant_total.required' => 'Veuillez entrer un montant.',
+            'montant_paid.lte'       => 'Le montant payé ne peut pas dépasser le montant total.',
+        ]);
+
+        try {
+            $reste = $request->montant_total - $request->montant_paid;
+
+            $dette->update([
+                'reference'        => $request->reference,
+                'store_id'         => $request->store_id,
+                'customer_id'      => $request->customer_id,
+                'montant_total'    => $request->montant_total,
+                'montant_paid'     => $request->montant_paid,
+                'reste'            => $reste,
+                'notes'            => $request->notes,
+                'status'           => $reste == 0 ? 'paid' : 'pending',
+                'endettement_date' => $request->endettement_date,
+            ]);
+
+            return redirect()->route('dettes.index')->with('success', 'Dette modifiée avec succès.');
+        } catch (\Throwable $th) {
+            return back()->withInput()->with('error', 'Erreur lors de la modification : ' . $th->getMessage());
+        }
+    }
+
     /**
      * Encaisser un versement sur une dette.
      */

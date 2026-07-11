@@ -86,6 +86,9 @@
                                                 </span>
                                             </td>
                                             <td class="text-end">
+                                                <a href="{{ route('dettes.edit', $data->id) }}" class="btn btn-warning btn-sm me-1" title="Modifier">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
                                                 @if($data->status === 'pending' && $data->reste > 0)
                                                 <button type="button" class="btn btn-sm" style="background-color:#c1682f;color:#fff;"
                                                         data-bs-toggle="modal" data-bs-target="#payModal"
@@ -94,8 +97,6 @@
                                                         data-dette-reste="{{ $data->reste }}">
                                                     Encaisser
                                                 </button>
-                                                @else
-                                                —
                                                 @endif
                                             </td>
                                         </tr>
