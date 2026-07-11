@@ -102,9 +102,9 @@
                                             <th>Identifiant Stock</th>
                                             <th>Category</th>
                                             <th>Qtité en Stock</th>
-                                            <th>Prix Achat</th>
-                                            <th>Prix Revient</th>
                                             <th>Prix Vente</th>
+                                            <th>Prix Revient</th>
+                                            <th>Prix Carton</th>
                                             <th>Image</th>
                                             <th>Action</th>
                                         </tr>

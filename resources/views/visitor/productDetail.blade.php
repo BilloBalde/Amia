@@ -204,7 +204,7 @@
 
                 {{-- Prix + Bouton --}}
                 <div>
-                    @php $basePrice = $product->promo_price ?? $product->price_carton; @endphp
+                    @php $basePrice = $product->promo_price ?? $product->price; @endphp
                     <div class="tier-table mb-4">
                         <div class="tier-label">Tarifs de gros — prix unitaire</div>
                         <div class="tier-grid">
@@ -229,8 +229,8 @@
                     <div class="flex items-baseline gap-3 mb-3">
                         <span class="price-main" id="detail-price">{{ number_format($basePrice, 0, ',', ' ') }} GNF</span>
                         @if($product->promo_price)
-                            <span class="price-old">{{ number_format($product->price_carton, 0, ',', ' ') }} GNF</span>
-                            @php $disc = round((1 - $product->promo_price / $product->price_carton) * 100); @endphp
+                            <span class="price-old">{{ number_format($product->price, 0, ',', ' ') }} GNF</span>
+                            @php $disc = round((1 - $product->promo_price / $product->price) * 100); @endphp
                             <span class="text-xs font-bold text-green-600 bg-green-100 px-2 py-1 rounded-full">-{{ $disc }}%</span>
                         @endif
                     </div>
@@ -280,7 +280,7 @@
                 @endif
                 <div class="rel-info">
                     <div class="rel-name">{{ $r->libelle }}</div>
-                    <div class="rel-price">{{ number_format($r->promo_price ?? $r->price_carton, 0, ',', ' ') }} GNF</div>
+                    <div class="rel-price">{{ number_format($r->promo_price ?? $r->price, 0, ',', ' ') }} GNF</div>
                 </div>
             </a>
             @endforeach

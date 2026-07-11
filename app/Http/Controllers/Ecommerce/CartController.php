@@ -14,7 +14,7 @@ class CartController extends Controller
         $product = Product::findOrFail($id);
         $cart = session()->get('cart', []);
         $requestedQty = max(1, (int) $request->input('quantity', 1));
-        $basePrice = $product->promo_price ?? $product->price_carton;
+        $basePrice = $product->promo_price ?? $product->price;
 
         // Si le produit est déjà dans le panier, on augmente la quantité
         $newQuantity = isset($cart[$id]) ? $cart[$id]['quantity'] + $requestedQty : $requestedQty;

@@ -12,7 +12,7 @@
      data-numeroFacture="{{ $numeroFacture }}"
      data-sku="{{ $dataItem->sku }}"
      data-id="{{ $dataItem->id }}"
-     data-price="{{ $dataItem->price_carton }}">
+     data-price="{{ $dataItem->price }}">
     <div class="productset flex-fill">
         <div class="productsetimg">
             <img src="{{ asset('products/' . $dataItem->image) }}" alt="img" style="height: 170px">
@@ -28,7 +28,7 @@
             </h6>
             <h5>{{ $dataItem->libelle }}</h5>
             <h4>{{ $dataItem->sku }}</h4>
-            <h4 class="price-vente">{{ number_format($dataItem->price_carton ?? 0, 0, ',', ' ') }} FG</h4>
+            <h4 class="price-vente">{{ number_format($dataItem->price ?? 0, 0, ',', ' ') }} FG</h4>
             <span class="stock-badge {{ $quantity <= 5 ? 'stock-low' : 'stock-ok' }}">
                 @if($quantity <= 5)
                     <i class="fa fa-exclamation-triangle"></i> Stock faible : {{ $quantity }}

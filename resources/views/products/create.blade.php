@@ -81,7 +81,7 @@
                                        </div>
                                     <div class="col-lg-6 col-sm-6 col-12">
                                         <div class="form-group">
-                                            <label for="price">Prix d'Achat(FG)</label>
+                                            <label for="price">Prix de Vente(FG)</label>
                                             <input type="text" id="price" name="price" class="form-control" value="{{ old('price') }}">
                                             @error('price')
                                             <span class="text-danger">{{ $message }}</span>
@@ -99,7 +99,7 @@
                                     </div>
                                     <div class="col-lg-6 col-sm-6 col-12">
                                         <div class="form-group">
-                                            <label for="price_carton">Prix de Vente(FG)</label>
+                                            <label for="price_carton">Prix Carton(FG)</label>
                                             <input type="text" id="price_carton" name="price_carton" class="form-control" value="{{ old('price_carton') }}">
                                             @error('price_carton')
                                             <span class="text-danger">{{ $message }}</span>

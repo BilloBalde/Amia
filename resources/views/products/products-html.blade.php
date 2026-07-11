@@ -146,7 +146,7 @@
                 <td>{{ $product->sku ?? 'N/A' }}</td>
                 <td>{{ $categories ?: 'N/A' }}</td>
                 <td class="text-center">{{ $quantity }}</td>
-                <td class="text-right">{{ number_format($product->price_carton ?? 0, 0, ',', ' ') }} F</td>
+                <td class="text-right">{{ number_format($product->price ?? 0, 0, ',', ' ') }} F</td>
                 <td class="text-center">
                     @if($product->image)
                         <img src="{{ asset('products/' . $product->image) }}" 
