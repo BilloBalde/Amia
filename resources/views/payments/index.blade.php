@@ -263,6 +263,16 @@
 
         @include('layouts.scripts')
         <script>
+            // Le plugin DataTable (initialisé globalement dans script.js) trie par
+            // défaut sur la 1ère colonne, écrasant le tri "plus récent d'abord"
+            // déjà fait côté serveur. On force le tri sur "Date Paiement" (colonne 6), desc.
+            $(document).ready(function () {
+                if (window.jQuery && $.fn.DataTable && $.fn.DataTable.isDataTable('.datanew')) {
+                    $('.datanew').DataTable().order([6, 'desc']).draw();
+                }
+            });
+        </script>
+        <script>
             function togglePeriodFields() {
                 const period = document.getElementById('period').value;
                 document.querySelectorAll('.period-field').forEach(field => {

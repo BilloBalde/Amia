@@ -252,6 +252,16 @@
 
     @include('layouts.scripts')
     <script>
+        // Le plugin DataTable (initialisé globalement dans script.js) trie par
+        // défaut sur la 1ère colonne, écrasant le tri "plus récent d'abord"
+        // déjà fait côté serveur. On force le tri sur "Date" (colonne 11), desc.
+        $(document).ready(function () {
+            if (window.jQuery && $.fn.DataTable && $.fn.DataTable.isDataTable('.datanew')) {
+                $('.datanew').DataTable().order([11, 'desc']).draw();
+            }
+        });
+    </script>
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             var deleteModal = document.getElementById('editfacture');
             deleteModal.addEventListener('show.bs.modal', function(event) {
