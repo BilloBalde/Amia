@@ -14,7 +14,7 @@ class RolesSeeder extends Seeder
             ['id' => 1, 'slug' => 'admin', 'nameRole' => 'Admin'],
             // Legacy/compat role often used as "manager" in existing data
             ['id' => 2, 'slug' => 'superuser', 'nameRole' => 'Superuser'],
-            ['id' => 3, 'slug' => 'shopmanager', 'nameRole' => 'Shop Manager'],
+            ['id' => 3, 'slug' => 'shopmanager', 'nameRole' => 'Manager'],
             ['id' => 4, 'slug' => 'vendeur', 'nameRole' => 'Vendeur'],
             ['id' => 5, 'slug' => 'comptable', 'nameRole' => 'Comptable'],
         ];

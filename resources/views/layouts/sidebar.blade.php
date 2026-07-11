@@ -40,16 +40,6 @@
                   </ul>
                 </li>
                 @endpermission
-                @permission('reports.view')
-                <li class="submenu">
-                    <a class="{{ isActiveRoute(['reports.sales', 'reports.daily', 'journaliers.index']) }}" href="javascript:void(0);"><img src="{{ asset('assets/img/icons/printer.svg') }}" alt="img"><span>Rapports</span> <span class="menu-arrow"></span></a>
-                    <ul>
-                        <li><a href="{{ route('reports.daily') }}">Rapport journalier</a></li>
-                        <li><a href="{{ route('reports.sales') }}">Rapport des ventes</a></li>
-                        <li><a href="{{ route('journaliers.index') }}">Journalier</a></li>
-                    </ul>
-                </li>
-                @endpermission
                 @permission('orders.view')
                 <li class="submenu">
                     <a  class="{{ isActiveRoute(['admin.orders.index', 'admin.orders.confirmed', 'admin.orders.factures']) }}" href="javascript:void(0);"><img src="{{ asset('assets/img/icons/order.svg') }}" alt="img"><span> Commandes</span> <span class="menu-arrow"></span></a>
