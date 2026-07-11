@@ -21,7 +21,7 @@ class ExpenseController extends Controller
     private function isAdmin()
     {
         $user = auth()->user();
-        return in_array($user->role, ['admin', 'superuser']); // adaptez selon votre système
+        return $user && in_array((int) $user->role_id, [\App\Models\User::ROLE_ADMIN, \App\Models\User::ROLE_MANAGER]);
     }
 
     /**
@@ -65,7 +65,7 @@ class ExpenseController extends Controller
     public function create()
     {
         $categories = ExpenseCategory::all();
-        $stores = auth()->user()->isAdmin() ? Store::all() : Store::where('id', auth()->user()->store_id)->get();
+        $stores = $this->isAdmin() ? Store::all() : Store::where('id', auth()->user()->store_id)->get();
         $ref = "DEP" . Carbon::now()->format('Ym') . sprintf("%04d", Expense::count() + 1);
         return view('expenses.create', compact('categories', 'ref', 'stores'));
     }
@@ -106,7 +106,8 @@ class ExpenseController extends Controller
         }
 
         $categories = ExpenseCategory::all();
-        return view('expenses.create', compact('expense', 'categories'));
+        $stores = $this->isAdmin() ? Store::all() : Store::where('id', auth()->user()->store_id)->get();
+        return view('expenses.create', compact('expense', 'categories', 'stores'));
     }
 
     /**

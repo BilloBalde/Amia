@@ -29,16 +29,24 @@
                                 @endif
                                 {{-- Champs cachés --}}
                                 <div class="row">
-                                    @if(auth()->user()->role_id == 2)
-                                        <select name="store_id" class="form-control">
-                                            <option value="">Select Store</option>
-                                            @foreach($stores as $store)
-                                                <option value="{{ $store->id }}" 
-                                                    {{ isset($expense) && $expense->store_id == $store->id ? 'selected' : '' }}>
-                                                    {{ $store->store_name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                    @if(auth()->user()->store_id === null)
+                                        <div class="col-lg-3 col-sm-6 col-12">
+                                            <div class="form-group">
+                                                <label for="store_id">Magasin</label>
+                                                <select id="store_id" name="store_id" class="form-control">
+                                                    <option value="">Select Store</option>
+                                                    @foreach($stores as $store)
+                                                        <option value="{{ $store->id }}"
+                                                            {{ (old('store_id') == $store->id) || (isset($expense) && $expense->store_id == $store->id) ? 'selected' : '' }}>
+                                                            {{ $store->store_name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                @error('store_id')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </div>
                                     @else
                                         <input type="hidden" name="store_id" value="{{ isset($expense) ? $expense->store_id : auth()->user()->store_id }}">
                                     @endif
