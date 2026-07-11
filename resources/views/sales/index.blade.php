@@ -194,6 +194,21 @@
 
         @include('layouts.scripts')
         <script>
+            // Le plugin DataTable (initialisé globalement dans script.js, dans un
+            // $(document).ready) trie par défaut sur la 1ère colonne (No. Facture)
+            // sans qu'on le lui demande, ce qui écrasait le tri "plus récent
+            // d'abord" déjà fait côté serveur. On force ici le tri sur la colonne
+            // "Created at" (index 7), descendant. Utiliser $(document).ready ici
+            // (et non addEventListener('DOMContentLoaded')) est important : ce
+            // script est chargé en bas de page, après que l'évènement natif ait
+            // déjà pu se déclencher — jQuery gère ce cas et exécute immédiatement.
+            $(document).ready(function () {
+                if (window.jQuery && $.fn.DataTable && $.fn.DataTable.isDataTable('.datanew')) {
+                    $('.datanew').DataTable().order([7, 'desc']).draw();
+                }
+            });
+        </script>
+        <script>
         function showProductDetails(productId) {
             // Afficher le modal
             const modal = new bootstrap.Modal(document.getElementById('productDetailsModal'));
