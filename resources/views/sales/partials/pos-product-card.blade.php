@@ -15,17 +15,17 @@
      data-price="{{ $dataItem->price }}">
     <div class="productset flex-fill">
         <div class="productsetimg">
-            <img src="{{ asset('products/' . $dataItem->image) }}" alt="img" style="height: 170px">
+            <img src="{{ asset('products/' . $dataItem->image) }}" alt="img" style="height: 170px" loading="lazy" onerror="this.closest('.productsetimg').classList.add('img-fallback')">
             <div class="check-product">
                 <i class="fa fa-check"></i>
             </div>
         </div>
         <div class="productsetcontent">
-            <h6>
+            <span class="cat-chip">
                 @foreach ($dataItem->categories as $cat)
                 {{ $cat->slug }}
                 @endforeach
-            </h6>
+            </span>
             <h5>{{ $dataItem->libelle }}</h5>
             <h4>{{ $dataItem->sku }}</h4>
             <h4 class="price-vente">{{ number_format($dataItem->price ?? 0, 0, ',', ' ') }} FG</h4>

@@ -249,6 +249,87 @@
             .owl-product .owl-nav button {
                 color: #c1682f !important;
             }
+
+            /* Étiquette catégorie : le thème de base la colorait en rouge "danger",
+               ce qui n'a jamais été voulu ici. Petit chip neutre à la place. */
+            .cat-chip {
+                display: inline-block;
+                background: #f6ece0;
+                color: #a5702f;
+                font-size: 10px;
+                font-weight: 700;
+                letter-spacing: .04em;
+                text-transform: uppercase;
+                padding: 2px 8px;
+                border-radius: 999px;
+                margin-bottom: 4px;
+            }
+
+            /* Emplacement produit : fond doux + icône si l'image manque/échoue,
+               au lieu d'un rectangle blanc vide avec une icône cassée. */
+            .productsetimg {
+                background: #fbf3ea;
+                border-radius: 8px;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .productsetimg.img-fallback img {
+                opacity: 0;
+            }
+
+            .productsetimg.img-fallback::after {
+                content: "\f03e";
+                font-family: "Font Awesome 5 Free";
+                font-weight: 900;
+                position: absolute;
+                inset: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 32px;
+                color: #e3c8a8;
+            }
+
+            /* Petite élévation au survol des cartes produit : plus vivant, retour
+               visuel immédiat que la carte est cliquable. */
+            .productset {
+                transition: box-shadow .15s ease, transform .15s ease;
+            }
+
+            .productset:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 18px rgba(193, 104, 47, 0.15) !important;
+            }
+
+            /* Onglets catégories inactifs : le blanc plat manquait de relief. */
+            .tab-item:not(.active) .product-details {
+                background: #fffaf5;
+                border: 1px solid #f0e0c8;
+                transition: background-color .15s ease, box-shadow .15s ease;
+            }
+
+            .tab-item:not(.active):hover .product-details {
+                background: #fbf3ea;
+                box-shadow: 0 2px 8px rgba(193, 104, 47, 0.1);
+            }
+
+            /* Bouton "Add Customer" : vert par défaut, incohérent avec le thème. */
+            .btn-adds {
+                border-color: #c1682f !important;
+                color: #c1682f !important;
+            }
+
+            .btn-adds:hover {
+                background: #c1682f !important;
+                color: #fff !important;
+            }
+
+            /* Carte du panier : un peu plus de relief pour la détacher du fond. */
+            .card-order {
+                border-radius: 12px;
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            }
         </style>
         <div id="global-loader">
             <div class="whirly-loader"> </div>
