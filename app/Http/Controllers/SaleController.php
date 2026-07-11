@@ -402,7 +402,7 @@ class SaleController extends Controller
 
     public function pos(){
         $categories = Category::all();
-        $produits = Product::with(['categories', 'latestLigneCommande'])->get();
+        $produits = Product::with(['categories', 'latestLigneCommande', 'stores'])->get();
         $userStoreId = Auth::user()->role_id == 3
             ? Store::where('user_id', Auth::user()->id)->value('id')
             : null;

@@ -149,6 +149,66 @@
                 font-size: 16px;
             }
 
+            /* Répartition du stock par magasin */
+            .store-stock-breakdown {
+                margin-top: 6px;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 4px;
+            }
+
+            .store-pill {
+                font-size: 10px;
+                font-weight: 600;
+                color: #8a5a34;
+                background: #f6ece0;
+                border-radius: 999px;
+                padding: 2px 7px;
+                white-space: nowrap;
+            }
+
+            /* Pagination des produits (10 par page) */
+            .pos-pagination {
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 6px;
+                margin: 18px 0 10px;
+            }
+
+            .pos-pagination button {
+                min-width: 34px;
+                height: 34px;
+                border: 1px solid #e3d3c2;
+                background: #fff;
+                color: #c1682f;
+                border-radius: 8px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: background-color .15s ease, color .15s ease;
+            }
+
+            .pos-pagination button:hover {
+                background: #fbf3ea;
+            }
+
+            .pos-pagination button.active {
+                background: #c1682f;
+                color: #fff;
+                border-color: #c1682f;
+            }
+
+            .pos-pagination button:disabled {
+                opacity: .4;
+                cursor: not-allowed;
+            }
+
+            /* Bootstrap's .d-flex utility is !important, so hiding a product
+               card (pagination/search) needs to win with the same weapon. */
+            .product-item.pos-hidden {
+                display: none !important;
+            }
+
             /* Le thème d'origine de cette page utilisait un violet (#7367f0)
                jamais retouché lors du passage au terracotta — on l'aligne ici. */
             .tabs_wrapper ul.tabs li.active,
@@ -215,8 +275,13 @@
                             </div>
                             @include('layouts.flash')
                             <ul class="tabs owl-carousel owl-theme owl-product border-0">
-                                @foreach ($categories as $index => $item)
-                                <li class="tab-item {{ $index == 0 ? 'active' : '' }}" data-tab="{{ $item->slug }}">
+                                <li class="tab-item active" data-tab="all">
+                                    <div class="product-details">
+                                        <h6>Tous</h6>
+                                    </div>
+                                </li>
+                                @foreach ($categories as $item)
+                                <li class="tab-item" data-tab="{{ $item->slug }}">
                                     <div class="product-details">
                                         <h6>{{ $item->slug }}</h6>
                                     </div>
@@ -224,54 +289,22 @@
                                 @endforeach
                             </ul>
                             <div class="tabs_container">
-                                @foreach ($categories as $index => $category)
-                                <div class="tab_content {{ $index == 0 ? 'active' : '' }}" data-tab="{{ $category->slug }}">
-                                    <div class="row">
-                                        @foreach ($produits->filter(fn($p) => $p->categories->contains('slug', $category->slug)) as $dataItem)
-                                        @php
-                                            // Calculate the quantity
-                                            if ($userStoreId) {
-                                                $store = $dataItem->stores()->where('store_id', $userStoreId)->first();
-                                                $quantity = $store ? $store->pivot->quantity : 0;
-                                            } else {
-                                                $quantity = $dataItem->stores->sum('pivot.quantity');
-                                            }
-                                        @endphp
-                                        @if($quantity > 0)
-                                        <div class="col-lg-4 col-sm-4 col-6 d-flex product-item"
-                                             data-numeroFacture="{{ $numeroFacture }}"
-                                             data-sku="{{ $dataItem->sku }}"
-                                             data-id="{{ $dataItem->id }}"
-                                             data-price="{{ $dataItem->price_carton }}">
-                                            <div class="productset flex-fill">
-                                                <div class="productsetimg">
-                                                    <img src="{{ asset('products/' . $dataItem->image) }}" alt="img" style="height: 170px">
-                                                    <div class="check-product">
-                                                        <i class="fa fa-check"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="productsetcontent">
-                                                    <h6>
-                                                        @foreach ($dataItem->categories as $category)
-                                                        {{ $category->slug }}
-                                                        @endforeach
-                                                    </h6>
-                                                    <h5>{{ $dataItem->libelle }}</h5>
-                                                    <h4>{{ $dataItem->sku }}</h4>
-                                                    <h4 class="price-vente">{{ number_format($dataItem->price_carton ?? 0, 0, ',', ' ') }} FG</h4>
-                                                    <span class="stock-badge {{ $quantity <= 5 ? 'stock-low' : 'stock-ok' }}">
-                                                        @if($quantity <= 5)
-                                                            <i class="fa fa-exclamation-triangle"></i> Stock faible : {{ $quantity }}
-                                                        @else
-                                                            <i class="fa fa-check-circle"></i> En stock : {{ $quantity }}
-                                                        @endif
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        @endif
+                                <div class="tab_content active" data-tab="all">
+                                    <div class="row product-grid">
+                                        @foreach ($produits as $dataItem)
+                                            @include('sales.partials.pos-product-card', ['dataItem' => $dataItem])
                                         @endforeach
                                     </div>
+                                    <div class="pos-pagination"></div>
+                                </div>
+                                @foreach ($categories as $category)
+                                <div class="tab_content" data-tab="{{ $category->slug }}">
+                                    <div class="row product-grid">
+                                        @foreach ($produits->filter(fn($p) => $p->categories->contains('slug', $category->slug)) as $dataItem)
+                                            @include('sales.partials.pos-product-card', ['dataItem' => $dataItem])
+                                        @endforeach
+                                    </div>
+                                    <div class="pos-pagination"></div>
                                 </div>
                                 @endforeach
                             </div>
@@ -823,15 +856,76 @@
                   targetContent.style.display = 'block';
               }
 
-              // Gestion de la recherche
+              // --- Pagination des produits (10 par page, par onglet) ---
+              const PAGE_SIZE = 10;
+              const pageState = {};
+
+              function paginateTab(tabContent) {
+                  const slug = tabContent.getAttribute('data-tab');
+                  const pageContainer = tabContent.querySelector('.pos-pagination');
+                  const items = Array.from(tabContent.querySelectorAll('.product-item'));
+
+                  if (!items.length) {
+                      if (pageContainer) pageContainer.innerHTML = '';
+                      return;
+                  }
+
+                  const totalPages = Math.ceil(items.length / PAGE_SIZE);
+                  let current = pageState[slug] || 1;
+                  if (current > totalPages) current = totalPages;
+                  pageState[slug] = current;
+
+                  items.forEach((item, idx) => {
+                      const page = Math.floor(idx / PAGE_SIZE) + 1;
+                      item.classList.toggle('pos-hidden', page !== current);
+                  });
+
+                  if (!pageContainer) return;
+
+                  if (totalPages <= 1) {
+                      pageContainer.innerHTML = '';
+                      return;
+                  }
+
+                  let html = `<button type="button" data-page="prev" ${current === 1 ? 'disabled' : ''}>&laquo;</button>`;
+                  for (let p = 1; p <= totalPages; p++) {
+                      html += `<button type="button" data-page="${p}" class="${p === current ? 'active' : ''}">${p}</button>`;
+                  }
+                  html += `<button type="button" data-page="next" ${current === totalPages ? 'disabled' : ''}>&raquo;</button>`;
+                  pageContainer.innerHTML = html;
+
+                  pageContainer.querySelectorAll('button').forEach(btn => {
+                      btn.addEventListener('click', function () {
+                          const val = this.getAttribute('data-page');
+                          if (val === 'prev') pageState[slug] = Math.max(1, current - 1);
+                          else if (val === 'next') pageState[slug] = Math.min(totalPages, current + 1);
+                          else pageState[slug] = parseInt(val);
+                          paginateTab(tabContent);
+                      });
+                  });
+              }
+
+              function paginateAllTabs() {
+                  tabContents.forEach(paginateTab);
+              }
+
+              // Gestion de la recherche (la pagination ne s'applique pas pendant une recherche)
               searchInput.addEventListener('input', function () {
                   const searchTerm = this.value.toLowerCase();
 
                   clearSearchBtn.style.display = searchTerm ? 'inline' : 'none';
 
+                  if (!searchTerm) {
+                      resetToInitialState();
+                      paginateAllTabs();
+                      return;
+                  }
+
                   tabContents.forEach(tab => {
                       let hasVisibleProducts = false;
                       const products = tab.querySelectorAll('.product-item');
+                      const pageContainer = tab.querySelector('.pos-pagination');
+                      if (pageContainer) pageContainer.innerHTML = '';
 
                       products.forEach(product => {
                           const libelle = product.querySelector('.productsetcontent h5')?.textContent.toLowerCase() || '';
@@ -839,7 +933,7 @@
                           const cat = product.querySelector('.productsetcontent h6')?.textContent.toLowerCase() || '';
 
                           const match = libelle.includes(searchTerm) || sku.includes(searchTerm) || cat.includes(searchTerm);
-                          product.style.display = match ? 'flex' : 'none';
+                          product.classList.toggle('pos-hidden', !match);
                           if (match) hasVisibleProducts = true;
                       });
 
@@ -856,6 +950,7 @@
                   searchInput.value = '';
                   clearSearchBtn.style.display = 'none';
                   resetToInitialState();
+                  paginateAllTabs();
                   searchInput.focus();
               });
 
@@ -886,6 +981,7 @@
 
               // Initialisation
               resetToInitialState();
+              paginateAllTabs();
           });
       </script>
         <!-- Owl Carousel -->
