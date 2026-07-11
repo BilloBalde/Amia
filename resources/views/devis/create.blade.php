@@ -290,7 +290,7 @@
             // Ajouter les options de produits
             products.forEach(product => {
                 const selected = (productData && productData.product_id == product.id) ? 'selected' : '';
-                html += `<option value="${product.id}" data-price="${product.price_sale_ctn ?? product.price_sale}" ${selected}>${product.libelle}</option>`;
+                html += `<option value="${product.id}" data-price="${product.price ?? product.price_sale}" ${selected}>${product.libelle}</option>`;
             });
             
             html += `

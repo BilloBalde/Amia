@@ -280,16 +280,12 @@
                                 <td>${product.description || 'N/A'}</td>
                             </tr>
                             <tr>
-                                <th>Prix d'achat</th>
+                                <th>Prix de Vente</th>
                                 <td>${product.price ? new Intl.NumberFormat('fr-FR').format(product.price) + ' F' : 'N/A'}</td>
                             </tr>
                             <tr>
                                 <th>Prix de revient</th>
                                 <td>${product.price_sale ? new Intl.NumberFormat('fr-FR').format(product.price_sale) + ' F' : 'N/A'}</td>
-                            </tr>
-                            <tr>
-                                <th>Prix de vente</th>
-                                <td>${product.price_sale_ctn ? new Intl.NumberFormat('fr-FR').format(product.price_sale_ctn) + ' F' : 'N/A'}</td>
                             </tr>
                         </table>
                     </div>

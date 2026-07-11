@@ -180,7 +180,6 @@ class ProductController extends Controller
                 'pcs' => $request->stock_initial, // stock global e-commerce, initialisé au stock du premier magasin
                 'price' => $request->price,
                 'price_sale' => $request->price_sale ?? NULL,
-                'price_carton' => $request->price_carton ?? NULL,
                 'image' => $productName ?? 'ib profile.jpg',
                 'is_promo' => $request->boolean('is_promo'),
                 'promo_percent' => $request->promo_percent ?? null,
@@ -214,7 +213,6 @@ class ProductController extends Controller
                 'description' => $product->description,
                 'price' => $product->price,
                 'price_sale' => $product->price_sale,
-                'price_sale_ctn' => $product->price_carton,
                 'image' => $product->image,
                 'category_name' => $product->categories->pluck('slug')->implode(', ')
             ]
@@ -282,7 +280,7 @@ class ProductController extends Controller
             $storeId = $request->input('store_id');
 
             $product->fill($request->only([
-                'libelle', 'sku', 'description', 'price', 'price_sale', 'price_carton',
+                'libelle', 'sku', 'description', 'price', 'price_sale',
             ]));
 
             $product->is_promo = $request->boolean('is_promo');

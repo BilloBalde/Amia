@@ -215,7 +215,7 @@
                                 <div class="form-section">
                                     <div class="form-section-title"><i class="fa fa-tag"></i> Tarification</div>
                                     <div class="row">
-                                        <div class="col-lg-4 col-sm-4 col-12">
+                                        <div class="col-lg-6 col-sm-6 col-12">
                                             <div class="form-group">
                                                 <label for="price">Prix de Vente(FG)</label>
                                                 <input type="text" id="price" name="price" class="form-control" value="{{ old('price', $product->price) }}">
@@ -224,20 +224,11 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-sm-4 col-12">
+                                        <div class="col-lg-6 col-sm-6 col-12">
                                             <div class="form-group">
                                                 <label for="price_sale">Prix de Revient(FG)</label>
                                                 <input type="text" id="price_sale" name="price_sale" class="form-control" value="{{ old('price_sale', $product->price_sale ?? 0) }}">
                                                 @error('price_sale')
-                                                <span class="text-danger">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-sm-4 col-12">
-                                            <div class="form-group">
-                                                <label for="price_carton">Prix Carton(FG)</label>
-                                                <input type="text" id="price_carton" name="price_carton" class="form-control" value="{{ old('price_carton', $product->price_carton ?? 0) }}">
-                                                @error('price_carton')
                                                 <span class="text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>

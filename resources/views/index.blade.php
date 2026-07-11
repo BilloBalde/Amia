@@ -378,7 +378,7 @@
                                 </div>
                             </td>
                             <td class="text-center">{{ $item->quantity }}</td>
-                            <td class="text-end">{{ numberDelimiter($item->product->price_sale_ctn) }} FG</td>
+                            <td class="text-end">{{ numberDelimiter($item->prix) }} FG</td>
                             <td class="text-end fw-medium text-primary">{{ numberDelimiter($item->prixTotal) }} FG</td>
                             <td>{{ \Carbon\Carbon::parse($item->updated_at)->format('d/m/Y H:i') }}</td>
                         </tr>

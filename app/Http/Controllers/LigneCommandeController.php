@@ -145,11 +145,9 @@ class LigneCommandeController extends Controller
                         'libelle' => $productData['productName'],
                         'sku' => $productData['productName'],
                         'description' => $productData['productName'],
-                        'qtityCtn' => 1,
                         'image' => $productName,
                         'price' => $productData['unit_price_purchase'],
                         'price_sale' => $productData['unit_price_sale'],
-                        'price_sale_ctn' => $productData['price_sale'],
                     ]);
 
                     CategoryProduct::create([
@@ -158,7 +156,6 @@ class LigneCommandeController extends Controller
                     ]);
                 } else {
                     // Update product
-                    $product->qtityCtn = 1;
                     if ($file) {
                         $product->image = $productName;
                     }
@@ -311,10 +308,8 @@ class LigneCommandeController extends Controller
                         'montant_sale' => $productData['ctn_price_sale'] * $productData['cartons'],
                         'ctn_price_sale' => $productData['ctn_price_sale']
                     ]);
-                    $product->qtityCtn = 1;
                     $product->price = $productData['unit_price_purchase'];
                     $product->price_sale = $productData['unit_price_sale'];
-                    $product->price_sale_ctn = $productData['ctn_price_sale'];
                     $product->image = $imagePath;
                     $product->save();
                     
