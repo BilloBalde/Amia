@@ -90,11 +90,11 @@
             
             <div class="warning">
                 <strong>⚠️ Vous n'avez pas demandé ce changement ?</strong><br>
-                Contactez immédiatement un administrateur à edaagtrading0@gmail.com
+                Contactez immédiatement un administrateur à saikououmar47@gmail.com
             </div>
         </div>
         <div class="footer">
-            © {{ date('Y') }} EDAAG TRADING - Tous droits réservés
+            © {{ date('Y') }} SMH - Tous droits réservés
         </div>
     </div>
 </body>

@@ -35,7 +35,7 @@ class ContactMail extends Mailable
 
     public function build()
     {
-        return $this->subject($this->subject ?: 'Nouveau message de contact - EDAAG TRADING')
+        return $this->subject($this->subject ?: 'Nouveau message de contact - SMH')
                     ->view('mails.contact')
                     ->with([
                         'senderName' => $this->senderName,

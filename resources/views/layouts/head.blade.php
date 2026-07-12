@@ -8,7 +8,7 @@
     <meta name="robots" content="noindex, nofollow">
     <title>{{ App\Models\Company::latest()->first()->name }}</title>
 
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/logo/favicon.ico') }}">
+    <link rel="shortcut icon" type="image/jpeg" href="{{ asset('companies/logo.jpg') }}">
 
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}">

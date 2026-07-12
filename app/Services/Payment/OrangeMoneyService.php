@@ -93,7 +93,7 @@ class OrangeMoneyService
      * Initier un paiement Orange Money.
      *
      * @param  int    $amount   Montant en GNF (entier)
-     * @param  string $orderId  Référence commande (ex: "FBK-24")
+     * @param  string $orderId  Référence commande (ex: "SMH-24")
      * @param  object $user     Utilisateur (name, email, phone)
      * @return array  ['success' => bool, 'payment_url' => string, 'pay_token' => string, 'notif_token' => string, 'error' => string]
      */

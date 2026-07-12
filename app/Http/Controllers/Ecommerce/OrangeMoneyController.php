@@ -49,7 +49,7 @@ class OrangeMoneyController extends Controller
 
         $result = $this->orangeMoney->initiatePayment(
             amount:  (int) $order->total_amount,
-            orderId: 'FBK-' . $order->id,
+            orderId: 'SMH-' . $order->id,
             user:    Auth::user(),
         );
 
@@ -192,12 +192,13 @@ class OrangeMoneyController extends Controller
             return response()->json(['error' => 'Référence manquante.'], 400);
         }
 
-        if (!Str::startsWith($reference, 'FBK-')) {
-            $reference = 'FBK-' . $reference;
+        if (!Str::startsWith($reference, ['SMH-', 'FBK-'])) {
+            $reference = 'SMH-' . $reference;
         }
 
-        // ── Extraire l'ID de commande depuis "FBK-{id}" ──
-        $orderId = (int) str_replace('FBK-', '', $reference);
+        // ── Extraire l'ID de commande depuis "SMH-{id}" ──
+        // (l'ancien préfixe FBK- reste accepté pour les paiements initiés avant le rebranding)
+        $orderId = (int) preg_replace('/^(?:SMH-|FBK-)/', '', $reference);
 
         DB::beginTransaction();
         try {
@@ -253,11 +254,8 @@ class OrangeMoneyController extends Controller
 
     private function resolvePayTokenFromReference(string $reference): ?string
     {
-        if (!Str::startsWith($reference, 'FBK-')) {
-            $reference = 'FBK-' . $reference;
-        }
-
-        $orderId = (int) str_replace('FBK-', '', $reference);
+        // L'ancien préfixe FBK- reste accepté pour les paiements initiés avant le rebranding.
+        $orderId = (int) preg_replace('/^(?:SMH-|FBK-)/', '', $reference);
 
         return Order::whereKey($orderId)->value('transaction_id');
     }

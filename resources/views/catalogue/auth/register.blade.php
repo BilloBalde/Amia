@@ -8,8 +8,8 @@
                 <div class="login-form-wrapper">
                     <!-- Logo -->
                     <div class="login-logo">
-                        <img src="{{ asset('assets/img/logo.png') }}" alt="EDAAG TRADING Logo" class="logo-image">
-                        <h2 class="logo-text">EDAAG TRADING</h2>
+                        <img src="{{ asset('companies/logo.jpg') }}" alt="SMH Logo" class="logo-image">
+                        <h2 class="logo-text">SMH</h2>
                     </div>
 
                     <!-- Header -->
@@ -122,7 +122,7 @@
                         <div class="shape shape-3"></div>
                     </div>
                     <div class="decorative-text">
-                        <h2>Bienvenue sur EDAAG TRADING</h2>
+                        <h2>Bienvenue sur SMH</h2>
                         <p>Créez votre compte client en quelques secondes</p>
                         <div class="features-list">
                             <div class="feature-item">

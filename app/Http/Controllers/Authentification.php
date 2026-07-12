@@ -190,7 +190,7 @@ class Authentification extends Controller
             $this->syncUserPermissions($user, $request->input('permissions', []));
 
             $verification_link = url('registration/verification/'.$token.'/'.$request->email);
-            $subject = 'Confirmation de compte - EDAAG TRADING';
+            $subject = 'Confirmation de compte - SMH';
     
             // Create a clean verification link without HTML for the email body
             $message = $verification_link;
@@ -243,7 +243,7 @@ class Authentification extends Controller
             // Send password change notification
             if (!empty($user->email) && $passwordChanged) {
                 Mail::to($user->email)->send(new PasswordMail(
-                    '🔐 Modification de votre mot de passe - EDAAG TRADING',
+                    '🔐 Modification de votre mot de passe - SMH',
                     'Votre mot de passe a été modifié avec succès.',
                     $userName,
                     'changed'
@@ -330,7 +330,7 @@ class Authentification extends Controller
 
         try {
             // Using ContactMail (recommended)
-            Mail::to('edaagtrading0@gmail.com')->send(new ContactMail(
+            Mail::to('saikououmar47@gmail.com')->send(new ContactMail(
                 $request->subject,
                 $request->email,
                 $request->name,
@@ -338,7 +338,7 @@ class Authentification extends Controller
             ));
             
             // OR using UserMail (your existing)
-            Mail::to('edaagtrading0@gmail.com')->send(new UserMail(
+            Mail::to('saikououmar47@gmail.com')->send(new UserMail(
                 $request->subject,
                 "Email envoyeur: " . $request->email . "\n" .
                 "Nom envoyeur: " . $request->name . "\n" .

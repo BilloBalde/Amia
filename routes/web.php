@@ -62,7 +62,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 /*
 |--------------------------------------------------------------------------
-| WEB ROUTES - PROJET FUSIONNÉ (Polimax + FBK Printing)
+| WEB ROUTES - SMH
 |--------------------------------------------------------------------------
 */
 
@@ -70,10 +70,10 @@ use Maatwebsite\Excel\Facades\Excel;
 // 1. ROUTES PUBLIQUES - PAGE D'ACCUEIL
 // =============================================
 
-// Page d'accueil (FBK Printing)
+// Page d'accueil
 Route::get('/', [VisitController::class, 'index'])->name('accueil');
 
-// Redirection vers login (Polimax)
+// Redirection vers login
 Route::get('/login-redirect', function () {
     return redirect()->route('login');
 })->name('login.redirect');
@@ -82,7 +82,7 @@ Route::get('/login-redirect', function () {
 // 2. ROUTES D'AUTHENTIFICATION (COMBINÉES)
 // =============================================
 
-// Authentification standard (Polimax)
+// Authentification standard
 Route::get('/login', [Authentification::class, 'login'])->name('login');
 Route::get('/register', [Authentification::class, 'register'])->middleware(['auth', 'permission:users.create'])->name('addUser');
 Route::put('/updateUser/{id}', [Authentification::class, 'update'])->middleware(['auth', 'permission:users.edit'])->name('updateUser');
@@ -96,12 +96,12 @@ Route::post('/login_submit', [Authentification::class, 'login_submit'])->middlew
 Route::post('/passwordRecovery', [Authentification::class, 'passwordRecovery'])->middleware('throttle:5,1')->name('passwordRecovery');
 Route::post('/sendEmail', [Authentification::class, 'sendEmail'])->name('sendEmail');
 
-// Authentification par téléphone (FBK Printing)
+// Authentification par téléphone
 Route::post('/send-verification-code', [PhoneAuthController::class, 'sendCode'])->name('send.code');
 Route::post('/verify-and-login', [PhoneAuthController::class, 'verifyAndLogin'])->name('verify.login');
 Route::post('/logout', [PhoneAuthController::class, 'logout'])->name('shop.logout.post');
 
-// Mot de passe oublié (FBK Printing)
+// Mot de passe oublié
 Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->middleware('throttle:5,1')->name('password.email');
 Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 Route::get('password/reset/{token}/{email}', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
@@ -123,7 +123,7 @@ Route::get('/logout', function () {
 });
 
 // =============================================
-// 4. ROUTES FRONTEND - E-COMMERCE (FBK Printing)
+// 4. ROUTES FRONTEND - E-COMMERCE
 // =============================================
 
 // Pages statiques
@@ -153,11 +153,11 @@ Route::get('/nos-categories', [VisitController::class, 'publicCategories'])->nam
 Route::post('/produits/load-more', [VisitController::class, 'loadMoreProducts'])->name('products.loadMore');
 Route::get('/product/{id}', [VisitController::class, 'showProduct'])->name('productDetail');
 
-// Route beauté (FBK Printing)
+// Route beauté
 Route::get('/beauty', [VisitController::class, 'index']);
 
 // =============================================
-// 5. ROUTES SHOP - PANIER & COMMANDES (FBK Printing)
+// 5. ROUTES SHOP - PANIER & COMMANDES
 // =============================================
 
 Route::get('/panier', [CartController::class, 'show'])->name('panier');
@@ -213,7 +213,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // =============================================
-// 6. ROUTES ADMIN - GESTION E-COMMERCE (FBK Printing)
+// 6. ROUTES ADMIN - GESTION E-COMMERCE
 // =============================================
 
 Route::middleware(['auth', 'superuser'])->prefix('admin')->group(function () {
@@ -246,13 +246,13 @@ Route::middleware(['auth', 'superuser'])->group(function () {
 });
 
 // =============================================
-// 7. ROUTES BACKEND - DASHBOARD (Polimax)
+// 7. ROUTES BACKEND - DASHBOARD
 // =============================================
 
 Route::get('/home', [IndexController::class, 'index'])->middleware('auth.check')->name('home');
 
 // =============================================
-// 8. ROUTES PROFIL & UTILISATEURS (Polimax)
+// 8. ROUTES PROFIL & UTILISATEURS
 // =============================================
 
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
@@ -268,7 +268,7 @@ Route::get('/admin/assign-store', [UserController::class, 'showAssignStoreForm']
 Route::post('/admin/assign-store', [UserController::class, 'assignStore'])->middleware('auth.check')->name('admin.assignStore');
 
 // =============================================
-// 9. ROUTES PARAMÈTRES (Polimax)
+// 9. ROUTES PARAMÈTRES
 // =============================================
 
 Route::resource('paymentSetting', PaymentSettingController::class);
@@ -276,7 +276,7 @@ Route::resource('currencySetting', CurrencySettingController::class);
 Route::resource('roles', RoleController::class);
 
 // =============================================
-// 10. ROUTES BOUTIQUES & LIEUX (Polimax)
+// 10. ROUTES BOUTIQUES & LIEUX
 // =============================================
 
 Route::resource('boutiques', StoreController::class);
@@ -289,7 +289,7 @@ Route::delete('/places/{id}', [PlaceController::class, 'destroy'])->name('places
 Route::put('/updateplace/{place}', [PlaceController::class, 'update'])->name('places.update');
 
 // =============================================
-// 11. ROUTES CLIENTS (Polimax)
+// 11. ROUTES CLIENTS
 // =============================================
 
 Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
@@ -306,7 +306,7 @@ Route::post('/customers/search', [CustomerController::class, 'search'])->name('c
 Route::post('/customers/quick-add', [CustomerController::class, 'quickAdd'])->name('customers.quick-add');
 
 // =============================================
-// 12. ROUTES CATÉGORIES & PRODUITS (Polimax)
+// 12. ROUTES CATÉGORIES & PRODUITS
 // =============================================
 
 Route::resource('categories', CategoryController::class);
@@ -316,14 +316,14 @@ Route::get('/fetch-product-details', [ProductController::class, 'fetchProductDet
 Route::get('/fetch-product-details-suggestion', [ProductController::class, 'fetchProductDetailsSuggestion'])->middleware('auth.check');
 
 // =============================================
-// 13. ROUTES DÉPENSES (Polimax)
+// 13. ROUTES DÉPENSES
 // =============================================
 
 Route::resource('expensesCategory', ExpenseCategoryController::class);
 Route::resource('expenses', ExpenseController::class);
 
 // =============================================
-// 14. ROUTES ACHATS (Polimax)
+// 14. ROUTES ACHATS
 // =============================================
 
 Route::resource('purchases', PurchaseController::class);
@@ -332,7 +332,7 @@ Route::get('/purchases/ajout/{numeroPurchase}/{quantity}/{store}', [PurchaseCont
 Route::post('/purchases/exitAchat/{numeroPurchase}', [PurchaseController::class, 'exitAchat'])->name('exitPurchase');
 
 // =============================================
-// 15. ROUTES FACTURES (Polimax)
+// 15. ROUTES FACTURES
 // =============================================
 
 Route::resource('factures', FactureController::class);
@@ -340,7 +340,7 @@ Route::get('/factures/bon-de-commande/{facture}', [FactureController::class, 'bo
 Route::get('/factures/bon-de-sortie/{facture}', [FactureController::class, 'bonDeSortie'])->name('factures.bon-de-sortie');
 
 // =============================================
-// 16. ROUTES VENTES (Polimax)
+// 16. ROUTES VENTES
 // =============================================
 
 Route::resource('sales', SaleController::class);
@@ -353,7 +353,7 @@ Route::post('/sales/exitSale/{numero_facture}', [SaleController::class, 'exitSal
 Route::get('/sales/voir/{numero_facture}', [SaleController::class, 'voirSales'])->middleware('auth.check')->name('voirSales');
 
 // =============================================
-// 17. ROUTES PAIEMENTS (Polimax)
+// 17. ROUTES PAIEMENTS
 // =============================================
 
 Route::resource('payments', PaymentController::class);
@@ -366,7 +366,7 @@ Route::post('/paiementsClient/store', [PaymentController::class, 'storePayment']
 Route::get('/updateCustomerTotals', [PaymentController::class, 'updateCustomerTotals'])->middleware('auth.check');
 
 // =============================================
-// 18. ROUTES REÇUS (Polimax)
+// 18. ROUTES REÇUS
 // =============================================
 
 Route::get('/receipts/payments/{payment}', [ReceiptController::class, 'payment'])->name('receipts.payments.show');
@@ -374,7 +374,7 @@ Route::get('/receipts/transactions/{transaction}', [ReceiptController::class, 't
 Route::get('/receipts/transfers/{transfer}', [ReceiptController::class, 'transfer'])->name('receipts.transfers.show');
 
 // =============================================
-// 19. ROUTES RAPPORTS (Polimax)
+// 19. ROUTES RAPPORTS
 // =============================================
 
 Route::get('/reports/sales', [SalesReportController::class, 'index'])->name('reports.sales');
@@ -382,14 +382,14 @@ Route::get('/reports/daily', [DailyReportController::class, 'index'])->name('rep
 Route::get('/reports/daily/export/pdf', [DailyReportController::class, 'exportPDF'])->name('reports.daily.export.pdf');
 
 // =============================================
-// 20. ROUTES MOUVEMENTS (Polimax)
+// 20. ROUTES MOUVEMENTS
 // =============================================
 
 Route::get('/mouvements', [MovementController::class, 'index'])->name('movements.index');
 Route::get('/mouvements/pdf', [MovementController::class, 'exportPdf'])->name('movements.pdf');
 
 // =============================================
-// 21. ROUTES LOGISTIQUE (Polimax)
+// 21. ROUTES LOGISTIQUE
 // =============================================
 
 Route::resource('logistics', LogisticController::class);
@@ -397,13 +397,13 @@ Route::get('/logistics/export-excel', [LogisticController::class, 'exportExcel']
 Route::get('/logistics/export-pdf', [LogisticController::class, 'exportPDF'])->middleware('auth.check')->name('logistics.export-pdf');
 
 // =============================================
-// 22. ROUTES TRANSFERTS (Polimax)
+// 22. ROUTES TRANSFERTS
 // =============================================
 
 Route::resource('transfers', StoreProductController::class);
 
 // =============================================
-// 23. ROUTES PROFORMAS & LIGNES COMMANDE (Polimax)
+// 23. ROUTES PROFORMAS & LIGNES COMMANDE
 // =============================================
 
 Route::resource('proformas', ProformaController::class);
@@ -420,7 +420,7 @@ Route::post('/commandes/confirmer/proforma', [LigneCommandeController::class, 'c
 Route::get('/lesCommandes/add', [LigneCommandeController::class, 'addLines'])->name('ligneCommandes.addLines');
 
 // =============================================
-// 24. ROUTES DEVIS (Polimax)
+// 24. ROUTES DEVIS
 // =============================================
 
 Route::resource('devis', DeviController::class);
@@ -430,7 +430,7 @@ Route::get('/devis/{id}/pdf', [DeviController::class, 'showPdf'])->name('devis.p
 Route::get('/devis/{id}/pdf-download', [DeviController::class, 'downloadPdf'])->name('devis.pdf-download');
 
 // =============================================
-// 25. ROUTES COMMANDES CLIENTS (Polimax)
+// 25. ROUTES COMMANDES CLIENTS
 // =============================================
 
 Route::get('/orders', [CustomerOrderController::class, 'index'])->middleware('auth.check')->name('customer-orders.index');
@@ -438,7 +438,7 @@ Route::get('/orders/{order}', [CustomerOrderController::class, 'show'])->middlew
 Route::put('/orders/{order}/status', [CustomerOrderController::class, 'updateStatus'])->middleware('auth.check')->name('customer-orders.status');
 
 // =============================================
-// 26. ROUTES CATALOGUE CLIENT (Polimax)
+// 26. ROUTES CATALOGUE CLIENT
 // =============================================
 
 Route::get('/catalogue-client', [CustomerOrderController::class, 'create'])->name('storefront');
@@ -451,7 +451,7 @@ Route::post('/catalogue/logout', [CatalogueAuthController::class, 'logout'])->na
 Route::get('/catalogue/mes-commandes', [CatalogueOrdersController::class, 'index'])->name('catalogue.orders');
 
 // =============================================
-// 27. ROUTES FACTURATIONS (Polimax)
+// 27. ROUTES FACTURATIONS
 // =============================================
 
 Route::get('/facturations/add', [FactureController::class, 'facturationForm'])->name('facturations.add');
@@ -460,7 +460,7 @@ Route::post('/facturations/storeCustomer', [FactureController::class, 'storeCust
 Route::delete('/facturations/{facture}', [FactureController::class, 'destroy'])->name('facturations.destroy');
 
 // =============================================
-// 28. ROUTES JOURNALIER (Polimax)
+// 28. ROUTES JOURNALIER
 // =============================================
 
 Route::get('/journalier', [JournalierController::class, 'index'])->name('journaliers.index');
@@ -475,7 +475,7 @@ Route::get('/journalier/paiementForm/{id}', [JournalierController::class, 'payFo
 Route::post('/journalier/paiement', [JournalierController::class, 'paySubmit'])->name('journalier.pay');
 
 // =============================================
-// 29. ROUTES POS (Point de Vente) - Polimax
+// 29. ROUTES POS (Point de Vente)
 // =============================================
 
 Route::get('pos', [SaleController::class, 'pos'])->middleware('auth.check')->name('pos');
@@ -597,14 +597,14 @@ Route::prefix('new-exports')->name('new.')->group(function () {
 Route::get('/exports/products/html', [NewExportController::class, 'exportHtmlReport'])->name('exports.products.html');
 
 // =============================================
-// 32. ROUTES BASE DE DONNÉES (Polimax)
+// 32. ROUTES BASE DE DONNÉES
 // =============================================
 
 Route::get('/baseDonnee', [BaseDonneeController::class, 'index'])->name('baseDonnee.index');
 Route::post('/baseDonnee/{id}/delete', [BaseDonneeController::class, 'delete'])->name('deleteLines');
 
 // =============================================
-// 33. ROUTES CLEAR CACHE (Polimax)
+// 33. ROUTES CLEAR CACHE
 // =============================================
 
 Route::get('/clear-cache', function() {

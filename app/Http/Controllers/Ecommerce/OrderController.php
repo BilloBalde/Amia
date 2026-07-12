@@ -84,7 +84,7 @@ class OrderController extends Controller
         if ($request->payment_method === 'orange_money') {
             $result = $this->orangeMoney->initiatePayment(
                 amount:  (int) $order->total_amount,
-                orderId: 'FBK-' . $order->id,
+                orderId: 'SMH-' . $order->id,
                 user:    Auth::user(),
             );
 

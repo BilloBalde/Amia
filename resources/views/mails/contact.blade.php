@@ -525,7 +525,7 @@
                     Nous avons bien reçu votre message et vous remercions de nous avoir contactés.<br>
                     Notre équipe va étudier votre demande et vous répondra dans les plus brefs délais.<br><br>
                     Cordialement,<br>
-                    L'équipe EDAAG TRADING
+                    L'équipe SMH
                 </div>
             </div>
         </div>
@@ -533,17 +533,17 @@
         <!-- Footer -->
         <div class="email-footer">
             <div class="company-name">
-                ⚡ EDAAG TRADING
+                ⚡ SMH
             </div>
             
             <div class="contact-info">
                 <span>
                     <i class="fas fa-phone-alt"></i>
-                    +224 610050512
+                    +224 626 311 915
                 </span>
                 <span>
                     <i class="fas fa-envelope"></i>
-                    edaagtrading0@gmail.com
+                    saikououmar47@gmail.com
                 </span>
                 <span>
                     <i class="fas fa-map-marker-alt"></i>
@@ -565,8 +565,8 @@
             </div>
             
             <div class="copyright">
-                © {{ $year ?? date('Y') }} EDAAG TRADING. Tous droits réservés.<br>
-                Ce message est confidentiel et destiné uniquement à l'équipe EDAAG TRADING.
+                © {{ $year ?? date('Y') }} SMH. Tous droits réservés.<br>
+                Ce message est confidentiel et destiné uniquement à l'équipe SMH.
             </div>
         </div>
     </div>

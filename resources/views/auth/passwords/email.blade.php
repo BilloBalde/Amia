@@ -422,7 +422,7 @@
                     <div class="login-userset">
                         <!-- Logo -->
                         <div class="login-logo">
-                            <img src="{{ asset('assets/img/logo.png') }}" alt="EDAAG TRADING">
+                            <img src="{{ asset('companies/logo.jpg') }}" alt="SMH">
                         </div>
 
                         <!-- Security Badge -->

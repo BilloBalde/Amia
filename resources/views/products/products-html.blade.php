@@ -165,7 +165,7 @@
 
     <div class="footer">
         <p>Document généré le {{ now()->format('d/m/Y H:i:s') }}</p>
-        <p>Polimax Guinée - Tous droits réservés</p>
+        <p>SMH - Tous droits réservés</p>
     </div>
 
     <script>
