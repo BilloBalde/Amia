@@ -50,6 +50,7 @@ use App\Http\Controllers\CatalogueAuthController;
 use App\Http\Controllers\CatalogueOrdersController;
 use App\Http\Controllers\DeviController;
 use App\Http\Controllers\NewExportController;
+use App\Http\Controllers\PurchaseOrderController;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Store;
@@ -326,6 +327,7 @@ Route::resource('expenses', ExpenseController::class);
 // =============================================
 
 Route::resource('purchases', PurchaseController::class);
+Route::resource('purchase-orders', PurchaseOrderController::class);
 Route::get('/purchases/ajout/{numeroPurchase}/{quantity}/{store}', [PurchaseController::class, 'ajout'])->name('purchases.ajout');
 Route::post('/purchases/exitAchat/{numeroPurchase}', [PurchaseController::class, 'exitAchat'])->name('exitPurchase');
 

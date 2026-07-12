@@ -100,6 +100,9 @@ class PurchaseController extends Controller
                     'quantity' => \DB::raw("quantity + {$data['quantity']}"), // Increment the stock
                 ]
             );
+
+            // Garde le "Prix de Revient" du produit aligné sur le dernier achat réel
+            Product::where('id', $data['product_id'])->update(['price_sale' => $data['price']]);
         }
 
         // Redirect back with a success message
@@ -152,13 +155,16 @@ class PurchaseController extends Controller
                     'quantity' => \DB::raw("quantity - {$reste}"), // Increment the stock
                 ]
             );
-            $produit = Product::find($purchase->product_id);
-            $oldReste = $produit->stock - $reste;
             $purchase->price = $request->price;
             $purchase->quantity = $request->quantity;
-            $produit->stock = $oldReste;
-            $produit->save();
             $purchase->save();
+
+            // Garde le "Prix de Revient" du produit aligné sur le dernier achat réel
+            $latestPrice = Purchase::where('product_id', $purchase->product_id)->latest()->value('price');
+            if ($latestPrice !== null) {
+                Product::where('id', $purchase->product_id)->update(['price_sale' => $latestPrice]);
+            }
+
             return redirect()->route('purchases.index')->with('success', 'Achats modifié avec succès');
         } catch (\Throwable $th) {
             return redirect()->route('purchases.index')->with('error', 'Achats pas modifié parceque'. $th->getMessage());

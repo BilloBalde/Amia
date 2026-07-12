@@ -45,6 +45,7 @@ class CurrencySettingController extends Controller
             'currencyCode'=>'required|max:25',
             'currencySymbol'=>'required|max:25',
             'status'=>'required|integer',
+            'rate_to_gnf'=>'nullable|numeric|min:0',
         ],[
             'currencyName.required' => 'champ currencyName doit etre rempli.',
             'currencyName.max' => 'champ currencyName prend maximum 25 charactere.',
@@ -69,6 +70,7 @@ class CurrencySettingController extends Controller
                 $currencySetting->currencyCode = $request->currencyCode;
                 $currencySetting->currencySymbol = $request->currencySymbol;
                 $currencySetting->status = $request->status;
+                $currencySetting->rate_to_gnf = $request->rate_to_gnf ?: null;
                 $currencySetting->save();
 
                 session(['success' => '']);
@@ -113,7 +115,29 @@ class CurrencySettingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validate = Validator::make($request->all(), [
+            'currencyName'=>'required|max:25',
+            'currencyCode'=>'required|max:25',
+            'currencySymbol'=>'required|max:25',
+            'status'=>'required|integer',
+            'rate_to_gnf'=>'nullable|numeric|min:0',
+        ]);
+
+        if ($validate->fails()) {
+            return back()->with(['error' => $validate->errors()]);
+        }
+
+        $currencySetting = CurrencySetting::findOrFail($id);
+        $currencySetting->currencyName = $request->currencyName;
+        $currencySetting->currencyCode = $request->currencyCode;
+        $currencySetting->currencySymbol = $request->currencySymbol;
+        $currencySetting->status = $request->status;
+        $currencySetting->rate_to_gnf = $request->rate_to_gnf ?: null;
+        $currencySetting->save();
+
+        flash('Currency Setting mis à jour avec succès');
+
+        return back();
     }
 
     /**
@@ -124,6 +148,10 @@ class CurrencySettingController extends Controller
      */
     public function destroy($id)
     {
-        //
+        CurrencySetting::findOrFail($id)->delete();
+
+        flash('Currency Setting supprimé avec succès');
+
+        return back();
     }
 }

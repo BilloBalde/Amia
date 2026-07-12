@@ -47,6 +47,7 @@
                                             <th>Currency name</th>
                                             <th>Currency code</th>
                                             <th>Currency symbol</th>
+                                            <th>Taux → GNF</th>
                                             <th>Status</th>
                                             <th class="text-end">Action</th>
                                         </tr>
@@ -57,19 +58,30 @@
                                             <td>{{ $d->currencyName }}</td>
                                             <td>{{ $d->currencyCode}}</td>
                                             <td>{{ $d->currencySymbol}}</td>
+                                            <td>{{ $d->rate_to_gnf ? number_format($d->rate_to_gnf, 4) : '—' }}</td>
                                             <td>
                                                 <div class="status-toggle d-flex justify-content-between align-items-center">
-                                                    <input type="checkbox" id="user1" class="check" {{ ($d->status==1) ? 'checked' : '' }}>
+                                                    <input type="checkbox" id="user1" class="check" {{ ($d->status==1) ? 'checked' : '' }} disabled>
                                                     <label for="user1" class="checktoggle">checkbox</label>
                                                 </div>
                                             </td>
                                             <td class="text-end">
-                                                <a class="me-3" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editpayment">
+                                                <a class="me-3 edit-currency-btn" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#editpayment"
+                                                   data-id="{{ $d->id }}"
+                                                   data-name="{{ $d->currencyName }}"
+                                                   data-code="{{ $d->currencyCode }}"
+                                                   data-symbol="{{ $d->currencySymbol }}"
+                                                   data-rate="{{ $d->rate_to_gnf }}"
+                                                   data-status="{{ $d->status }}">
                                                     <img src="assets/img/icons/edit.svg" alt="img">
                                                 </a>
-                                                <a class="me-3 confirm-text" href="javascript:void(0);">
-                                                    <img src="assets/img/icons/delete.svg" alt="img">
-                                                </a>
+                                                <form action="{{ route('currencySetting.destroy', $d->id) }}" method="POST" style="display:inline" onsubmit="return confirm('Supprimer cette devise ?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-link p-0 me-3">
+                                                        <img src="assets/img/icons/delete.svg" alt="img">
+                                                    </button>
+                                                </form>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -123,6 +135,12 @@
                                     </div>
                                 </div>
                                 <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="rate_to_gnf">Taux → GNF (1 unité = X GNF)</label>
+                                        <input type="number" step="0.0001" min="0" name="rate_to_gnf" id="rate_to_gnf">
+                                    </div>
+                                </div>
+                                <div class="col-12">
                                     <div class="form-group mb-0">
                                         <label for="status">Status</label>
                                         <select class="select" name="status" id="status">
@@ -155,42 +173,51 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label>Currency Name<span class="manitory">*</span></label>
-                                    <input type="text" placeholder="India - Indian rupee">
+                    <form id="editCurrencyForm" action="" method="post">
+                        @csrf
+                        @method('PUT')
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>Currency Name<span class="manitory">*</span></label>
+                                        <input type="text" name="currencyName" id="edit_currencyName">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label>Currency Code</label>
-                                    <input type="text">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>Currency Code</label>
+                                        <input type="text" name="currencyCode" id="edit_currencyCode">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label>Currency Symbol<span class="manitory">*</span></label>
-                                    <input type="text">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>Currency Symbol<span class="manitory">*</span></label>
+                                        <input type="text" name="currencySymbol" id="edit_currencySymbol">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-group mb-0">
-                                    <label>Status</label>
-                                    <select class="select">
-                                        <option>Choose Status</option>
-                                        <option> Active</option>
-                                        <option> InActive</option>
-                                    </select>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>Taux → GNF (1 unité = X GNF)</label>
+                                        <input type="number" step="0.0001" min="0" name="rate_to_gnf" id="edit_rate_to_gnf">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group mb-0">
+                                        <label>Status</label>
+                                        <select class="select" name="status" id="edit_status">
+                                            <option value="1">Active</option>
+                                            <option value="0">InActive</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-submit">Update</button>
-                        <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
-                    </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-submit">Update</button>
+                            <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -211,6 +238,19 @@
     <script src="assets/plugins/sweetalert/sweetalerts.min.js"></script>
 
     <script src="assets/js/script.js"></script>
+    <script>
+        document.querySelectorAll('.edit-currency-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                document.getElementById('editCurrencyForm').action = '{{ url("currencySetting") }}/' + id;
+                document.getElementById('edit_currencyName').value = this.getAttribute('data-name') || '';
+                document.getElementById('edit_currencyCode').value = this.getAttribute('data-code') || '';
+                document.getElementById('edit_currencySymbol').value = this.getAttribute('data-symbol') || '';
+                document.getElementById('edit_rate_to_gnf').value = this.getAttribute('data-rate') || '';
+                document.getElementById('edit_status').value = this.getAttribute('data-status') || '1';
+            });
+        });
+    </script>
     </body>
 </html>
 

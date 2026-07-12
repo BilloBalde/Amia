@@ -19,10 +19,10 @@
                 @endpermission
                 @permission('purchases.view')
                 <li class="submenu">
-                    <a class="{{ isActiveRoute(['purchases.index', 'logistics.index']) }}" href="javascript:void(0);"><img src="{{ asset('assets/img/icons/purchase1.svg') }}" alt="img"><span> Achat </span> <span class="menu-arrow"></span></a>
+                    <a class="{{ isActiveRoute(['purchase-orders.index', 'purchase-orders.create']) }}" href="javascript:void(0);"><img src="{{ asset('assets/img/icons/purchase1.svg') }}" alt="img"><span> Achat </span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="{{ route('purchases.index') }}">Achat  List</a></li>
-                        <li><a href="{{ route('logistics.index') }}">Logistic List</a></li>
+                        <li><a href="{{ route('purchase-orders.index') }}">Liste des Achats</a></li>
+                        <li><a href="{{ route('purchase-orders.create') }}">Nouvel Achat</a></li>
                     </ul>
                 </li>
                 @endpermission

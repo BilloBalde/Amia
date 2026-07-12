@@ -534,6 +534,14 @@ class SaleController extends Controller
      */
     private function resolveUnitCost(Product $product): float
     {
+        // price_sale est désormais synchronisé à chaque achat (ancien flux Purchase
+        // et nouveau module PurchaseOrder) — c'est la source la plus fiable et la
+        // plus à jour. L'ancienne chaîne LigneCommande/Purchase ne sert plus que de
+        // dernier recours pour les produits jamais touchés par un achat synchronisé.
+        if ($product->price_sale !== null && (float) $product->price_sale > 0) {
+            return (float) $product->price_sale;
+        }
+
         $latest = $product->latestLigneCommande;
         if ($latest && $latest->unit_price_purchase !== null) {
             return (float) $latest->unit_price_purchase;
