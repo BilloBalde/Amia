@@ -280,15 +280,8 @@
             </div>
         </template>
 
-        @include('layouts.scripts')
-        <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const linesContainer = document.getElementById('poLines');
-            const template = document.getElementById('poLineTemplate');
-            const addLineBtn = document.getElementById('addLineBtn');
-            let lineIndex = 0;
-
-            const existingLines = @json($order->items->map(function ($item) {
+        @php
+            $existingLinesData = $order->items->map(function ($item) {
                 return [
                     'product_id' => $item->product_id,
                     'quantity' => $item->quantity,
@@ -297,7 +290,17 @@
                     'cbm_per_unit' => $item->cbm_per_unit,
                     'description' => $item->description,
                 ];
-            }));
+            })->all();
+        @endphp
+        @include('layouts.scripts')
+        <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const linesContainer = document.getElementById('poLines');
+            const template = document.getElementById('poLineTemplate');
+            const addLineBtn = document.getElementById('addLineBtn');
+            let lineIndex = 0;
+
+            const existingLines = @json($existingLinesData);
 
             // Champs prix/CBM/taux : on tape librement (virgule ou point), on ne garde
             // que les chiffres et un seul séparateur décimal (converti en point tout de
