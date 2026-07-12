@@ -814,10 +814,10 @@
                                     @endif
                                 </div>
                                 <div class="prod-btns">
-                                    <button class="prod-btn" onclick="event.stopPropagation();addToCartWithQty({{ $p['id'] }}, this)">
+                                    <button type="button" class="prod-btn" onclick="event.stopPropagation();addToCartWithQty({{ $p['id'] }}, this)">
                                         <i class="fas fa-shopping-bag mr-1"></i> Panier
                                     </button>
-                                    <button class="prod-btn-order" onclick="event.stopPropagation();orderNowWithQty({{ $p['id'] }}, this)">
+                                    <button type="button" class="prod-btn-order" onclick="event.stopPropagation();orderNowWithQty({{ $p['id'] }}, this)">
                                         <i class="fas fa-bolt mr-1"></i> Commander
                                     </button>
                                 </div>
@@ -1391,10 +1391,10 @@
                         ${oldHTML}
                     </div>
                     <div class="prod-btns">
-                        <button class="prod-btn" onclick="event.stopPropagation();addToCartWithQty(${p.id}, this)">
+                        <button type="button" class="prod-btn" onclick="event.stopPropagation();addToCartWithQty(${p.id}, this)">
                             <i class="fas fa-shopping-bag mr-1"></i> Panier
                         </button>
-                        <button class="prod-btn-order" onclick="event.stopPropagation();orderNowWithQty(${p.id}, this)">
+                        <button type="button" class="prod-btn-order" onclick="event.stopPropagation();orderNowWithQty(${p.id}, this)">
                             <i class="fas fa-bolt mr-1"></i> Commander
                         </button>
                     </div>

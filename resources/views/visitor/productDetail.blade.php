@@ -241,11 +241,11 @@
                     </div>
 
                     <div class="grid grid-cols-2 gap-3">
-                        <button class="btn-cart" onclick="addToCart({{ $product->id }}, this, detailQty())">
+                        <button type="button" class="btn-cart" onclick="addToCart({{ $product->id }}, this, detailQty())">
                             <i class="fas fa-shopping-bag"></i>
                             Ajouter
                         </button>
-                        <button class="btn-cart bg-gradient-to-r from-green-500 to-green-600" style="background: linear-gradient(135deg, #10b981, #059669);" onclick="buyNow({{ $product->id }}, this, detailQty())">
+                        <button type="button" class="btn-cart bg-gradient-to-r from-green-500 to-green-600" style="background: linear-gradient(135deg, #10b981, #059669);" onclick="buyNow({{ $product->id }}, this, detailQty())">
                             <i class="fas fa-bolt"></i>
                             Commander
                         </button>
@@ -403,13 +403,18 @@ function buyNow(id, btn, quantity = 1) {
                 }, 300);
             });
         }
-        showToast('Produit ajouté ! Redirection vers la connexion...');
-        // Rediriger vers la page de login avec l'ID du produit
-        const loginUrl = '{{ route("otp.login") }}?product_id=' + id;
-        console.log('Redirecting to:', loginUrl);
-        setTimeout(() => {
-            window.location.href = loginUrl;
-        }, 500);
+        @if(auth()->check() && auth()->user()->isCustomer())
+            showToast('Produit ajouté ! Redirection...');
+            setTimeout(() => {
+                window.location.href = '{{ route("checkout") }}';
+            }, 500);
+        @else
+            showToast('Produit ajouté ! Redirection vers la connexion...');
+            const loginUrl = '{{ route("otp.login") }}?product_id=' + id;
+            setTimeout(() => {
+                window.location.href = loginUrl;
+            }, 500);
+        @endif
     })
     .catch((error) => {
         console.error('Erreur:', error);
