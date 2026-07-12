@@ -347,6 +347,21 @@
                                 'validated' => 'VALIDÉ'
                             ];
                             $statusClass = $devis->status ?? 'draft';
+
+                            // Cette vue sert à la fois d'aperçu navigateur et de source pour le PDF
+                            // (dompdf). Un chemin public_path() casserait l'aperçu navigateur, et un
+                            // asset() nécessite que dompdf refasse une requête HTTP vers le logo (lent
+                            // et pas fiable) — on encode donc l'image en base64 pour que ça marche
+                            // pareil dans les deux contextes, sans dépendance réseau.
+                            $logoPath = null;
+                            if ($company && $company->logo && file_exists(public_path('companies/'.$company->logo))) {
+                                $logoPath = public_path('companies/'.$company->logo);
+                            } elseif (file_exists(public_path('images/customers/logo.jpg'))) {
+                                $logoPath = public_path('images/customers/logo.jpg');
+                            }
+                            $logoDataUri = $logoPath
+                                ? 'data:' . (mime_content_type($logoPath) ?: 'image/jpeg') . ';base64,' . base64_encode(file_get_contents($logoPath))
+                                : null;
                         @endphp
 
                         <div id="devisContent">
@@ -356,10 +371,8 @@
                             <!-- En-tête avec logo -->
                             <div class="devis-header">
                                 <div class="document-logo">
-                                    @if($company && $company->logo)
-                                        <img src="{{ asset('companies/'.$company->logo) }}" alt="{{ $company->name ?? 'Logo' }}">
-                                    @else
-                                        <img src="{{ asset('images/customers/logo.jpg') }}" alt="Logo">
+                                    @if($logoDataUri)
+                                        <img src="{{ $logoDataUri }}" alt="{{ $company->name ?? 'Logo' }}">
                                     @endif
                                     <div class="document-title">
                                         <h1>DEVIS</h1>

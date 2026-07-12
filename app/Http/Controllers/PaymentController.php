@@ -209,7 +209,8 @@ class PaymentController extends Controller
     public function exportPdf(Request $request)
     {
         $payments = $this->getFilteredPayments($request);
-        $pdf = Pdf::loadView('payments.payments_pdf', compact('payments'));
+        $company = \App\Models\Company::latest()->first();
+        $pdf = Pdf::loadView('payments.payments_pdf', compact('payments', 'company'));
         return $pdf->download('paiements.pdf');
     }
 

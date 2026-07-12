@@ -356,9 +356,11 @@ Route::get('/sales/voir/{numero_facture}', [SaleController::class, 'voirSales'])
 // 17. ROUTES PAIEMENTS
 // =============================================
 
-Route::resource('payments', PaymentController::class);
+// Les routes spécifiques doivent être déclarées AVANT Route::resource : sinon
+// "/payments/export-pdf" est capturé par "/payments/{payment}" (show()) et plante.
 Route::get('/payments/export-pdf', [PaymentController::class, 'exportPdf'])->name('payments.export');
 Route::get('/payments/export-excel', [PaymentController::class, 'exportExcel'])->name('payments.exportExcel');
+Route::resource('payments', PaymentController::class);
 Route::get('/facture/payment/{id}', [PaymentController::class, 'creation'])->name('payments.creation');
 Route::get('/facture/voirPayment/{id}', [PaymentController::class, 'voir'])->name('payments.voir');
 Route::get('/paiementsClient/add/{mark}', [PaymentController::class, 'add'])->name('paiementsClient.add');

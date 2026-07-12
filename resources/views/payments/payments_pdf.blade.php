@@ -221,15 +221,18 @@
 <body>
     <div class="header">
         <div class="company-info">
-            <div class="company-name">SMH</div>
+            <div class="company-name">{{ $company->name ?? 'SMH' }}</div>
             <div class="company-details">
-                Centre Faloulay, 1er étage B30, Madina route Niger — T6, en face de la station Star, Sonfonia<br>
+                {{ $company->address ?? 'Centre Faloulay, 1er étage B30, Madina route Niger — T6, en face de la station Star, Sonfonia' }}<br>
                 Tél: +224 626 311 915 | Email: saikououmar47@gmail.com
             </div>
         </div>
 
-            <img src="{{ asset('images/customers/logo.jpg') }}" alt="SMH" class="invoice-head-logo">
-       
+        @if($company && $company->logo && file_exists(public_path('companies/'.$company->logo)))
+            <img src="{{ public_path('companies/'.$company->logo) }}" alt="{{ $company->name ?? 'Logo' }}" class="invoice-head-logo">
+        @elseif(file_exists(public_path('images/customers/logo.jpg')))
+            <img src="{{ public_path('images/customers/logo.jpg') }}" alt="Logo" class="invoice-head-logo">
+        @endif
     </div>
 
     <div class="report-meta">
