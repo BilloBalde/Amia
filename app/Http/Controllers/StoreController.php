@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Place;
 use App\Models\Store;
 use App\Models\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 class StoreController extends Controller
@@ -145,16 +146,23 @@ class StoreController extends Controller
     public function destroy($id)
     {
         try {
-            $store = Store::find($id);
+            $store = Store::findOrFail($id);
             $firstStore = Store::orderBy('id')->first()?->id;
             if ($id == $firstStore) {
                 return back()->with('error', 'Impossible de supprimer cette boutique, car elle est la seule');
             }else{
                 $store->delete();
             }
-            return redirect()->route('boutiques.index')->with('success', 'Stock supprimé avec succès.');
+            return redirect()->route('boutiques.index')->with('success', 'Boutique supprimée avec succès.');
+        } catch (QueryException $e) {
+            // Erreur 1451 = violation de clé étrangère (ventes, achats, factures, devis...
+            // liés à cette boutique) — on ne peut pas supprimer sans perdre l'historique.
+            if ((int) $e->getCode() === 23000) {
+                return back()->with('error', 'Impossible de supprimer cette boutique : elle a des ventes, achats, factures ou d\'autres données associées. Désactivez-la plutôt avec le bouton Statut.');
+            }
+            return back()->with('error', 'Erreur lors de la suppression : ' . $e->getMessage());
         } catch (\Throwable $th) {
-            return redirect()->route('boutiques.index')->with('error', 'Error lors de la création : '.$th->getMessage());
+            return back()->with('error', 'Erreur lors de la suppression : ' . $th->getMessage());
         }
     }
 }
