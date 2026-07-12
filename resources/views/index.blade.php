@@ -388,6 +388,148 @@
             </div>
         </div>
     </div>
+
+    <!-- Classement des produits -->
+    <div class="row mb-4">
+        <div class="col-lg-6">
+            <div class="card h-100">
+                <div class="card-header border-0 pb-0">
+                    <h5 class="card-title mb-0">Top 10 produits les plus vendus &ndash; cette année</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Produit</th>
+                                    <th class="text-end">Quantité vendue</th>
+                                    <th class="text-end">Chiffre d'affaires</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($topProducts as $index => $item)
+                                <tr>
+                                    <td>
+                                        @if($index === 0) 🥇
+                                        @elseif($index === 1) 🥈
+                                        @elseif($index === 2) 🥉
+                                        @else {{ $index + 1 }}ème
+                                        @endif
+                                    </td>
+                                    <td class="fw-medium">{{ $item->product->libelle ?? '—' }}</td>
+                                    <td class="text-end">{{ number_format($item->total_quantity) }} unités</td>
+                                    <td class="text-end text-primary fw-medium">{{ numberDelimiter($item->total_revenue) }} FG</td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="4" class="text-center text-muted">Aucune vente enregistrée cette année.</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                            @if($topProducts->isNotEmpty())
+                            <tfoot>
+                                <tr>
+                                    <th colspan="3" class="text-end">Total :</th>
+                                    <th class="text-end text-primary">{{ numberDelimiter($topProducts->sum('total_revenue')) }} FG</th>
+                                </tr>
+                            </tfoot>
+                            @endif
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card h-100">
+                <div class="card-header border-0 pb-0">
+                    <h5 class="card-title mb-0">Classement des produits</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Position</th>
+                                    <th>Produit</th>
+                                    <th class="text-end">Ventes</th>
+                                    <th class="text-end">Chiffre d'affaires</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($topProductsByRevenue as $index => $item)
+                                <tr>
+                                    <td>
+                                        @if($index === 0) 🥇 1er
+                                        @elseif($index === 1) 🥈 2ème
+                                        @elseif($index === 2) 🥉 3ème
+                                        @else {{ $index + 1 }}ème
+                                        @endif
+                                    </td>
+                                    <td class="fw-medium">{{ $item->product->libelle ?? '—' }}</td>
+                                    <td class="text-end">{{ number_format($item->total_quantity) }} unités</td>
+                                    <td class="text-end text-primary fw-medium">{{ numberDelimiter($item->total_revenue) }} FG</td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="4" class="text-center text-muted">Aucune vente enregistrée.</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                            @if($topProductsByRevenue->isNotEmpty())
+                            <tfoot>
+                                <tr>
+                                    <th colspan="3" class="text-end">Total :</th>
+                                    <th class="text-end text-primary">{{ numberDelimiter($topProductsByRevenue->sum('total_revenue')) }} FG</th>
+                                </tr>
+                            </tfoot>
+                            @endif
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alertes stock -->
+    <div class="card mb-4">
+        <div class="card-header border-0 pb-0">
+            <h5 class="card-title mb-0">Niveau de stock &ndash; Produits critiques</h5>
+            <p class="text-muted mb-0" style="font-size: 13px;">Alertes stock</p>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive" style="max-height: 420px; overflow-y: auto;">
+                <table class="table table-hover">
+                    <thead class="table-light" style="position: sticky; top: 0; z-index: 1;">
+                        <tr>
+                            <th>Produit</th>
+                            <th class="text-end">Quantité en stock</th>
+                            <th>Statut</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($stockAlerts as $item)
+                        <tr>
+                            <td class="fw-medium">{{ $item->libelle }}</td>
+                            <td class="text-end">{{ $item->pcs }} pcs</td>
+                            <td>
+                                @if($item->pcs <= 0)
+                                <span class="badge bg-danger">Rupture de stock</span>
+                                @else
+                                <span class="badge bg-warning text-dark">Stock faible (&le; 100)</span>
+                                @endif
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="3" class="text-center text-muted">Aucune alerte de stock pour le moment.</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
 <style>

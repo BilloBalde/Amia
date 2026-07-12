@@ -154,7 +154,37 @@ class IndexController extends Controller
         $grouped = $factures->groupBy(function ($facture) {
             return $facture->customer_id . '|' . $facture->created_at->format('Y-m-d');
         });
-        
-        return view('index', compact('latestPurchases', 'latestSales', 'total_purchases', 'total_sales', 'total_sales_paid', 'solde_orange_money', 'solde_cash', 'total_expenses', 'total_customers', 'total_quantities', 'total_purchase_invoices', 'total_sales_invoices', 'total_credits', 'gains', 'total_gains_all', 'sales', 'purchases', 'months', 'grouped', 'customers'));
+
+        $salesRankingQuery = Sale::query();
+        if (auth()->user()->role_id == 3 && isset($store_id)) {
+            $salesRankingQuery->where('store_id', $store_id);
+        }
+
+        $topProducts = (clone $salesRankingQuery)
+            ->whereYear('created_at', now()->year)
+            ->select('product_id', DB::raw('SUM(quantity) as total_quantity'), DB::raw('SUM(prixTotal) as total_revenue'))
+            ->groupBy('product_id')
+            ->orderByDesc('total_quantity')
+            ->take(10)
+            ->with('product:id,libelle')
+            ->get();
+
+        $topProductsByRevenue = (clone $salesRankingQuery)
+            ->select('product_id', DB::raw('SUM(quantity) as total_quantity'), DB::raw('SUM(prixTotal) as total_revenue'))
+            ->groupBy('product_id')
+            ->orderByDesc('total_revenue')
+            ->take(10)
+            ->with('product:id,libelle')
+            ->get();
+
+        // pcs est le total de stock synchronisé sur tous les magasins — les alertes
+        // restent globales (pas de scope par boutique) pour rester simples à lire.
+        $stockAlerts = Product::whereNotNull('pcs')
+            ->where('pcs', '<=', 100)
+            ->orderBy('pcs')
+            ->take(100)
+            ->get(['id', 'libelle', 'pcs']);
+
+        return view('index', compact('latestPurchases', 'latestSales', 'total_purchases', 'total_sales', 'total_sales_paid', 'solde_orange_money', 'solde_cash', 'total_expenses', 'total_customers', 'total_quantities', 'total_purchase_invoices', 'total_sales_invoices', 'total_credits', 'gains', 'total_gains_all', 'sales', 'purchases', 'months', 'grouped', 'customers', 'topProducts', 'topProductsByRevenue', 'stockAlerts'));
     }
 }
