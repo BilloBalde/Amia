@@ -137,7 +137,7 @@
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label for="rate_to_gnf">Taux → GNF (1 unité = X GNF)</label>
-                                        <input type="number" step="0.0001" min="0" name="rate_to_gnf" id="rate_to_gnf">
+                                        <input type="text" inputmode="decimal" class="form-control decimal-input" name="rate_to_gnf" id="rate_to_gnf">
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -199,7 +199,7 @@
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label>Taux → GNF (1 unité = X GNF)</label>
-                                        <input type="number" step="0.0001" min="0" name="rate_to_gnf" id="edit_rate_to_gnf">
+                                        <input type="text" inputmode="decimal" class="form-control decimal-input" name="rate_to_gnf" id="edit_rate_to_gnf">
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -248,6 +248,20 @@
                 document.getElementById('edit_currencySymbol').value = this.getAttribute('data-symbol') || '';
                 document.getElementById('edit_rate_to_gnf').value = this.getAttribute('data-rate') || '';
                 document.getElementById('edit_status').value = this.getAttribute('data-status') || '1';
+            });
+        });
+
+        // Champs de taux : on tape librement (virgule ou point), on ne garde que les
+        // chiffres et un seul séparateur décimal (converti en point tout de suite)
+        // (évite les soucis des inputs type=number avec le clavier/locale française).
+        document.querySelectorAll('.decimal-input').forEach(function (input) {
+            input.addEventListener('input', function () {
+                let value = input.value.replace(/[^0-9.,]/g, '').replace(',', '.');
+                const firstDot = value.indexOf('.');
+                if (firstDot !== -1) {
+                    value = value.slice(0, firstDot + 1) + value.slice(firstDot + 1).replace(/\./g, '');
+                }
+                input.value = value;
             });
         });
     </script>

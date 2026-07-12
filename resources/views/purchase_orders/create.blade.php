@@ -173,7 +173,7 @@
                                                 </option>
                                             @endforeach
                                         </select>
-                                        @error('currency_code') <span class="text-danger">{{ $message }}</span> @enderror
+                                        @error('currency_code') <span class="text-danger" data-error-for="currencyCode">{{ $message }}</span> @enderror
                                         @if($currencies->isEmpty())
                                             <span class="text-danger">Aucun taux configuré — <a href="{{ route('currencySetting.index') }}">configurez-les ici</a>.</span>
                                         @endif
@@ -182,8 +182,8 @@
                                 <div class="col-lg-4 col-sm-6 col-12">
                                     <div class="form-group">
                                         <label>Taux du jour (1 unité = X GNF)</label>
-                                        <input type="number" step="0.0001" name="exchange_rate_used" id="exchangeRate" class="form-control" value="{{ old('exchange_rate_used') }}">
-                                        @error('exchange_rate_used') <span class="text-danger">{{ $message }}</span> @enderror
+                                        <input type="text" inputmode="decimal" name="exchange_rate_used" id="exchangeRate" class="form-control decimal-input" value="{{ old('exchange_rate_used') }}">
+                                        @error('exchange_rate_used') <span class="text-danger" data-error-for="exchangeRate">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
                             </div>
@@ -195,19 +195,19 @@
                                 <div class="col-lg-4 col-sm-6 col-12">
                                     <div class="form-group">
                                         <label>Transport (GNF)</label>
-                                        <input type="number" step="0.01" name="transport_cost_gnf" id="transportCost" class="form-control" value="{{ old('transport_cost_gnf', 0) }}">
+                                        <input type="text" inputmode="decimal" name="transport_cost_gnf" id="transportCost" class="form-control decimal-input" value="{{ old('transport_cost_gnf', 0) }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-sm-6 col-12 po-import-only">
                                     <div class="form-group">
                                         <label>Douane / Dédouanement (GNF)</label>
-                                        <input type="number" step="0.01" name="customs_cost_gnf" id="customsCost" class="form-control" value="{{ old('customs_cost_gnf', 0) }}">
+                                        <input type="text" inputmode="decimal" name="customs_cost_gnf" id="customsCost" class="form-control decimal-input" value="{{ old('customs_cost_gnf', 0) }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-sm-6 col-12">
                                     <div class="form-group">
                                         <label>Frais divers (GNF)</label>
-                                        <input type="number" step="0.01" name="other_fees_gnf" class="form-control" value="{{ old('other_fees_gnf', 0) }}">
+                                        <input type="text" inputmode="decimal" name="other_fees_gnf" id="otherFees" class="form-control decimal-input" value="{{ old('other_fees_gnf', 0) }}">
                                     </div>
                                 </div>
                             </div>
@@ -265,13 +265,13 @@
                     <div class="col-lg-2 col-sm-6 col-12">
                         <div class="form-group">
                             <label class="po-price-label">Prix unitaire</label>
-                            <input type="number" step="0.01" min="0" name="lines[__INDEX__][unit_price_foreign]" class="form-control" data-field="unit_price_foreign" required>
+                            <input type="text" inputmode="decimal" name="lines[__INDEX__][unit_price_foreign]" class="form-control decimal-input" data-field="unit_price_foreign" required>
                         </div>
                     </div>
                     <div class="col-lg-2 col-sm-6 col-12 po-import-only">
                         <div class="form-group">
                             <label>CBM / unité</label>
-                            <input type="number" step="0.0001" min="0" name="lines[__INDEX__][cbm_per_unit]" class="form-control" data-field="cbm_per_unit">
+                            <input type="text" inputmode="decimal" name="lines[__INDEX__][cbm_per_unit]" class="form-control decimal-input" data-field="cbm_per_unit">
                         </div>
                     </div>
                     <div class="col-lg-2 col-sm-6 col-12">
@@ -294,6 +294,45 @@
             const template = document.getElementById('poLineTemplate');
             const addLineBtn = document.getElementById('addLineBtn');
             let lineIndex = 0;
+
+            // Champs prix/CBM/taux : on tape librement (virgule ou point), on ne garde
+            // que les chiffres et un seul séparateur décimal (converti en point tout de
+            // suite) — évite les soucis des inputs type=number avec le clavier/locale française.
+            function sanitizeDecimal(el) {
+                let value = el.value.replace(/[^0-9.,]/g, '').replace(',', '.');
+                const firstDot = value.indexOf('.');
+                if (firstDot !== -1) {
+                    value = value.slice(0, firstDot + 1) + value.slice(firstDot + 1).replace(/\./g, '');
+                }
+                el.value = value;
+            }
+
+            function wireDecimalInput(el) {
+                el.addEventListener('input', function () {
+                    sanitizeDecimal(el);
+                    recompute();
+                });
+            }
+
+            [document.getElementById('exchangeRate'), document.getElementById('transportCost'), document.getElementById('customsCost'), document.getElementById('otherFees')].forEach(wireDecimalInput);
+
+            // Les messages d'erreur du serveur (ex: "Le taux de change est obligatoire")
+            // restent affichés tant qu'on n'a pas resoumis le formulaire — on les cache
+            // dès que l'utilisateur corrige le champ concerné, pour éviter la confusion.
+            function clearErrorFor(id) {
+                const span = document.querySelector('[data-error-for="' + id + '"]');
+                if (span) {
+                    span.style.display = 'none';
+                }
+            }
+            ['currencyCode', 'exchangeRate'].forEach(function (id) {
+                const el = document.getElementById(id);
+                if (!el) return;
+                const eventName = el.tagName === 'SELECT' ? 'change' : 'input';
+                el.addEventListener(eventName, function () {
+                    if (el.value) clearErrorFor(id);
+                });
+            });
 
             function setOriginClass() {
                 const isChine = document.getElementById('originChine').checked;
@@ -333,7 +372,11 @@
                 });
 
                 lineEl.querySelectorAll('input, select').forEach(function (el) {
-                    el.addEventListener('input', recompute);
+                    if (el.classList.contains('decimal-input')) {
+                        wireDecimalInput(el);
+                    } else {
+                        el.addEventListener('input', recompute);
+                    }
                     el.addEventListener('change', recompute);
                 });
 
