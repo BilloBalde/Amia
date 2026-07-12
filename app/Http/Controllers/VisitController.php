@@ -153,8 +153,9 @@ class VisitController extends Controller
             'totalCategories' => $totalCategories,
             'totalProducts'   => $totalProducts,
             'stores'          => $stores,
-            'allProducts'  => Product::with('categories')->latest()->get()->map($mapProduct)->values(),
-            'bestProducts' => Product::with('categories')->orderByDesc('rating')->get()->map($mapProduct)->values(),
+            // La page d'accueil n'affiche que les 10 dernières arrivées (+ 6 images pour
+            // le carrousel du hero) — inutile de sérialiser tout le catalogue dans la page.
+            'allProducts'  => Product::with('categories')->latest()->limit(12)->get()->map($mapProduct)->values(),
             'promoProducts'=> Product::with('categories')
                 ->where('is_promo', true)
                 ->whereNotNull('promo_price')

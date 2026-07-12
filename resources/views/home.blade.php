@@ -41,9 +41,9 @@
         * { font-family: 'Poppins', sans-serif; }
         h1, h2, h3 { font-family: 'Fraunces', serif; }
 
-        /* ── Hero ── */
+        /* ── Hero — palette bois/terracotta, cohérente avec le reste du site ── */
         .hero-section {
-            background: linear-gradient(135deg, #061633 0%, #0c2c58 35%, #123f74 65%, #1e5fa8 100%);
+            background: linear-gradient(135deg, #2b1d14 0%, #4a2e1a 40%, #7a4222 70%, #a8532a 100%);
             min-height: 620px;
             position: relative;
             overflow: hidden;
@@ -52,14 +52,14 @@
             content: '';
             position: absolute; top: -80px; right: -80px;
             width: 520px; height: 520px;
-            background: radial-gradient(circle, rgba(255,138,26,0.20) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255,180,110,0.22) 0%, transparent 70%);
             border-radius: 50%;
         }
         .hero-section::after {
             content: '';
             position: absolute; bottom: -100px; left: -100px;
             width: 450px; height: 450px;
-            background: radial-gradient(circle, rgba(255,255,255,0.10) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
             border-radius: 50%;
         }
         .hero-wave { position: absolute; bottom: -1px; left: 0; width: 100%; line-height: 0; z-index: 5; }
@@ -183,155 +183,8 @@
         }
 
         /* ══════════════════════════════════════
-           SECTION PRODUITS — onglets + sidebar
+           GRILLE & CARTES PRODUITS
         ══════════════════════════════════════ */
-        .tabs {
-            display: flex; gap: 4px;
-            border-bottom: 2px solid #f3f4f6;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-        .tab-btn {
-            padding: 12px 26px; font-size: 14px; font-weight: 600;
-            border: none; background: none;
-            color: #6b7280; cursor: pointer;
-            border-bottom: 3px solid transparent;
-            margin-bottom: -2px;
-            transition: all 0.2s;
-            border-radius: 6px 6px 0 0;
-            display: flex; align-items: center; gap: 8px;
-        }
-        .tab-btn:hover { color: #a8532a; background: #f4ece1; }
-        .tab-btn.active { color: #a8532a; border-bottom-color: #a8532a; background: none; }
-
-        .panel { display: none; }
-        .panel.active { display: block; }
-
-        /* Grille catégories */
-        .cat-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 20px;
-        }
-        @media (max-width: 1024px) { .cat-grid { grid-template-columns: repeat(4, 1fr); } }
-        @media (max-width: 768px)  { .cat-grid { grid-template-columns: repeat(3, 1fr); } }
-        @media (max-width: 480px)  { .cat-grid { grid-template-columns: repeat(2, 1fr); } }
-        .cat-card {
-            background: #fff; border: 1.5px solid #f3f4f6;
-            border-radius: 20px; overflow: hidden;
-            text-align: center; cursor: pointer;
-            transition: all 0.25s;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        }
-        .cat-card:hover {
-            border-color: #c1682f;
-            transform: translateY(-4px);
-            box-shadow: 0 12px 28px rgba(193,104,47,0.15);
-        }
-        .cat-img-wrap {
-            width: 100%; height: 140px;
-            overflow: hidden; position: relative;
-            background: #fafafa;
-        }
-        .cat-img-wrap img {
-            width: 100%; height: 100%; object-fit: cover;
-            transition: transform 0.3s;
-        }
-        .cat-card:hover .cat-img-wrap img { transform: scale(1.06); }
-        .cat-icon-wrap {
-            width: 100%; height: 140px;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .cat-icon {
-            width: 70px; height: 70px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 28px;
-        }
-        .cat-body { padding: 12px 10px 16px; }
-        .cat-name { font-size: 13px; font-weight: 700; color: #1f2937; }
-        .cat-count { font-size: 11px; color: #9ca3af; margin-top: 4px; }
-
-        /* Layout liste produits + sidebar */
-        .products-layout {
-            display: grid;
-            grid-template-columns: 220px 1fr;
-            gap: 24px;
-            align-items: start;
-        }
-        @media (max-width: 768px) {
-            .products-layout { grid-template-columns: 1fr; }
-            .sidebar { position: static !important; }
-        }
-
-        /* Sidebar */
-        .sidebar {
-            background: #fff; border: 1.5px solid #f3f4f6;
-            border-radius: 16px; padding: 1.5rem;
-            position: sticky; top: 90px;
-        }
-        .sidebar-title {
-            font-size: 11px; font-weight: 700; color: #9ca3af;
-            text-transform: uppercase; letter-spacing: 0.08em;
-            margin-bottom: 16px;
-        }
-        .filter-group { margin-bottom: 1.5rem; }
-        .filter-label {
-            font-size: 13px; font-weight: 600; color: #374151;
-            margin-bottom: 10px; display: block;
-        }
-        .filter-option {
-            display: flex; align-items: center; gap: 8px;
-            padding: 5px 0; cursor: pointer;
-        }
-        .filter-option input[type=checkbox],
-        .filter-option input[type=radio] {
-            width: 15px; height: 15px;
-            accent-color: #a8532a; cursor: pointer;
-        }
-        .filter-option span { font-size: 13px; color: #374151; }
-        .filter-option .f-badge {
-            margin-left: auto; font-size: 11px;
-            background: #f3f4f6; color: #6b7280;
-            padding: 1px 8px; border-radius: 20px;
-        }
-        .filter-scroll::-webkit-scrollbar { width: 4px; }
-        .filter-scroll::-webkit-scrollbar-track { background: #f3f4f6; border-radius: 4px; }
-        .filter-scroll::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
-        .filter-scroll::-webkit-scrollbar-thumb:hover { background: #c1682f; }
-        .price-inputs { display: flex; gap: 8px; align-items: center; }
-        .price-inputs input {
-            width: 72px; padding: 6px 10px; font-size: 12px;
-            border: 1.5px solid #e5e7eb; border-radius: 8px;
-            background: #fff; color: #374151;
-            font-family: 'Poppins', sans-serif;
-            outline: none;
-        }
-        .price-inputs input:focus { border-color: #c1682f; }
-        .price-sep { font-size: 12px; color: #9ca3af; }
-        .reset-btn {
-            width: 100%; padding: 8px; font-size: 12px; font-weight: 600;
-            color: #a8532a; border: 1.5px solid #d9c3a3;
-            border-radius: 8px; background: none; cursor: pointer;
-            margin-top: 4px; transition: background 0.2s;
-        }
-        .reset-btn:hover { background: #f4ece1; }
-        .filter-divider { border: none; border-top: 1px solid #f3f4f6; margin: 0 0 1.25rem; }
-
-        /* Grille produits */
-        .results-header {
-            display: flex; justify-content: space-between;
-            align-items: center; margin-bottom: 16px;
-            flex-wrap: wrap; gap: 8px;
-        }
-        .results-count { font-size: 13px; color: #6b7280; }
-        .sort-sel {
-            font-size: 12px; padding: 6px 12px;
-            border: 1.5px solid #e5e7eb; border-radius: 8px;
-            background: #fff; color: #374151; cursor: pointer;
-            font-family: 'Poppins', sans-serif; outline: none;
-        }
-        .sort-sel:focus { border-color: #c1682f; }
-
         .prod-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -461,47 +314,47 @@
 
                     {{-- Badge --}}
                     <div class="hero-badge mb-5 w-fit">
-                        <span class="w-2 h-2 rounded-full bg-orange-400 inline-block animate-pulse"></span>
-                        Meubles & décoration · Guinée
+                        <span class="w-2 h-2 rounded-full bg-orange-300 inline-block animate-pulse"></span>
+                        Meubles & équipements · Conakry, Guinée
                     </div>
 
                     {{-- Titre --}}
                     <h1 class="text-5xl md:text-6xl font-extrabold text-white mb-5 leading-tight tracking-tight">
-                        Des meubles qui<br>
-                        <span style="background:linear-gradient(90deg,#ff9a4d,#ffe6cf);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">
-                            transforment votre intérieur
+                        Aménagez votre intérieur<br>
+                        <span style="background:linear-gradient(90deg,#ffb46e,#ffe6cf);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">
+                            avec style et qualité
                         </span>
                     </h1>
 
                     {{-- Sous-titre --}}
                     <p class="text-white/80 text-base md:text-lg mb-8 leading-relaxed max-w-md">
-                        Salons, chambres, salles à manger, bureaux et pièces sur mesure — SMH vous accompagne avec des meubles alliant élégance, confort et durabilité, partout en Guinée.
+                        Salons, chambres, salles à manger, bureaux — commandez en ligne, payez à la livraison ou par Orange Money, et recevez vos meubles partout en Guinée.
                     </p>
 
                     {{-- Boutons --}}
                     <div class="flex flex-wrap gap-3 mb-10">
-                        <a href="#produits" class="px-7 py-3 rounded-full font-semibold text-blue-900 transition duration-300 hover:shadow-xl hover:scale-105 inline-flex items-center gap-2"
-                           style="background:linear-gradient(90deg,#ff9a4d,#ffcf94);">
-                            <i class="fas fa-sparkles text-sm"></i> Découvrir
+                        <a href="{{ route('products.index') }}" class="px-7 py-3 rounded-full font-semibold text-amber-900 transition duration-300 hover:shadow-xl hover:scale-105 inline-flex items-center gap-2"
+                           style="background:linear-gradient(90deg,#ffb46e,#ffd9ae);">
+                            <i class="fas fa-shopping-bag text-sm"></i> Voir le catalogue
                         </a>
-                        <a href="{{ route('products.index') }}" class="px-7 py-3 rounded-full font-semibold text-white border border-white/30 hover:bg-white/10 transition duration-300 inline-flex items-center gap-2">
-                            <i class="fas fa-th-large text-sm"></i> Catalogue
+                        <a href="#produits" class="px-7 py-3 rounded-full font-semibold text-white border border-white/30 hover:bg-white/10 transition duration-300 inline-flex items-center gap-2">
+                            <i class="fas fa-arrow-down text-sm"></i> Découvrir
                         </a>
                     </div>
 
                     {{-- Stats --}}
                     <div class="flex gap-4 flex-wrap">
                         <div class="hero-stat">
-                            <div class="text-2xl font-bold text-orange-300">{{ $totalProducts }}+</div>
+                            <div class="text-2xl font-bold text-orange-200">{{ $totalProducts }}+</div>
                             <div class="text-xs text-white/70 mt-1">Produits</div>
                         </div>
                         <div class="hero-stat">
-                            <div class="text-2xl font-bold text-orange-300">{{ $totalCategories }}</div>
+                            <div class="text-2xl font-bold text-orange-200">{{ $totalCategories }}</div>
                             <div class="text-xs text-white/70 mt-1">Catégories</div>
                         </div>
                         <div class="hero-stat">
-                            <div class="text-2xl font-bold text-orange-300">Pro</div>
-                            <div class="text-xs text-white/70 mt-1">Qualité</div>
+                            <div class="text-2xl font-bold text-orange-200">24-48h</div>
+                            <div class="text-xs text-white/70 mt-1">Livraison Conakry</div>
                         </div>
                     </div>
                 </div>
@@ -525,8 +378,8 @@
                                          onerror="this.onerror=null;this.parentElement.style.background='linear-gradient(135deg,#c9986a,#c1682f)'">
                                 @else
                                     <div class="w-full h-full flex items-center justify-center"
-                                         style="background:linear-gradient(135deg,#123f74,#1e5fa8);">
-                                        <img src="{{ asset('images/customers/logo.jpg') }}" alt="SMH" class="w-32 h-32 object-contain opacity-80">
+                                         style="background:linear-gradient(135deg,#f4ece1,#e4d3b8);">
+                                        <img src="{{ asset('images/customers/logo.jpg') }}" alt="SMH" class="w-40 h-40 object-contain">
                                     </div>
                                 @endif
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent rounded-3xl"></div>
@@ -557,12 +410,12 @@
 
                         {{-- Floating cards --}}
                         <div class="floating-card card-top">
-                            <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                                <i class="fas fa-tree text-blue-600 text-xs"></i>
+                            <div class="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-medal text-amber-600 text-xs"></i>
                             </div>
                             <div>
-                                <div class="text-xs font-bold text-gray-800">Bois massif</div>
-                                <div class="text-xs text-gray-500">Finition soignée</div>
+                                <div class="text-xs font-bold text-gray-800">Qualité garantie</div>
+                                <div class="text-xs text-gray-500">Produits sélectionnés</div>
                             </div>
                         </div>
                         <div class="floating-card card-bot">
@@ -585,6 +438,32 @@
             <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill="#ffffff" d="M0,32 C240,64 480,0 720,16 C960,32 1200,64 1440,32 L1440,60 L0,60 Z"></path>
             </svg>
+        </div>
+    </section>
+
+    {{-- ══════════════════════════════════════════
+         BANDE DE CONFIANCE — l'essentiel en un coup d'œil
+    ══════════════════════════════════════════ --}}
+    <section class="bg-white border-b border-gray-100">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-5 py-7">
+                @foreach([
+                    ['icon' => 'fa-truck-fast',        'title' => 'Livraison 24-48h',        'text' => 'À Conakry, partout en Guinée'],
+                    ['icon' => 'fa-store',             'title' => 'Retrait gratuit',          'text' => 'Madina & T6 Sonfonia'],
+                    ['icon' => 'fa-money-bill-wave',   'title' => 'Paiement flexible',        'text' => 'Orange Money ou à la livraison'],
+                    ['icon' => 'fa-headset',           'title' => 'Conseil personnalisé',     'text' => '+224 626 311 915'],
+                ] as $item)
+                <div class="flex items-center gap-3">
+                    <div class="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0" style="background:#f4ece1;color:#a8532a;">
+                        <i class="fas {{ $item['icon'] }}"></i>
+                    </div>
+                    <div>
+                        <div class="text-sm font-bold text-gray-800">{{ $item['title'] }}</div>
+                        <div class="text-xs text-gray-500">{{ $item['text'] }}</div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
         </div>
     </section>
 
@@ -669,103 +548,12 @@
                     Nos <span class="gradient-text">Produits</span>
                 </h2>
                 <p class="text-gray-600 text-lg max-w-2xl mx-auto">
-                    Explorez notre gamme de meubles — salons, chambres, salles à manger, bureaux et articles de décoration. Qualité soignée, prix compétitifs.
+                    Nos dernières arrivées — qualité soignée, prix dégressifs dès 2 pièces.
+                    Besoin de filtrer par catégorie ou par prix ? Tout se passe dans le catalogue.
                 </p>
             </div>
-
-            {{-- Onglets --}}
-            <div class="tabs">
-                <button class="tab-btn active" onclick="switchTab('categories')">
-                    <i class="fas fa-th-large"></i> Catégories
-                </button>
-                <button class="tab-btn" onclick="switchTab('best')">
-                    <i class="fas fa-star"></i> Meilleurs produits
-                </button>
-                <button class="tab-btn" onclick="switchTab('promo')">
-                    <i class="fas fa-tag"></i> Promotions
-                </button>
-            </div>
-
-            {{-- ─── Panel : Catégories ─── --}}
-            <div id="panel-categories" class="panel active">
-                @php
-                    $catIcons = [
-                        'ENCRE'           => ['icon'=>'fas fa-fill-drip',    'bg'=>'#ede9fe','color'=>'#7c3aed'],
-                        'Vinyl'           => ['icon'=>'fas fa-scroll',        'bg'=>'#d1fae5','color'=>'#059669'],
-                        'BACHES'          => ['icon'=>'fas fa-image',         'bg'=>'#e0f2fe','color'=>'#0284c7'],
-                        'FOREX'           => ['icon'=>'fas fa-layer-group',   'bg'=>'#fce7f3','color'=>'#db2777'],
-                        'Papier'          => ['icon'=>'fas fa-file-alt',      'bg'=>'#fef3c7','color'=>'#d97706'],
-                        'PAPIER'          => ['icon'=>'fas fa-file-alt',      'bg'=>'#fef3c7','color'=>'#d97706'],
-                        'AUTOCOLLANT'     => ['icon'=>'fas fa-sticky-note',   'bg'=>'#dcfce7','color'=>'#16a34a'],
-                        'FILM'            => ['icon'=>'fas fa-film',          'bg'=>'#fef9c3','color'=>'#b45309'],
-                        'MACHINE'         => ['icon'=>'fas fa-cog',           'bg'=>'#fee2e2','color'=>'#dc2626'],
-                        'PRESS'           => ['icon'=>'fas fa-compress-alt',  'bg'=>'#e0e7ff','color'=>'#4338ca'],
-                        'KIKEMONO'        => ['icon'=>'fas fa-ruler-vertical','bg'=>'#fdf4ff','color'=>'#9333ea'],
-                        'KAKIMONO'        => ['icon'=>'fas fa-ruler-vertical','bg'=>'#fdf4ff','color'=>'#9333ea'],
-                        'ALICOBON'        => ['icon'=>'fas fa-th-large',      'bg'=>'#f0fdf4','color'=>'#15803d'],
-                        'PLEXI'           => ['icon'=>'fas fa-border-all',    'bg'=>'#f0f9ff','color'=>'#0369a1'],
-                        'LED'             => ['icon'=>'fas fa-lightbulb',     'bg'=>'#fffbeb','color'=>'#d97706'],
-                        'IMPRIMENTE'      => ['icon'=>'fas fa-print',         'bg'=>'#fce7f3','color'=>'#db2777'],
-                        'LAMINATOR'       => ['icon'=>'fas fa-layer-group',   'bg'=>'#e0f2fe','color'=>'#0284c7'],
-                        'ANNEAU'          => ['icon'=>'fas fa-circle',        'bg'=>'#f5f3ff','color'=>'#7c3aed'],
-                        'DECOUPE'         => ['icon'=>'fas fa-cut',           'bg'=>'#fef2f2','color'=>'#dc2626'],
-                        'BIC'             => ['icon'=>'fas fa-pen',           'bg'=>'#f0fdf4','color'=>'#16a34a'],
-                        'CACHET'          => ['icon'=>'fas fa-stamp',         'bg'=>'#fdf4ff','color'=>'#9333ea'],
-                        'TASSE'           => ['icon'=>'fas fa-mug-hot',       'bg'=>'#fffbeb','color'=>'#f59e0b'],
-                        'POUDRE'          => ['icon'=>'fas fa-mortar-pestle', 'bg'=>'#f5f3ff','color'=>'#7c3aed'],
-                        'SUPPORT'         => ['icon'=>'fas fa-image',         'bg'=>'#fef3c7','color'=>'#d97706'],
-                        'TABLEAU'         => ['icon'=>'fas fa-photo-video',   'bg'=>'#ede9fe','color'=>'#7c3aed'],
-                        'TOTEM'           => ['icon'=>'fas fa-columns',       'bg'=>'#e0e7ff','color'=>'#4338ca'],
-                    ];
-                    $defaultIcon = ['icon'=>'fas fa-box','bg'=>'#f3f4f6','color'=>'#6b7280'];
-                @endphp
-                <div class="cat-grid">
-                    @foreach($categories->sortByDesc('products_count')->take(10) as $cat)
-                    @php
-                        $ic    = $catIcons[$cat->name] ?? $defaultIcon;
-                        $icBg  = $ic['bg'];
-                        $icClr = $ic['color'];
-                        $icCls = $ic['icon'];
-                        $catNameJs = addslashes($cat->name);
-                    @endphp
-                    <div class="cat-card" onclick="switchTabWithFilter('best', '{{ $catNameJs }}')">
-                        @if($cat->image_url)
-                        <div class="cat-img-wrap">
-                            <img src="{{ $cat->image_url }}" alt="{{ $cat->name }}"
-                                 onerror="this.parentElement.outerHTML='<div class=\'cat-icon-wrap\'><div class=\'cat-icon\' style=\'background:{{ $icBg }};color:{{ $icClr }}\'><i class=\'{{ $icCls }}\'></i></div></div>'">
-                        </div>
-                        @else
-                        <div class="cat-icon-wrap">
-                            <div class="cat-icon" style="background:{{ $icBg }};color:{{ $icClr }};">
-                                <i class="{{ $icCls }}"></i>
-                            </div>
-                        </div>
-                        @endif
-                        <div class="cat-body">
-                            <div class="cat-name">{{ $cat->name }}</div>
-                            <div class="cat-count">{{ $cat->products_count }} produit{{ $cat->products_count > 1 ? 's' : '' }}</div>
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
-
-                {{-- Bouton voir toutes les catégories --}}
-                <div class="text-center mt-8">
-                    <a href="{{ route('public.categories') }}"
-                       class="inline-flex items-center gap-2 px-7 py-3 border-2 border-amber-500 text-amber-600 rounded-full font-semibold text-sm hover:bg-amber-500 hover:text-white transition duration-200">
-                        <i class="fas fa-th-large"></i>
-                        Voir toutes les catégories ({{ $totalCategories }})
-                    </a>
-                </div>
-
-                {{-- ── 10 produits en vedette ── --}}
-                @if(isset($allProducts) && count($allProducts) > 0)
-                <div class="mt-14">
-                    <h3 class="text-2xl font-bold text-gray-800 mb-6">
-                        <i class="fas fa-box-open text-amber-500 mr-2"></i> Nos produits
-                        <span class="text-sm font-normal text-gray-400 ml-2">({{ $totalProducts }} au total)</span>
-                    </h3>
-                    <div class="prod-grid" id="grid-all">
+            @if(isset($allProducts) && count($allProducts) > 0)
+            <div class="prod-grid" id="grid-all">
                         @foreach($allProducts->take(10) as $p)
                         <div class="prod-card" style="cursor:pointer;" onclick="window.location='{{ route('productDetail', $p['id']) }}'">
                             <div class="prod-img">
@@ -826,163 +614,21 @@
                         @endforeach
                     </div>
 
-                    {{-- Lien vers tous les produits --}}
-                    @if($totalProducts > 10)
-                    <div class="text-center mt-8">
-                        <a href="{{ route('products.index') }}"
-                           class="inline-flex items-center gap-2 px-7 py-3 border-2 border-amber-500 text-amber-600 rounded-full font-semibold text-sm hover:bg-amber-500 hover:text-white transition duration-200">
-                            <i class="fas fa-box-open"></i>
-                            Voir tous les produits ({{ $totalProducts }})
-                        </a>
-                    </div>
-                    @endif
+                {{-- Liens vers le catalogue complet --}}
+                <div class="text-center mt-10 flex flex-wrap justify-center gap-3">
+                    <a href="{{ route('products.index') }}"
+                       class="inline-flex items-center gap-2 px-8 py-3.5 rounded-full font-semibold text-sm text-white transition duration-200 hover:shadow-lg hover:scale-105"
+                       style="background:linear-gradient(135deg,#c9986a,#a8532a);">
+                        <i class="fas fa-box-open"></i>
+                        Voir tout le catalogue ({{ $totalProducts }} produits)
+                    </a>
+                    <a href="{{ route('public.categories') }}"
+                       class="inline-flex items-center gap-2 px-8 py-3.5 border-2 border-amber-500 text-amber-600 rounded-full font-semibold text-sm hover:bg-amber-500 hover:text-white transition duration-200">
+                        <i class="fas fa-th-large"></i>
+                        Parcourir par catégorie
+                    </a>
                 </div>
-                @endif
-            </div>
-
-            {{-- ─── Panel : Meilleurs produits ─── --}}
-            <div id="panel-best" class="panel">
-                <div class="products-layout">
-
-                    {{-- Sidebar --}}
-                    <aside class="sidebar">
-                        <p class="sidebar-title"><i class="fas fa-sliders-h mr-2"></i>Filtres</p>
-
-                        <div class="filter-group">
-                            <span class="filter-label">Catégories</span>
-                            <div class="filter-scroll" style="max-height:200px;overflow-y:auto;padding-right:4px;">
-                            @foreach($categories->where('products_count', '>', 0)->sortByDesc('products_count') as $cat)
-                            <label class="filter-option">
-                                <input type="checkbox" class="cat-filter-best" value="{{ $cat->name }}" onchange="filterProducts('best')">
-                                <span>{{ $cat->name }}</span>
-                                <span class="f-badge">{{ $cat->products_count }}</span>
-                            </label>
-                            @endforeach
-                            @if($categories->isEmpty())
-                                @foreach(['Papier','Rouleaux','Encres','Cartouches','Presses','Rubans','Plastification'] as $cn)
-                                <label class="filter-option">
-                                    <input type="checkbox" class="cat-filter-best" value="{{ $cn }}" onchange="filterProducts('best')">
-                                    <span>{{ $cn }}</span>
-                                </label>
-                                @endforeach
-                            @endif
-                            </div>
-                        </div>
-
-                        <hr class="filter-divider">
-
-                        <div class="filter-group">
-                            <span class="filter-label">Prix (GNF)</span>
-                            <div class="price-inputs">
-                                <input type="number" id="min-best" placeholder="Min" min="0" oninput="filterProducts('best')">
-                                <span class="price-sep">—</span>
-                                <input type="number" id="max-best" placeholder="Max" min="0" oninput="filterProducts('best')">
-                            </div>
-                        </div>
-
-                        <hr class="filter-divider">
-
-                        <div class="filter-group">
-                            <span class="filter-label">Note minimale</span>
-                            <label class="filter-option"><input type="radio" name="rating-best" value="0" checked onchange="filterProducts('best')"><span>Toutes</span></label>
-                            <label class="filter-option"><input type="radio" name="rating-best" value="4" onchange="filterProducts('best')"><span>4+ étoiles</span></label>
-                            <label class="filter-option"><input type="radio" name="rating-best" value="4.5" onchange="filterProducts('best')"><span>4.5+ étoiles</span></label>
-                        </div>
-
-                        <button class="reset-btn" onclick="resetFilters('best')">
-                            <i class="fas fa-undo mr-1"></i> Réinitialiser
-                        </button>
-                    </aside>
-
-                    {{-- Grille --}}
-                    <div>
-                        <div class="results-header">
-                            <span class="results-count" id="count-best">— produits</span>
-                            <select class="sort-sel" id="sort-best" onchange="filterProducts('best')">
-                                <option value="rating">Mieux notés</option>
-                                <option value="price-asc">Prix croissant</option>
-                                <option value="price-desc">Prix décroissant</option>
-                            </select>
-                        </div>
-                        <div class="prod-grid" id="grid-best"></div>
-                        <div id="sentinel-best" style="display:none;text-align:center;padding:18px;color:#c1682f;">
-                            <i class="fas fa-spinner fa-spin"></i> Chargement…
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {{-- ─── Panel : Promotions ─── --}}
-            <div id="panel-promo" class="panel">
-                <div class="products-layout">
-
-                    {{-- Sidebar --}}
-                    <aside class="sidebar">
-                        <p class="sidebar-title"><i class="fas fa-sliders-h mr-2"></i>Filtres</p>
-
-                        <div class="filter-group">
-                            <span class="filter-label">Catégories</span>
-                            <div class="filter-scroll" style="max-height:200px;overflow-y:auto;padding-right:4px;">
-                            @foreach($categories->where('products_count', '>', 0)->sortByDesc('products_count') as $cat)
-                            <label class="filter-option">
-                                <input type="checkbox" class="cat-filter-promo" value="{{ $cat->name }}" onchange="filterProducts('promo')">
-                                <span>{{ $cat->name }}</span>
-                                <span class="f-badge">{{ $cat->products_count }}</span>
-                            </label>
-                            @endforeach
-                            @if($categories->isEmpty())
-                                @foreach(['Papier','Rouleaux','Encres','Cartouches'] as $cn)
-                                <label class="filter-option">
-                                    <input type="checkbox" class="cat-filter-promo" value="{{ $cn }}" onchange="filterProducts('promo')">
-                                    <span>{{ $cn }}</span>
-                                </label>
-                                @endforeach
-                            @endif
-                            </div>
-                        </div>
-
-                        <hr class="filter-divider">
-
-                        <div class="filter-group">
-                            <span class="filter-label">Réduction minimale</span>
-                            <label class="filter-option"><input type="radio" name="disc-promo" value="0" checked onchange="filterProducts('promo')"><span>Toutes</span></label>
-                            <label class="filter-option"><input type="radio" name="disc-promo" value="20" onchange="filterProducts('promo')"><span>-20% et plus</span></label>
-                            <label class="filter-option"><input type="radio" name="disc-promo" value="30" onchange="filterProducts('promo')"><span>-30% et plus</span></label>
-                        </div>
-
-                        <hr class="filter-divider">
-
-                        <div class="filter-group">
-                            <span class="filter-label">Prix promo</span>
-                            <div class="price-inputs">
-                                <input type="number" id="min-promo" placeholder="Min" min="0" oninput="filterProducts('promo')">
-                                <span class="price-sep">—</span>
-                                <input type="number" id="max-promo" placeholder="Max" min="0" oninput="filterProducts('promo')">
-                            </div>
-                        </div>
-
-                        <button class="reset-btn" onclick="resetFilters('promo')">
-                            <i class="fas fa-undo mr-1"></i> Réinitialiser
-                        </button>
-                    </aside>
-
-                    {{-- Grille --}}
-                    <div>
-                        <div class="results-header">
-                            <span class="results-count" id="count-promo">— produits</span>
-                            <select class="sort-sel" id="sort-promo" onchange="filterProducts('promo')">
-                                <option value="discount">Meilleures réductions</option>
-                                <option value="price-asc">Prix croissant</option>
-                                <option value="price-desc">Prix décroissant</option>
-                            </select>
-                        </div>
-                        <div class="prod-grid" id="grid-promo"></div>
-                        <div id="sentinel-promo" style="display:none;text-align:center;padding:18px;color:#c1682f;">
-                            <i class="fas fa-spinner fa-spin"></i> Chargement…
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @endif
 
           
         </div>
@@ -1007,6 +653,19 @@
     </style>
     <section class="py-16 bg-white">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 space-y-14">
+
+            @if(isset($promoProducts) && count($promoProducts) > 0)
+            <div>
+                <div class="section-row-head">
+                    <span class="row-icon" style="background:#fdecea;color:#dc2626;"><i class="fas fa-tag"></i></span>
+                    <div>
+                        <h2>Promotions en cours</h2>
+                        <p>Profitez-en avant la fin de l'offre</p>
+                    </div>
+                </div>
+                <div class="prod-row" id="row-promo"></div>
+            </div>
+            @endif
 
             <div>
                 <div class="section-row-head">
@@ -1071,40 +730,6 @@
             </div>
         </div>
     </section>
-
-    {{-- ══════════════════════════════════════════
-         POURQUOI NOUS
-    ══════════════════════════════════════════ --}}
-    <section id="pourquoi" class="py-20 bg-white">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
-                    Pourquoi nous <span class="gradient-text">choisir</span>
-                </h2>
-                <p class="text-gray-600 text-lg max-w-2xl mx-auto">
-                    Trois raisons principales pour faire confiance à SMH pour l'aménagement de votre intérieur
-                </p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-                <div class="text-center">
-                    <div class="feature-icon"><i class="fas fa-truck"></i></div>
-                    <h3 class="text-2xl font-bold text-gray-800 mb-3">Livraison Rapide</h3>
-                    <p class="text-gray-600 leading-relaxed">Livraison partout en Guinée en 24 à 48h. Commandez vos meubles et recevez-les directement chez vous ou dans votre bureau, prêts à l'emploi.</p>
-                </div>
-                <div class="text-center">
-                    <div class="feature-icon"><i class="fas fa-couch"></i></div>
-                    <h3 class="text-2xl font-bold text-gray-800 mb-3">Meubles de Qualité</h3>
-                    <p class="text-gray-600 leading-relaxed">Bois massif, finitions soignées, rembourrage durable et assemblage solide — des meubles conçus pour durer, du style moderne au classique.</p>
-                </div>
-                <div class="text-center">
-                    <div class="feature-icon"><i class="fas fa-headset"></i></div>
-                    <h3 class="text-2xl font-bold text-gray-800 mb-3">Conseil & Support</h3>
-                    <p class="text-gray-600 leading-relaxed">Notre équipe vous conseille selon votre espace et votre budget, pour choisir les meubles adaptés à votre intérieur. Disponible par téléphone et en boutique à nos adresses.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
 
     {{-- ══════════════════════════════════════════
          À PROPOS
@@ -1342,9 +967,8 @@
     <script>
         {{-- Données injectées depuis le contrôleur --}}
         {{-- Chaque produit doit avoir : name, category_name, price, old_price (nullable),
-             discount (nullable, ex: 25), rating, image (nullable), is_best, is_promo --}}
-        const bestProducts  = @json($bestProducts ?? []);
-        const promoProducts = @json($promoProducts ?? []);
+             discount (nullable, ex: 25), rating, image (nullable) --}}
+        const PROMO         = @json($promoProducts ?? []);
         const BEST_SELLERS  = @json($bestSellers ?? []);
         const TOP_RATED     = @json($topRated ?? []);
         const TRENDING      = @json($trending ?? []);
@@ -1400,105 +1024,6 @@
                     </div>
                 </div>
             </div>`;
-        }
-
-        /* ── Filtrage / tri ── */
-        function filterProducts(tab) {
-            const isPromo = tab === 'promo';
-            let data      = isPromo ? [...promoProducts] : [...bestProducts];
-
-            /* Catégories cochées */
-            const checked = [...document.querySelectorAll(`.cat-filter-${tab}:checked`)].map(el => el.value);
-            if (checked.length) data = data.filter(p => checked.includes(p.category_name));
-
-            /* Fourchette de prix */
-            const minP = parseFloat(document.getElementById(`min-${tab}`).value) || 0;
-            const maxP = parseFloat(document.getElementById(`max-${tab}`).value) || Infinity;
-            data = data.filter(p => p.price >= minP && p.price <= maxP);
-
-            /* Filtre spécifique */
-            if (isPromo) {
-                const disc = parseFloat(document.querySelector('input[name="disc-promo"]:checked')?.value ?? 0);
-                data = data.filter(p => (p.discount ?? 0) >= disc);
-            } else {
-                const minR = parseFloat(document.querySelector('input[name="rating-best"]:checked')?.value ?? 0);
-                data = data.filter(p => p.rating >= minR);
-            }
-
-            /* Tri */
-            const sort = document.getElementById(`sort-${tab}`).value;
-            if (sort === 'price-asc')  data.sort((a,b) => a.price - b.price);
-            if (sort === 'price-desc') data.sort((a,b) => b.price - a.price);
-            if (sort === 'rating')     data.sort((a,b) => b.rating - a.rating);
-            if (sort === 'discount')   data.sort((a,b) => (b.discount??0) - (a.discount??0));
-
-            /* Affichage progressif (scroll infini par lots de 12) */
-            const grid = document.getElementById(`grid-${tab}`);
-            gridState[tab] = { data, rendered: 0 };
-            grid.innerHTML = data.length
-                ? ''
-                : `<div class="empty-state col-span-full">
-                       <i class="fas fa-box-open"></i>
-                       Aucun produit trouvé avec ces filtres.
-                   </div>`;
-            if (data.length) renderChunk(tab);
-            else document.getElementById(`sentinel-${tab}`).style.display = 'none';
-            document.getElementById(`count-${tab}`).textContent =
-                `${data.length} produit${data.length !== 1 ? 's' : ''}`;
-        }
-
-        /* ── Scroll infini : rendu par lots via IntersectionObserver ── */
-        const CHUNK_SIZE = 12;
-        const gridState = {};
-
-        function renderChunk(tab) {
-            const st = gridState[tab];
-            if (!st || st.rendered >= st.data.length) return;
-            const slice = st.data.slice(st.rendered, st.rendered + CHUNK_SIZE);
-            document.getElementById(`grid-${tab}`).insertAdjacentHTML('beforeend', slice.map(renderCard).join(''));
-            st.rendered += slice.length;
-            document.getElementById(`sentinel-${tab}`).style.display =
-                st.rendered < st.data.length ? '' : 'none';
-        }
-
-        ['best', 'promo'].forEach(tab => {
-            const sentinel = document.getElementById(`sentinel-${tab}`);
-            if (!sentinel || !('IntersectionObserver' in window)) return;
-            new IntersectionObserver(entries => {
-                if (entries[0].isIntersecting) renderChunk(tab);
-            }, { rootMargin: '300px' }).observe(sentinel);
-        });
-
-        function resetFilters(tab) {
-            document.querySelectorAll(`.cat-filter-${tab}`).forEach(el => el.checked = false);
-            document.getElementById(`min-${tab}`).value = '';
-            document.getElementById(`max-${tab}`).value = '';
-            const name = tab === 'promo' ? 'disc-promo' : 'rating-best';
-            const first = document.querySelector(`input[name="${name}"]`);
-            if (first) first.checked = true;
-            document.getElementById(`sort-${tab}`).selectedIndex = 0;
-            filterProducts(tab);
-        }
-
-        /* ── Navigation onglets ── */
-        function switchTab(tab) {
-            const order = ['categories','best','promo'];
-            document.querySelectorAll('.tab-btn').forEach((btn, i) => {
-                btn.classList.toggle('active', order[i] === tab);
-            });
-            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-            document.getElementById(`panel-${tab}`).classList.add('active');
-            if (tab === 'best' || tab === 'promo') filterProducts(tab);
-        }
-
-        function switchTabWithFilter(tab, cat) {
-            switchTab(tab);
-            setTimeout(() => {
-                document.querySelectorAll(`.cat-filter-${tab}`).forEach(el => {
-                    el.checked = (el.value === cat);
-                });
-                filterProducts(tab);
-            }, 10);
         }
 
         /* ── Panier (avec débogage) ── */
@@ -1641,10 +1166,6 @@
             });
         }
 
-        /* ── Init ── */
-        filterProducts('best');
-        filterProducts('promo');
-
         /* ── Smooth scroll ── */
         document.querySelectorAll('a[href^="#"]').forEach(a => {
             a.addEventListener('click', e => {
@@ -1693,6 +1214,7 @@
         /* ── Rangées : plus vendus / mieux notés / tendances ── */
         (function () {
             const rows = [
+                ['row-promo',        PROMO],
                 ['row-best-sellers', BEST_SELLERS],
                 ['row-top-rated',    TOP_RATED],
                 ['row-trending',     TRENDING],
