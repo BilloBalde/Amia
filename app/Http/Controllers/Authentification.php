@@ -302,10 +302,8 @@ class Authentification extends Controller
         if ($status !== 'active') {
             return back()->with('fall', 'Votre compte n\'est pas activé.');
         }
-
-        if (Auth::attempt(['email' => $user->email, 'password' => $password])) {
-            return redirect()->route('home');
-        }
+        dd(Hash::check($password, $user->password));
+       //
 
         return back()->with('fall', 'Mot de passe incorrect.');
     }
